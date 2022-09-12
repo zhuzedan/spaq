@@ -1,0 +1,32 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/mine/index",
+    "pages/newPoint/index"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "检查",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "selectedColor": "#3161ff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "检查",
+        "iconPath": "./assets/tabbar/check.png",
+        "selectedIconPath": "./assets/tabbar/check_select.jpg"
+      },
+      {
+        "pagePath": "pages/mine/index",
+        "text": "我的",
+        "iconPath": "./assets/tabbar/me.png",
+        "selectedIconPath": "./assets/tabbar/me_select.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

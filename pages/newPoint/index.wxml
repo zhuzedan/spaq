@@ -1,0 +1,4 @@
+<!--pages/newPoint/index.wxml-->
+<view class="instructions">上报发现新的检查点</view>
+<view class="container"></view>
+<view class="button">确定</view>
