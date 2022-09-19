@@ -12,6 +12,19 @@
     height: 920rpx;
     background-color: #ffffff;
     border-radius: 12rpx;
+    display: flex;
+    position: relative;
+    .cell_group {
+      display: flex;
+      position: relative;
+      flex-direction: column;
+      top: -180rpx;
+      .van_field {
+        display: flex;
+        position: relative;
+        height: 116rpx;
+      }
+    }
 }
 .button {
     position: relative;
