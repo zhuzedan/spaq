@@ -1,0 +1,45 @@
+.search {
+  display: flex;
+  width: 686rpx;
+  height: 68rpx;
+  margin-top: 20rpx;
+  border-radius: 400rpx;
+  flex-direction: row;
+  align-items: center;
+  background-color: white;
+  box-shadow: 0px 0.5px 5px 1px rgba(0, 0, 0, 0.1);
+  input {
+    display: flex;
+    position: absolute;
+    margin-left: 90rpx;
+    align-items: center;
+    font-size: 28rpx;
+  }
+  image {
+    display: flex;
+    position: absolute;
+    margin-left: 24rpx;
+    width: 36rpx;
+    height: 32rpx;
+  }
+  .line {
+    display: flex;
+    position: absolute;
+    width: 3rpx;
+    height: 40rpx;
+    background-color: #a6a6a6;
+    margin-left: 540rpx;
+  }
+  .screen {
+      display: flex;
+      position: absolute;
+      margin-left: 550rpx;
+      font-size: 28rpx;
+      color: #808080;
+  }
+  .screen_img {
+      width: 32rpx;
+      height: 32rpx;
+      margin-left: 620rpx;
+  }
+}

@@ -2,7 +2,9 @@
   "pages": [
     "pages/index/index",
     "pages/mine/index",
-    "pages/newPoint/index"
+    "pages/newPoint/index",
+    "pages/basic/index",
+    "pages/information/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
