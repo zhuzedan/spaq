@@ -3,8 +3,7 @@
     "pages/index/index",
     "pages/mine/index",
     "pages/newPoint/index",
-    "pages/basic/index",
-    "pages/information/index"
+    "pages/basic/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

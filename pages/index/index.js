@@ -1,28 +1,26 @@
+const app = getApp()
 Page({
   data: {
-  navState: 0,//导航状态
+    currentIndex: 0, //默认第一个
   },
-  //监听滑块
-  bindchange(e) {
-  // console.log(e.detail.current)
-  let index = e.detail.current;
-  this.setData({
-  navState:index
-  })
+  pagechange1: function (ee) {
+    if ("touch" === ee.detail.source) {
+      let currentPageIndex = this.data.currentIndex;
+      currentPageIndex = (currentPageIndex + 1) % 2;
+     
+      this.setData({
+        currentIndex: currentPageIndex,
+      })
+    }
   },
-  //点击导航
-  navSwitch: function(e) {
-  // console.log(e.currentTarget.dataset.index)
-  let index = e.currentTarget.dataset.index;
-  this.setData({
-  navState:index
-  })
+
+  //点击tab时触发
+  titleClick: function (e) {
+    this.setData({
+      //拿到当前索引并动态改变
+      currentIndex: e.currentTarget.dataset.idx
+    })
   },
- 
-  /**
-  * 生命周期函数--监听页面加载
-  */
-  onLoad: function(options) {
- 
-  },
- })
+})
+
+

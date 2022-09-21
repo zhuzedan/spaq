@@ -1,3 +1,6 @@
+@import '../../style/theme.scss';
+
+// 搜索栏
 .search {
   display: flex;
   width: 686rpx;
@@ -8,6 +11,7 @@
   align-items: center;
   background-color: white;
   box-shadow: 0px 0.5px 5px 1px rgba(0, 0, 0, 0.1);
+
   input {
     display: flex;
     position: absolute;
@@ -15,6 +19,7 @@
     align-items: center;
     font-size: 28rpx;
   }
+
   image {
     display: flex;
     position: absolute;
@@ -22,6 +27,7 @@
     width: 36rpx;
     height: 32rpx;
   }
+
   .line {
     display: flex;
     position: absolute;
@@ -30,16 +36,70 @@
     background-color: #a6a6a6;
     margin-left: 540rpx;
   }
+
   .screen {
-      display: flex;
-      position: absolute;
-      margin-left: 550rpx;
-      font-size: 28rpx;
-      color: #808080;
+    display: flex;
+    position: absolute;
+    margin-left: 550rpx;
+    font-size: 28rpx;
+    color: #808080;
   }
+
   .screen_img {
-      width: 32rpx;
-      height: 32rpx;
-      margin-left: 620rpx;
+    width: 32rpx;
+    height: 32rpx;
+    margin-left: 620rpx;
+  }
+}
+//检查点状态
+.navBox {
+  width: 100%;
+  height: 100rpx;
+  align-items: center;
+  display: flex;
+  .titleBox {
+    display: flex;
+    width: 180rpx;
+    height: 56rpx;
+    border-radius: 28rpx;
+    font-size: 32rpx;
+    align-items: center;
+    justify-content: center;
+    .fontColorBox {
+      display: flex;
+      width: 180rpx;
+      height: 56rpx;
+      border-radius: 28rpx;
+      color: #fff;
+      background-color: $primary-color;
+      font-size: 32rpx;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+.swiperTtemBox {
+  /* 底部内容样式 */
+  overflow: scroll;
+  height: 100vh;
+  .card {
+    display: flex;
+    width: 686rpx;
+    height: 268rpx;    
+    background-color: #fff;
+    margin-bottom: 20rpx;
+    border-radius: 12rpx;
+    flex-direction: column;
+    .title {
+      font-weight: bold;
+      margin-top: 32rpx;
+      margin-left: 32rpx;
+    }
+    .area {
+      display: flex;
+      margin-left: 32rpx;
+      top: 30rpx;
+      font-size: 26rpx;
+    }
   }
 }
