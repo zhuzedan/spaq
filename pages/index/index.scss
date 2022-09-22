@@ -51,12 +51,14 @@
     margin-left: 620rpx;
   }
 }
+
 //检查点状态
 .navBox {
   width: 100%;
   height: 100rpx;
   align-items: center;
   display: flex;
+
   .titleBox {
     display: flex;
     width: 180rpx;
@@ -65,6 +67,7 @@
     font-size: 32rpx;
     align-items: center;
     justify-content: center;
+
     .fontColorBox {
       display: flex;
       width: 180rpx;
@@ -78,43 +81,51 @@
     }
   }
 }
+
 .swiperTtemBox {
   /* 底部内容样式 */
   overflow: scroll;
   height: 100vh;
+
+  // 已接受卡片
   .card {
     display: flex;
     position: relative;
     width: 686rpx;
-    height: 268rpx;    
+    height: 268rpx;
     background-color: #fff;
     margin-bottom: 20rpx;
     border-radius: 12rpx;
     flex-direction: column;
+
     .title {
       font-weight: bold;
       margin-top: 32rpx;
       margin-left: 32rpx;
     }
+
     .area {
       display: flex;
       margin-left: 32rpx;
       margin-top: 28rpx;
       font-size: 26rpx;
     }
+
     .location {
       display: flex;
       margin-left: 32rpx;
       margin-top: 28rpx;
       font-size: 26rpx;
     }
+
     .checkNum {
       display: flex;
       margin-left: 32rpx;
-      margin-top: 28rpx;
+      margin-top: 20rpx;
       font-size: 26rpx;
       color: #a6a6a6;
     }
+
     .buttons {
       display: flex;
       position: absolute;
@@ -122,6 +133,7 @@
       height: 48rpx;
       left: 340rpx;
       top: 200rpx;
+
       .button {
         display: flex;
         color: #fff;
@@ -135,7 +147,72 @@
         margin-right: 30rpx;
       }
     }
+
     .distance {
+      font-size: 24rpx;
+      color: #a6a6a6;
+      display: flex;
+      position: absolute;
+      left: 520rpx;
+      top: 40rpx;
+    }
+  }
+
+  // 未指派卡片
+  .noAssigned {
+    display: flex;
+    position: relative;
+    width: 686rpx;
+    height: 268rpx;
+    background-color: #fff;
+    margin-bottom: 20rpx;
+    border-radius: 12rpx;
+    flex-direction: column;
+
+    .title_ {
+      font-weight: bold;
+      margin-top: 32rpx;
+      margin-left: 32rpx;
+    }
+
+    .area_ {
+      display: flex;
+      margin-left: 32rpx;
+      margin-top: 28rpx;
+      font-size: 26rpx;
+    }
+
+    .location_ {
+      display: flex;
+      margin-left: 32rpx;
+      margin-top: 28rpx;
+      font-size: 26rpx;
+    }
+
+    .checkNum_ {
+      display: flex;
+      margin-left: 32rpx;
+      margin-top: 20rpx;
+      font-size: 26rpx;
+      color: #a6a6a6;
+    }
+
+    .button_ {
+      display: flex;
+      color: #fff;
+      border-radius: 8rpx;
+      background-color: $primary-color;
+      font-size: 24rpx;
+      align-items: center;
+      justify-content: center;
+      height: 48rpx;
+      width: 136rpx;
+      right: 30rpx;
+      bottom: 20rpx;
+      position: absolute;
+    }
+
+    .distance_ {
       font-size: 24rpx;
       color: #a6a6a6;
       display: flex;

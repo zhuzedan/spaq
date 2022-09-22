@@ -76,7 +76,46 @@
       </view>
     </swiper-item>
     <swiper-item class='swiperTtemBox'>
-      <view>123</view>
+      <view class="noAssigned">
+        <view class="title_">慈溪市逍林多佑食品店</view>
+        <view class="area_">慈溪市-逍林镇</view>
+        <view class="location_">水云浦水云路27号</view>
+        <view class="checkNum_">已检查2次</view>
+        <view class="button_">接受</view>
+        <view class="distance_">距离1.6km</view>
+      </view>
+      <view class="noAssigned">
+        <view class="title_">慈溪市逍林多佑食品店</view>
+        <view class="area_">慈溪市-逍林镇</view>
+        <view class="location_">水云浦水云路27号</view>
+        <view class="checkNum_">已检查2次</view>
+        <view class="button_">接受</view>
+        <view class="distance_">距离1.6km</view>
+      </view>
+      <view class="noAssigned">
+        <view class="title_">慈溪市逍林多佑食品店</view>
+        <view class="area_">慈溪市-逍林镇</view>
+        <view class="location_">水云浦水云路27号</view>
+        <view class="checkNum_">已检查2次</view>
+        <view class="button_">接受</view>
+        <view class="distance_">距离1.6km</view>
+      </view>
+      <view class="noAssigned">
+        <view class="title_">慈溪市逍林多佑食品店</view>
+        <view class="area_">慈溪市-逍林镇</view>
+        <view class="location_">水云浦水云路27号</view>
+        <view class="checkNum_">已检查2次</view>
+        <view class="button_">接受</view>
+        <view class="distance_">距离1.6km</view>
+      </view>
+      <view class="noAssigned">
+        <view class="title_">慈溪市逍林多佑食品店</view>
+        <view class="area_">慈溪市-逍林镇</view>
+        <view class="location_">水云浦水云路27号</view>
+        <view class="checkNum_">已检查2次</view>
+        <view class="button_">接受</view>
+        <view class="distance_">距离1.6km</view>
+      </view>
     </swiper-item>
   </swiper>
 </view>
