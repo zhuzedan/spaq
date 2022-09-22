@@ -84,6 +84,7 @@
   height: 100vh;
   .card {
     display: flex;
+    position: relative;
     width: 686rpx;
     height: 268rpx;    
     background-color: #fff;
@@ -98,8 +99,49 @@
     .area {
       display: flex;
       margin-left: 32rpx;
-      top: 30rpx;
+      margin-top: 28rpx;
       font-size: 26rpx;
+    }
+    .location {
+      display: flex;
+      margin-left: 32rpx;
+      margin-top: 28rpx;
+      font-size: 26rpx;
+    }
+    .checkNum {
+      display: flex;
+      margin-left: 32rpx;
+      margin-top: 28rpx;
+      font-size: 26rpx;
+      color: #a6a6a6;
+    }
+    .buttons {
+      display: flex;
+      position: absolute;
+      width: 340rpx;
+      height: 48rpx;
+      left: 340rpx;
+      top: 200rpx;
+      .button {
+        display: flex;
+        color: #fff;
+        border-radius: 8rpx;
+        background-color: $primary-color;
+        font-size: 24rpx;
+        align-items: center;
+        justify-content: center;
+        height: 48rpx;
+        width: 136rpx;
+        margin-right: 30rpx;
+      }
+    }
+    .distance {
+      font-size: 24rpx;
+      color: #a6a6a6;
+      display: flex;
+      position: absolute;
+      left: 520rpx;
+      top: 40rpx;
     }
   }
 }

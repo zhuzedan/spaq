@@ -21,19 +21,62 @@
     <swiper-item class='swiperTtemBox'>
       <view class="card">
         <view class="title">慈溪市逍林多佑食品店</view>
-        <view>慈溪市-逍林镇</view>
+        <view class="area">慈溪市-逍林镇</view>
         <view class="location">水云浦水云路27号</view>
         <view class="checkNum">已检查2次</view>
+        <view class="buttons">
+          <view class="button">导航</view>
+          <view class="button">填报</view>          
+        </view>
+        <view class="distance">距离1.6km</view>
       </view>
-      <view class="card">内容1</view>
-    </swiper-item>
-    <swiper-item class='swiperTtemBox'>
       <view class="card">
         <view class="title">慈溪市逍林多佑食品店</view>
         <view class="area">慈溪市-逍林镇</view>
         <view class="location">水云浦水云路27号</view>
         <view class="checkNum">已检查2次</view>
+        <view class="buttons">
+          <view class="button">导航</view>
+          <view class="button">填报</view>          
+        </view>
+        <view class="distance">距离1.6km</view>
       </view>
+      <view class="card">
+        <view class="title">慈溪市逍林多佑食品店</view>
+        <view class="area">慈溪市-逍林镇</view>
+        <view class="location">水云浦水云路27号</view>
+        <view class="checkNum">已检查2次</view>
+        <view class="buttons">
+          <view class="button">导航</view>
+          <view class="button">填报</view>          
+        </view>
+        <view class="distance">距离1.6km</view>
+      </view>
+      <view class="card">
+        <view class="title">慈溪市逍林多佑食品店</view>
+        <view class="area">慈溪市-逍林镇</view>
+        <view class="location">水云浦水云路27号</view>
+        <view class="checkNum">已检查2次</view>
+        <view class="buttons">
+          <view class="button">导航</view>
+          <view class="button">填报</view>          
+        </view>
+        <view class="distance">距离1.6km</view>
+      </view>
+      <view class="card">
+        <view class="title">慈溪市逍林多佑食品店</view>
+        <view class="area">慈溪市-逍林镇</view>
+        <view class="location">水云浦水云路27号</view>
+        <view class="checkNum">已检查2次</view>
+        <view class="buttons">
+          <view class="button">导航</view>
+          <view class="button">填报</view>          
+        </view>
+        <view class="distance">距离1.6km</view>
+      </view>
+    </swiper-item>
+    <swiper-item class='swiperTtemBox'>
+      <view>123</view>
     </swiper-item>
   </swiper>
 </view>
