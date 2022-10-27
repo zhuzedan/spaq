@@ -11,6 +11,11 @@ Page({
       url: '../newPoint/index',
     })
   },
+  inspectionRecord() {
+    wx.navigateTo({
+      url: '../inspectionRecord/index',
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

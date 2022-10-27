@@ -22,7 +22,7 @@
       <image class="new_point" src="../../assets/mine/check_record.png"></image>
       <view class="font">检查审核记录</view>
     </view>
-    <view class="content">
+    <view class="content" bindtap="inspectionRecord">
       <image class="new_point" src="../../assets/mine/record.png"></image>
       <view class="font">检查记录</view>
     </view>

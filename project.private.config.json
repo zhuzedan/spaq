@@ -21,6 +21,20 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "检查记录",
+          "pathName": "pages/inspectionRecord/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "检查点审核记录",
+          "pathName": "pages/auditRecord/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

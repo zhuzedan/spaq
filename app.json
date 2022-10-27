@@ -3,7 +3,9 @@
     "pages/index/index",
     "pages/mine/index",
     "pages/newPoint/index",
-    "pages/basic/index"
+    "pages/basic/index",
+    "pages/auditRecord/index",
+    "pages/inspectionRecord/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
