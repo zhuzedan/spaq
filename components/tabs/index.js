@@ -21,6 +21,7 @@ Component({
 
   lifetimes: {
     attached() {
+      console.log(this.properties.tabs);
       this.calculateLinePositionX()
     }
   },
@@ -35,11 +36,12 @@ Component({
         current: index
       })
       this.calculateLinePositionX(index)
+      console.log(index);
     },
     calculateLinePositionX(index = 0) {
       this.createSelectorQuery().selectAll('.tab').boundingClientRect(results=>{
         const rect = results[index]
-        const currentCenterX = rect.left + rect.width / 2
+        const currentCenterX = rect.left + rect.width / 2 + 22
         const linePositionWidth = rect.width * 0.8
         const linePositionX = (currentCenterX - linePositionWidth / 2) - results[0].left
         this.setData({
@@ -47,7 +49,6 @@ Component({
           linePositionX
         })
       }).exec()
-
     }
   }
 })

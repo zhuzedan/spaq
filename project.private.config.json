@@ -35,6 +35,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "填报",
+          "pathName": "pages/fillReport/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

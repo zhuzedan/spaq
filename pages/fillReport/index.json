@@ -1,3 +1,6 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "tabs": "../../components/tabs/index"
+  },
+  "navigationBarTitleText": "填报检查表"
 }

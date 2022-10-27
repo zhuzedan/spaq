@@ -1,2 +1,11 @@
 <!--pages/fillReport/index.wxml-->
-<text>pages/fillReport/index.wxml</text>
+<!-- 导航条 -->
+<view class="header">
+  <tabs tabs="{{ [{value: 'basic', label: '基础信息'}, {value: 'check', label: '检查项'},{value: 'picManage', label: '图片管理'}] }}">
+  </tabs>
+</view>
+
+    <!-- 基本信息 -->
+    <view wx:if="{{current==0}}" class="basicInformation"></view>
+    <view wx:if="{{current == 1}}" >2</view>
+    <view wx:if="{{current==2}}">3</view>
