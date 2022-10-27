@@ -5,7 +5,8 @@
     "pages/newPoint/index",
     "pages/basic/index",
     "pages/auditRecord/index",
-    "pages/inspectionRecord/index"
+    "pages/inspectionRecord/index",
+    "pages/fillReport/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
