@@ -60,5 +60,12 @@ Page({
    */
   onShareAppMessage() {
 
+  },
+  handleItemChange(e) {
+    console.log(e.detail.index);
+    const current = e.detail.index;
+    this.setData({
+      currentNum: current
+    })
   }
 })

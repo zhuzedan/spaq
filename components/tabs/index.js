@@ -36,6 +36,7 @@ Component({
         current: index
       })
       this.calculateLinePositionX(index)
+      this.triggerEvent("itemChange",{index});
       console.log(index);
     },
     calculateLinePositionX(index = 0) {
