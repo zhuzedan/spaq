@@ -5,6 +5,29 @@
   </tabs>
 </view>
 <!-- 基本信息 -->
-<view wx:if="{{currentNum==0}}" class="basicInformation"></view>
+<view wx:if="{{currentNum==0}}">
+  <view class="basicInformation">
+    <view class="inform">
+      <view class="basicKey">单位名称</view>
+      <view class="basicValue">宁波舒活餐饮管理有限公司海曙...</view>
+    </view>
+    <view class="inform">
+      <view class="basicKey">单位地址</view>
+      <view class="basicValue">宁波市海曙区中山西路880号</view>
+    </view>
+    <view class="inform">
+      <view class="basicKey">单位联系人</view>
+      <view class="basicValue">-</view>
+    </view>
+    <view class="inform">
+      <view class="basicKey">联系人电话</view>
+      <view class="basicValue">-</view>
+    </view>
+  </view>
+  <view class="buttons">
+    <view class="button">编辑</view>
+    <view class="button">确认</view>
+  </view>
+</view>
 <view wx:if="{{currentNum == 1}}">2</view>
 <view wx:if="{{currentNum==2}}">3</view>
