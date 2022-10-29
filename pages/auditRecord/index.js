@@ -4,28 +4,30 @@ Page({
      * 页面的初始数据
      */
     data: {
-      searchResult:false,
-      screen:"综合",
-      screenDown: { screenDown:["综合","价格升序","价格降序"],screen:0},
-      screenFlag:false,//控制综合下拉框是否显示
-      screenColor: false,
-      brandFlag:false,
-      brandDown: [
-        { name: '火星人', value: '火星人' },
-        { name: '美达', value: '美达', checked: 'true' },
-        { name: 'DFSD', value: 'DFSD' },
-        { name: 'WANGJIAL', value: 'WANGJIAL' },
-        { name: '东方', value: '东方' },
-        { name: '火星人（marssenna）', value: '火星人（marssenna）' },
-        { name: '大学新村', value: '大学新村' },
-        { name: '大学新村', value: '大学新村' },
-        { name: '大学新村', value: '大学新村' },
-        { name: '大学新村大学新村大学新村大学新村', value: '大学新村大学新村大学新村大学新村' },
+      option1: [
+        { text: '月份', value: 0 },
+        { text: '新款商品', value: 1 },
+        { text: '活动商品', value: 2 },
       ],
-      brand:0,
-      brandColor: false,//控制品牌下拉框是否显示
-      brandText:"品牌",
-      salesColor:""
+      option2: [
+        { text: '类型', value: 'a' },
+        { text: '好评排序', value: 'b' },
+        { text: '销量排序', value: 'c' },
+      ],
+      option3: [
+        { text: '类别', value: 'd' },
+        { text: '好评排序', value: 'b' },
+        { text: '销量排序', value: 'c' },
+      ],
+      option4: [
+        { text: '状态', value: 'e' },
+        { text: '好评排序', value: 'b' },
+        { text: '销量排序', value: 'c' },
+      ],
+      value1: 0,
+      value2: 'a',
+      value3:'d',
+      value4:'e'
     },
   
     /**

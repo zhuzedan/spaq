@@ -16,6 +16,11 @@ Page({
       url: '../inspectionRecord/index',
     })
   },
+  auditRecord() {
+    wx.navigateTo({
+      url: '../auditRecord/index',
+    })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

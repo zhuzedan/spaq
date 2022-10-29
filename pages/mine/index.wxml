@@ -18,7 +18,7 @@
       <image class="new_point" src="../../assets/mine/new_point.png"></image>
       <view class="font">新增检查点</view>
     </view>
-    <view class="content">
+    <view class="content" bindtap="auditRecord">
       <image class="new_point" src="../../assets/mine/check_record.png"></image>
       <view class="font">检查审核记录</view>
     </view>

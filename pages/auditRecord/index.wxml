@@ -1,35 +1,122 @@
-<!--pages/auditRecord/index.wxml-->
-<view wx:if="{{!searchResult}}">
-  <view class='screen'>
-    <view class='screen-name {{screenColor?"screen-color":""}}' bindtap='screenShow'>
-      <text>{{screen}}</text>
-      <text class='iconfont iconsanjiaoxing1 {{screenFlag?"iconfontAnimation":""}}'></text>
-    </view>
-    <view class='screen-name {{brandColor?"screen-color":""}}' bindtap='brandShow'>
-      <text>{{filter.abbreviationSix(brandText)}}</text>
-      <text class='iconfont iconsanjiaoxing1 {{brandFlag?"iconfontAnimation":""}}'></text>
-    </view>
+<!--pages/inspectionRecord/index.wxml-->
+<!-- 搜索栏 -->
+<view class="search">
+  <input placeholder="检查点名称/详细地址" type='text' confirm-type='search'></input>
+  <image src="../../assets/check/search.png" />
+</view>
+<van-dropdown-menu class="screening" active-color="#3161FF">
+  <van-dropdown-item value="{{ value2 }}" options="{{ option2 }}" />
+  <van-dropdown-item value="{{ value3 }}" options="{{ option3 }}" />
+  <van-dropdown-item value="{{ value4 }}" options="{{ option4 }}" />
+</van-dropdown-menu>
+<view class="card">
+  <view class="inform" style="margin-top: 40rpx;">
+    <image src="../../assets/check/point.png"></image>
+    <view class="name">检查点</view>
+    <view class="detail">宁波海曙唐荟烘琣店</view>
   </view>
-  <!-- 点击综合按钮后展示的下拉框 -->
-  <!-- 下拉框透明背景 -->
-  <view class='drop-down-background' hidden='{{!screenFlag}}' bindtouchstart='handletouchtart'></view>
-  <view class='drop-down-flex'>
-    <view wx:for="{{screenDown.screenDown}}" wx:key="this" class='drop-down {{screenDown.screen==index?"down-active":""}} {{screenFlag?"down-show":""}}' data-item='{{item}}' data-index='{{index}}' bindtap='screenChoice'>
-      <text>{{item}}</text>
-      <text class='iconfont iconbianzu5' wx:if='{{screenDown.screen==index?true:false}}'></text>
-    </view>
+  <view class="inform">
+    <image src="../../assets/check/type.png"></image>
+    <view class="name">类型 </view>
+    <view class="detail">商业</view>
   </view>
-   <!-- 点击品牌按钮后展示的下拉框 -->
-  <!-- 下拉框透明背景 -->
-  <view class='drop-down-background' hidden='{{!brandFlag}}' bindtouchstart='handletouchtart'></view>
-  <scroll-view scroll-y class='drop-down-flex'>
-    <radio-group class="brand" bindchange="radioChange">
-      <view wx:for="{{brandDown}}" wx:key="this" class='brand-down {{brandFlag?"brand-show":""}}' data-item='{{item.value}}' data-index='{{index}}'>
-        <label  class='radio'>
-          <radio color="#F46458" value="{{item.name}}" checked="{{item.checked}}"/>
-          <text>{{filter.abbreviationEight(item.value)}}</text>
-        </label >
-      </view>
-    </radio-group>
-  </scroll-view>
+  <view class="inform">
+    <image src="../../assets/check/category.png"></image>
+    <view class="name">类别</view>
+    <view class="detail">餐饮企业</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/address.png"></image>
+    <view class="name">地址 </view>
+    <view class="detail">海曙区新高路45号</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/phone.png"></image>
+    <view class="name">联系电话</view>
+    <view class="detail">13113137139</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/time.png"></image>
+    <view class="name">提交时间 </view>
+    <view class="detail">2022-08-29 20:20</view>
+  </view>
+  <view class="buttons">
+    <view class="button">查看</view>
+    <view class="button" style="background-color: #f88934">修改</view>
+  </view>
+  <view class="score">待审核</view>
+</view>
+<view class="card">
+  <view class="inform" style="margin-top: 40rpx;">
+    <image src="../../assets/check/point.png"></image>
+    <view class="name">检查点</view>
+    <view class="detail">宁波海曙唐荟烘琣店</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/type.png"></image>
+    <view class="name">类型 </view>
+    <view class="detail">商业</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/category.png"></image>
+    <view class="name">类别</view>
+    <view class="detail">餐饮企业</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/address.png"></image>
+    <view class="name">地址 </view>
+    <view class="detail">海曙区新高路45号</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/phone.png"></image>
+    <view class="name">联系电话</view>
+    <view class="detail">13113137139</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/time.png"></image>
+    <view class="name">提交时间 </view>
+    <view class="detail">2022-08-29 20:20</view>
+  </view>
+  <view class="buttons">
+    <view class="button">查看</view>
+    <view class="button" style="background-color: #f88934">修改</view>
+  </view>
+  <view class="score">待审核</view>
+</view>
+<view class="card">
+  <view class="inform" style="margin-top: 40rpx;">
+    <image src="../../assets/check/point.png"></image>
+    <view class="name">检查点</view>
+    <view class="detail">宁波海曙唐荟烘琣店</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/type.png"></image>
+    <view class="name">类型 </view>
+    <view class="detail">商业</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/category.png"></image>
+    <view class="name">类别</view>
+    <view class="detail">餐饮企业</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/address.png"></image>
+    <view class="name">地址 </view>
+    <view class="detail">海曙区新高路45号</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/phone.png"></image>
+    <view class="name">联系电话</view>
+    <view class="detail">13113137139</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/time.png"></image>
+    <view class="name">提交时间 </view>
+    <view class="detail">2022-08-29 20:20</view>
+  </view>
+  <view class="buttons">
+    <view class="button">查看</view>
+    <view class="button" style="background-color: #f88934">修改</view>
+  </view>
+  <view class="score">待审核</view>
 </view>

@@ -1,1 +1,107 @@
 /* pages/inspectionRecord/index.wxss */
+@import '../../style/theme.scss';
+
+// 搜索栏
+.search {
+  display: flex;
+  width: 686rpx;
+  height: 68rpx;
+  margin-top: 20rpx;
+  border-radius: 400rpx;
+  flex-direction: row;
+  align-items: center;
+  background-color: white;
+  box-shadow: 0px 0.5px 5px 1px rgba(0, 0, 0, 0.1);
+
+  input {
+    display: flex;
+    position: absolute;
+    margin-left: 190rpx;
+    align-items: center;
+    font-size: 28rpx;
+  }
+
+  image {
+    display: flex;
+    position: absolute;
+    margin-left: 24rpx;
+    width: 36rpx;
+    height: 32rpx;
+  }
+}
+.screening {
+  width: 100%;
+  .van-dropdown-menu{
+    background-color: #f6f6f6;
+    height: 40rpx;
+    margin-top: 24rpx;
+    box-shadow: 0px 0px 0px 0px;
+  }
+}
+.card {
+  display: flex;
+  position: relative;
+  width: 686rpx;
+  height: 380rpx;
+  background-color: #fff;
+  margin-top: 20rpx;
+  border-radius: 12rpx;
+  flex-direction: column;
+  .inform {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10rpx;
+    margin-bottom: 10rpx;
+    image {
+      width: 32rpx;
+      height: 32rpx;
+      margin-left: 26rpx;
+    }
+    .name {
+      display: flex;
+      font-size: 26rpx;
+      margin-left: 12rpx;
+    }
+    .detail {
+      display: flex;
+      position: absolute;
+      margin-left: 242rpx;
+      justify-content: center;
+      text-align: center;
+      align-items: center;
+      font-size: 28rpx;
+      flex-direction: row;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width: 140rpx;
+    height: 118rpx;
+    left: 520rpx;
+    top: 230rpx;
+    .button {
+      text-align: right;
+      display: flex;
+      color: #fff;
+      border-radius: 8rpx;
+      background-color: $primary-color;
+      font-size: 24rpx;
+      align-items: center;
+      justify-content: center;
+      height: 48rpx;
+      width: 136rpx;
+      margin-top: 10rpx;
+    }
+  }
+  .score {
+    font-size: 40rpx;
+    font-weight: bold;
+    position: absolute;
+    margin-left: 540rpx;
+    margin-top: 40rpx;
+  }
+}
