@@ -1,18 +1,37 @@
 <!--pages/newPoint/index.wxml-->
 <view class="instructions">上报发现新的检查点</view>
 <view class="container">
-  <van-cell-group class="cell_group">
-    <van-field class="van_field" label="单位名称" placeholder="请输入单位名称" />
-    <view>
-      <van-field class="van_field" bindtap="showPopup" label="类型" placeholder="选择性别" value="{{gender}}" />
+  <view class="sideways">
+      <view class="description">单位名称</view>
+      <view class="content">请输入单位名称</view>
     </view>
-    <van-field class="van_field" label="类别" placeholder="请选择类别" />
-    <van-field class="van_field" label="区域" placeholder="请选择区域" />
-    <van-field class="van_field" label="街道" placeholder="请选择街道" />
-    <van-field class="van_field" label="联系人" placeholder="请输入联系人" />
-    <van-field class="van_field" label="联系人电话" placeholder="请输入联系人电话" />
-    <van-field class="van_field" clearable label="地理位置" placeholder="获取当前地理位置" />
-  </van-cell-group>
-  
+    <view class="sideways">
+      <view class="description">类型</view>
+      <view class="content">请选择类型</view>
+    </view>
+    <view class="sideways">
+      <view class="description">类别</view>
+      <view class="content">请选择类别</view>
+    </view>
+    <view class="sideways">
+      <view class="description">区域</view>
+      <view class="content">请选择区域</view>
+    </view>
+    <view class="sideways">
+      <view class="description">街道</view>
+      <view class="content">请选择街道</view>
+    </view>
+    <view class="sideways">
+      <view class="description">联系人</view>
+      <view class="content">请输入联系人</view>
+    </view>
+    <view class="sideways">
+      <view class="description">联系人电话</view>
+      <view class="content">请输入联系人电话</view>
+    </view>
+    <view class="sideways">
+      <view class="description">地理位置</view>
+      <view class="content">获取当前地理位置</view>
+    </view>
 </view>
 <view class="button">确定</view>

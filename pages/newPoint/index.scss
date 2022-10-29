@@ -24,6 +24,29 @@
         height: 116rpx;
       }
     }
+    .sideways {
+      display: flex;
+      flex-direction: row;
+      height: 114rpx;
+      width: 100%;
+      border-bottom: 3rpx solid #f6f6f6;
+      .description {
+        width: 230rpx;
+        display: flex;
+        margin-left: 32rpx;
+        align-items: center;
+      }
+      .content {
+        color: rgba(0, 0, 0, 0.4);
+        display: flex;
+        margin-left: 32rpx;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+        font-size: 28rpx;
+        flex-direction: row;
+      }
+    }
 }
 .button {
     position: relative;
