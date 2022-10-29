@@ -1,0 +1,79 @@
+  <!-- 搜索栏 -->
+  <view class="search">
+    <input placeholder="检查点名称/详细地址" type='text' confirm-type='search'></input>
+    <image src="../../assets/check/search.png" />
+    <view class="line"></view>
+  </view>
+  <view class="function">
+    <view class="distance">距离排序</view>
+    <view class="screen">筛选</view>
+    <image class="screen_img" src="../../assets/check/screen.png"></image>
+  </view>
+    <!-- 内容布局 -->
+    <view class='swiperTtemBox'>
+    <view class="card">
+      <view class="title">宁波海曙唐荟烘琣店</view>
+      <view class="area">检查项中的第三项填写有误，需要修改。</view>
+      <view class="twoLine">
+        <view class="currentTime">2022-08-29-21:23</view>
+        <view class="modify">第3次修改</view>
+      </view>
+      <view class="buttons">
+        <view class="button">同意</view>
+        <view class="button">拒绝</view>
+      </view>
+      <view class="name">宁萘</view>
+    </view>
+    <view class="card">
+      <view class="title">宁波海曙唐荟烘琣店</view>
+      <view class="area">检查项中的第三项填写有误，需要修改。</view>
+      <view class="twoLine">
+        <view class="currentTime">2022-08-29-21:23</view>
+        <view class="modify">第3次修改</view>
+      </view>
+      <view class="buttons">
+        <view class="button">同意</view>
+        <view class="button">拒绝</view>
+      </view>
+      <view class="name">宁萘</view>
+    </view>
+    <view class="card">
+      <view class="title">宁波海曙唐荟烘琣店</view>
+      <view class="area">检查项中的第三项填写有误，需要修改。</view>
+      <view class="twoLine">
+        <view class="currentTime">2022-08-29-21:23</view>
+        <view class="modify">第3次修改</view>
+      </view>
+      <view class="buttons">
+        <view class="button">同意</view>
+        <view class="button">拒绝</view>
+      </view>
+      <view class="name">宁萘</view>
+    </view>
+    <view class="card">
+      <view class="title">宁波海曙唐荟烘琣店</view>
+      <view class="area">检查项中的第三项填写有误，需要修改。</view>
+      <view class="twoLine">
+        <view class="currentTime">2022-08-29-21:23</view>
+        <view class="modify">第3次修改</view>
+      </view>
+      <view class="buttons">
+        <view class="button">同意</view>
+        <view class="button">拒绝</view>
+      </view>
+      <view class="name">宁萘</view>
+    </view>
+    <view class="card">
+      <view class="title">宁波海曙唐荟烘琣店</view>
+      <view class="area">检查项中的第三项填写有误，需要修改。</view>
+      <view class="twoLine">
+        <view class="currentTime">2022-08-29-21:23</view>
+        <view class="modify">第3次修改</view>
+      </view>
+      <view class="buttons">
+        <view class="button">同意</view>
+        <view class="button">拒绝</view>
+      </view>
+      <view class="name">宁萘</view>
+    </view>
+  </view>

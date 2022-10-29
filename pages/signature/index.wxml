@@ -1,0 +1,11 @@
+<!--pages/signature/index.wxml-->
+<view class="header">
+  <view class="sign">手写签名</view>
+</view>
+<view class="signature">
+  <view class="instruction">请在此处签名</view>
+</view>
+<view class="buttons" style="margin-top: 44rpx;">
+  <view class="button">上一步</view>
+  <view class="button">提交</view>
+</view>

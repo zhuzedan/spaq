@@ -21,6 +21,11 @@ Page({
     stepNum: 1 //当前的步数
 
   },
+  goSignature() {
+    wx.navigateTo({
+      url: '../signature/index',
+    })
+  },
   onChange(event) {
     this.setData({
       checked: event.detail,

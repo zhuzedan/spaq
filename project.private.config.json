@@ -42,6 +42,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "签名",
+          "pathName": "pages/signature/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

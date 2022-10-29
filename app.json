@@ -6,7 +6,9 @@
     "pages/basic/index",
     "pages/auditRecord/index",
     "pages/inspectionRecord/index",
-    "pages/fillReport/index"
+    "pages/fillReport/index",
+    "pages/approval/index",
+    "pages/signature/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -22,6 +24,12 @@
         "text": "检查",
         "iconPath": "./assets/tabbar/check.png",
         "selectedIconPath": "./assets/tabbar/check_select.jpg"
+      },
+      {
+        "pagePath": "pages/approval/index",
+        "text": "审批",
+        "iconPath": "./assets/tabbar/approval.png",
+        "selectedIconPath": "./assets/tabbar/approval_select.png"
       },
       {
         "pagePath": "pages/mine/index",
