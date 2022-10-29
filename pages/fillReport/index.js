@@ -5,7 +5,36 @@ Page({
    * 页面的初始数据
    */
   data: {
-    currentNum: 0
+    currentNum: 0,
+    checked: true,
+    
+    stepList: [{
+      name: '1'
+    }, {
+      name: '2'
+    }, {
+      name: '3'
+    }, {
+      name: '4'
+    },{name:'s'},{name:'s'},{name:'s'},{name:'s'} ],
+
+    stepNum: 1 //当前的步数
+
+  },
+  onChange(event) {
+    this.setData({
+      checked: event.detail,
+    });
+  },
+  onChangeRadio(event) {
+    this.setData({
+      radio: event.detail,
+    });
+  },
+  numSteps() {
+    this.setData({
+      stepNum: this.data.stepNum == this.data.stepList.length ? 1 : this.data.stepNum + 1
+    })
   },
   /**
    * 生命周期函数--监听页面加载

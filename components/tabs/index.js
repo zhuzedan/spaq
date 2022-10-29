@@ -21,7 +21,7 @@ Component({
 
   lifetimes: {
     attached() {
-      console.log(this.properties.tabs);
+      // console.log(this.properties.tabs);
       this.calculateLinePositionX()
     }
   },
@@ -37,7 +37,7 @@ Component({
       })
       this.calculateLinePositionX(index)
       this.triggerEvent("itemChange",{index});
-      console.log(index);
+      // console.log(index);
     },
     calculateLinePositionX(index = 0) {
       this.createSelectorQuery().selectAll('.tab').boundingClientRect(results=>{
