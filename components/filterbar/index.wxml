@@ -1,0 +1,40 @@
+<view class="nav">
+  <view class="nav-item {{ multi ? 'active' : '' }}" bindtap="onMultiActive">
+    <view class="content">筛选</view>
+  </view>
+</view>
+
+<view class="mask" hidden="{{ !(twoStage || radio || sort || multi) }}" style="top: {{ top }}" bindtap="closeFilter" />
+<view class="filter {{ multi ? 'show' : 'hide' }} ">
+  <scroll-view scroll-y>
+    <block wx:for="{{ multiData.children }}" wx:for-item="group" wx:key="unique">
+      <view class="multi-item">
+        <view class="header">
+          <div class="label">{{ group.label }}</div>
+        </view>
+        <view class="body">
+          <block wx:for="{{ group.children }}" wx:for-item="item" wx:key="unique">
+            <view class="radio {{ common.selected(multiSelected, group.value + ':' + item.value) ? 'active' : 'inactive' }}" data-group="{{ group }}" data-item="{{ item }}" bindtap="onMultiChange">{{ item.label }}</view>
+          </block>
+        </view>
+      </view>
+    </block>
+  </scroll-view>
+  <div class="buttons">
+    <view class="reset" bindtap="onMultiReset">重置</view>
+    <view class="confirm" bindtap="onMultiConfirm">确定</view>
+  </div>
+</view>
+
+<wxs module="common">
+  module.exports = {
+    selected: function(multiSelected, value) {
+      for (var i = 0; i < multiSelected.length; i++) {
+        if (multiSelected[i].value === value) {
+          return true
+        }
+      }
+      return false
+    }
+  }
+</wxs>
