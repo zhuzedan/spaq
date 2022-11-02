@@ -28,21 +28,26 @@
     height: 32rpx;
   }
 }
+
 // 功能：排序and筛选
 .function {
   display: flex;
-  width: 686rpx;
-  height: 120rpx;
- align-items: center;
+  width: 100%;
+  height: 90rpx;
+  align-items: center;
+  // background-color: greenyellow;
+
   .distance {
     margin-left: 12rpx;
     font-size: 28rpx;
   }
+
   .screen {
     font-size: 28rpx;
     margin-left: 450rpx;
     margin-right: 18rpx;
   }
+
   .screen_img {
     width: 32rpx;
     height: 32rpx;
@@ -50,6 +55,7 @@
 }
 
 .swiperTtemBox {
+
   // 已接受卡片
   .card {
     display: flex;

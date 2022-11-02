@@ -1,7 +1,7 @@
 .nav {
-  position: relative;
   z-index: 99;
   display: flex;
+  width: 750rpx;
   /* border-bottom: 1rpx solid #d1d3d4; */
   background: #f6f6f6;
 }
@@ -10,20 +10,46 @@
   display: flex;
   flex: 1;
   text-align: center;
+  height: 42rpx;
   align-items: center;
   justify-content: center;
   font-size: 28rpx;
   margin: 20rpx 0;
 }
 
+.nav-item.active .content {
+  color: #3161FF;
+}
+
 .nav-item.active .icon {
-  border-bottom: 8rpx solid #fa871e;
+  border-bottom: 8rpx solid #3161FF;
   border-top: 0;
 }
 
+.borders-right {
+  border-right: 1rpx solid #fff;
+}
+
 .content {
-  display: flex;
-  margin-left: 500rpx;
+  display: inline-block;
+}
+
+.icon.dropdownIcon {
+  display: inline-block;
+  border: 8rpx solid transparent;
+  border-top: 8rpx solid #9b9b9b;
+  margin-left: 10rpx;
+}
+
+.icon.filterIcon {
+  width: 8rpx;
+  height: 8rpx;
+  border-top: 4rpx solid #9b9b9b;
+  border-bottom: 4rpx solid #9b9b9b;
+  background-color: #9b9b9b;
+  padding: 4rpx 0;
+  background-clip: content-box;
+  margin-left: 10rpx;
 }
 
 .mask {
@@ -35,9 +61,8 @@
 }
 
 .filter {
-  display: flex;
   width: 100%;
-  max-height: 1000rpx;
+  max-height: 850rpx;
   z-index: 2;
   position: absolute;
   overflow-y: scroll;
@@ -53,98 +78,93 @@
   font-size: 28rpx;
 }
 
+.filter .items view {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  padding-left: 35rpx;
+}
+
+.items.left {
+  width: 30%;
+  background: #f6f6f6;
+}
+
+.items.right {
+  width: 70%;
+  background: #fff;
+}
+
+.items .current {
+  background: #fff;
+  color: #3161FF;
+}
+
 .filter .item {
-  border-bottom: solid #f7f7f7 1rpx;
+  font-size: 28rpx;
+  border-bottom: solid #f6f6f6 1rpx;
   justify-content: space-between;
   padding: 20rpx 30rpx;
 }
 
 .item.active {
-  color: #40DCA4;
+  color: #3161FF;
 }
 
 .filter .multi-item {
+  float: left;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  font-size: 32rpx;
+  font-size: 28rpx;
 }
-/* 大字外围 */
+
 .multi-item .header {
-  padding: 30rpx;
-}
-/* 大字 */
-.multi-item .header .label {
-  font-size: 36rpx;
-  margin-left: 40rpx;
-  margin-top: 84rpx;
-  font-weight: 400;
+  padding: 5rpx 0 0 15rpx;
 }
 
 .multi-item .body {
+  padding-left: 15rpx;
   display: flex;
   flex-flow: row wrap;
-  margin-left: 40rpx;
+  align-items: center;
 }
-/* 选中、未选中通用样式 */
+
 .multi-item .body .radio {
-  margin: 16rpx;
+  margin: 8rpx 12px 16rpx 0;
   font-size: 28rpx;
+  padding: 8rpx 16rpx 8rpx 16rpx;
 }
-/* 未选中按钮 */
+
 .radio.inactive {
-  width: 180rpx;
-  height: 58rpx;
-  border-radius: 32rpx;
-  background: #fff;
-  justify-content: center;
+  background: #f6f6f6;
+  border: 1rpx solid #f6f6f6;
   color: #212121;
-  font-size: 28rpx;
-  text-align: center;
-  align-items: center;
-  display: flex;
 }
-/* 选中后按钮 */
+
 .radio.active {
-  width: 180rpx;
-  height: 56rpx;
-  border-radius: 32rpx;
-  background: #3161FF;
-  justify-content: center;
-  color: #fff;
-  font-size: 28rpx;
-  text-align: center;
-  align-items: center;
-  display: flex;
+  color: #3161FF;
+  background: #fff;
+  border: 1rpx solid #3161FF;
 }
-/* 两个按钮盒子(重置 确定) */
+
 .filter .buttons {
-  display: flex;
-  margin-top: 125rpx;
-  height: 56rpx;
-  justify-content: center;
+  margin-top: 25rpx;
+  line-height: 70rpx;
   text-align: center;
-  align-items: center;
+  display: flex;
 }
-/* 重置按钮 */
+
 .buttons .reset {
-  height: 100%;
-  width: 218rpx;
-  margin-left: 152rpx;
   flex: 1;
-  color: #fff;
-  background: #3161FF;
-  border-radius: 28rpx 0 0 28rpx;
+  border-top: 1rpx solid #ddd;
 }
-/* 确定按钮 */
+
 .buttons .confirm {
-  height: 100%;
-  width: 218rpx;
-  margin-right: 152rpx;
   flex: 1;
   color: #fff;
-  background: #40DCA4;
-  border-radius: 0 28rpx 28rpx 0;
+  border-top: 1rpx solid #3161FF;
+  background: #3161FF;
 }
 
 .filter.hide {

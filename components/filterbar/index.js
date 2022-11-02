@@ -57,6 +57,33 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    // 二级激活
+    onTwoStageActive: function(e) {
+      this.setData({
+        twoStage: !this.data.twoStage,
+        radio: false,
+        sort: false,
+        multi: false
+      })
+    },
+    // 单选激活
+    onRadioActive: function(e) {
+      this.setData({
+        twoStage: false,
+        radio: !this.data.radio,
+        sort: false,
+        multi: false
+      })
+    },
+    // 排序激活
+    onSortActive: function(e) {
+      this.setData({
+        twoStage: false,
+        radio: false,
+        sort: !this.data.sort,
+        multi: false
+      })
+    },
     // 筛选激活
     onMultiActive: function(e) {
       this.setData({
