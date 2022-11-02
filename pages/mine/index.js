@@ -4,9 +4,8 @@ Page({
   /**
    * 页面的初始数据
    */
-  data: {
-  },
-  newPoint(){
+  data: {},
+  newPoint() {
     wx.navigateTo({
       url: '../newPoint/index',
     })
@@ -24,8 +23,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad(options) {
-  },
+  onLoad(options) {},
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -37,7 +35,12 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    if (typeof this.getTabBar === 'function' &&
+      this.getTabBar()) {
+      this.getTabBar().setData({
+        selected: 2
+      })
+    }
   },
 
   /**
