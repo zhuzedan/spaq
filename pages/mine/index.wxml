@@ -29,11 +29,6 @@
   </view>
   <view class="bottom">
     <view class="setting">
-      <image class="icon_setting" src="../../assets/mine/setting/lock.png"></image>
-      <view class="font_setting">隐私政策</view>
-      <image class="jumpto" src="../../assets/mine/setting/turnto.png"></image>
-    </view>
-    <view class="setting">
       <image class="icon_setting" src="../../assets/mine/setting/paper.png"></image>
       <view class="font_setting">意见反馈</view>
       <image class="jumpto" src="../../assets/mine/setting/turnto.png"></image>
