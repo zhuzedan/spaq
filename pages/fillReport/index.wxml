@@ -48,7 +48,7 @@
           </block>
         </view>
         <view class="titleO">
-          <view class="title">1.《食品经营许可证》是否合法有效且在显著位置摆放？(10分)</view>
+          <view class="title">8.《食品经营许可证》是否合法有效且在显著位置摆放？(10分)</view>
           <view class="detail">
             <van-checkbox checked-color="#3161FF" shape="square" bind:change="onChange">A 无《食品经营许可证》</van-checkbox>
           </view>

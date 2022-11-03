@@ -49,6 +49,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "检查点审核记录查看",
+          "pathName": "pages/auditDetail/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

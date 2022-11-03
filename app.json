@@ -8,7 +8,9 @@
     "pages/inspectionRecord/index",
     "pages/fillReport/index",
     "pages/approval/index",
-    "pages/signature/index"
+    "pages/signature/index",
+    "pages/auditDetail/index",
+    "pages/auditModify/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -17,7 +19,6 @@
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
-    "custom": true,
     "selectedColor": "#3161ff",
     "list": [
       {

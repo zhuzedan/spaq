@@ -1,37 +1,41 @@
+<!--pages/auditModify/index.wxml-->
 <!--pages/newPoint/index.wxml-->
-<view class="instructions">上报发现新的检查点</view>
+<view class="instructions"></view>
 <view class="container">
   <view class="sideways">
     <view class="description">单位名称</view>
-    <view class="content">请输入单位名称</view>
+    <view class="content">宁波海曙唐荟烘琣店</view>
   </view>
   <view class="sideways">
     <view class="description">类型</view>
-    <view class="content">请选择类型</view>
+    <view class="content">商业</view>
   </view>
   <view class="sideways">
     <view class="description">类别</view>
-    <view class="content">请选择类别</view>
+    <view class="content">餐饮企业</view>
   </view>
   <view class="sideways">
     <view class="description">区域</view>
-    <view class="content">请选择区域</view>
+    <view class="content">海曙区</view>
   </view>
   <view class="sideways">
     <view class="description">街道</view>
-    <view class="content">请选择街道</view>
+    <view class="content">西门街道新高路45号</view>
   </view>
   <view class="sideways">
     <view class="description">联系人</view>
-    <view class="content">请输入联系人</view>
+    <view class="content">张叁</view>
   </view>
   <view class="sideways">
     <view class="description">联系人电话</view>
-    <view class="content">请输入联系人电话</view>
+    <view class="content">13113137139</view>
   </view>
   <view class="sideways">
     <view class="description">地理位置</view>
-    <view class="content">获取当前地理位置</view>
+    <view class="content">
+      <view class="latitude">50.27548</view>
+      <view class="longitude" style="margin-left: 90rpx;">120.11307</view>
+    </view>
   </view>
 </view>
-<view class="button">确定</view>
+<view class="button">确定修改</view>

@@ -29,7 +29,16 @@ Page({
       value3:'d',
       value4:'e'
     },
-  
+    getDetail() {
+      wx.navigateTo({
+        url: '../auditDetail/index',
+      })
+    },
+    getModify() {
+      wx.navigateTo({
+        url: '../auditModify/index',
+      })
+    },
     /**
      * 生命周期函数--监听页面加载
      */
