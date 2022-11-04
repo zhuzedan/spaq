@@ -24,10 +24,6 @@
       <view class="basicValue">-</view>
     </view>
   </view>
-  <view class="buttons">
-    <view class="button">编辑</view>
-    <view class="button">确认</view>
-  </view>
 </view>
 <view wx:if="{{currentNum == 1}}">
   <view class="checkBackground">
@@ -73,16 +69,12 @@
       </view>
     </view>
   </view>
-  <view class="buttons" style="margin-top: 22rpx;">
-    <view class="button">上一项</view>
-    <view class="button" bindtap="numSteps">下一项</view>
-  </view>
 </view>
 <view wx:if="{{currentNum==2}}">
   <view class="picManage">
     <view class="sideways">
       <view class="description">门头照片</view>
-      <view class="content">请选择照片</view>
+      <view class="content"><image src="../../assets/pic.png" style="height: 100rpx; width: 100rpx;" mode=""/></view>
     </view>
     <view class="sideways">
       <view class="description">食品经营许可证</view>
@@ -122,9 +114,8 @@
       <view class="content">请选择照片</view>
     </view>
   </view>
-
-  <view class="buttons" style="margin-top: 44rpx;">
-    <view class="button">上一步</view>
-    <view class="button" bindtap="goSignature">下一步</view>
-  </view>
+</view>
+<view class="submitTime">
+  <view class="time">提交时间</view>
+  <view class="subtime" style="margin-left: 20rpx;">2022-08-29 20:20</view>
 </view>

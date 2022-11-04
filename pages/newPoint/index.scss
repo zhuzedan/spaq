@@ -8,45 +8,52 @@
     left: -184rpx;
 }
 .container {
-    width: 686rpx;
-    height: 920rpx;
-    background-color: #ffffff;
-    border-radius: 12rpx;
+  width: 686rpx;
+  height: 920rpx;
+  background-color: #ffffff;
+  border-radius: 12rpx;
+  display: flex;
+  position: relative;
+  .sideways {
     display: flex;
+    flex-direction: row;
+    height: 114rpx;
+    width: 100%;
     position: relative;
-    .cell_group {
+    border-bottom: 3rpx solid #f6f6f6;
+    .description {
+      width: 230rpx;
       display: flex;
+      margin-left: 32rpx;
+      align-items: center;
+    }
+    .input {
       position: relative;
-      flex-direction: column;
-      .van_field {
-        display: flex;
-        position: relative;
-        height: 116rpx;
-      }
-    }
-    .sideways {
+      color: rgba(0, 0, 0, 0.4);
       display: flex;
+      margin-left: 32rpx;
+      justify-content: center;
+      align-items: center;
+      font-size: 28rpx;
       flex-direction: row;
-      height: 114rpx;
-      width: 100%;
-      border-bottom: 3rpx solid #f6f6f6;
-      .description {
-        width: 230rpx;
-        display: flex;
-        margin-left: 32rpx;
-        align-items: center;
-      }
-      .content {
-        color: rgba(0, 0, 0, 0.4);
-        display: flex;
-        margin-left: 32rpx;
-        justify-content: center;
-        text-align: center;
-        align-items: center;
-        font-size: 28rpx;
-        flex-direction: row;
+      .van-field__control {
+        border: 0;
       }
     }
+    .van-cell {
+      padding: 0;
+    }
+    .content {
+      color: rgba(0, 0, 0, 0.4);
+      display: flex;
+      margin-left: 32rpx;
+      justify-content: center;
+      text-align: center;
+      align-items: center;
+      font-size: 28rpx;
+      flex-direction: row;
+    }
+  }
 }
 .button {
     position: relative;

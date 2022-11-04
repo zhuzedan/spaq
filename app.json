@@ -10,7 +10,8 @@
     "pages/approval/index",
     "pages/signature/index",
     "pages/auditDetail/index",
-    "pages/auditModify/index"
+    "pages/auditModify/index",
+    "pages/inspectionDetail/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

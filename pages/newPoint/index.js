@@ -5,9 +5,44 @@ Page({
    * 页面的初始数据
    */
   data: {
-    
+    showUnit: false, //单位弹层控制
+    columns: ['公益', '商业'],
+    unit:''
   },
-  
+  // 弹出选择单位
+  getUnit(e) {
+    wx.hideKeyboard();
+    this.showPopup();
+  },
+  showPopup() {
+    this.setData({
+      showUnit: true
+    });
+  },
+  // 弹窗关闭
+  onCloseUnit() {
+    this.setData({
+      showUnit: false
+    });
+  },
+  //单位选择确认
+  onConfirm(event) {
+    const {
+      picker,
+      value,
+      index
+    } = event.detail;
+    this.setData({
+      unit:value
+    })
+    this.onCloseUnit();
+
+  },
+  //单位取消选择器
+  onCancel() {
+    this.onCloseUnit();
+    console.log('value:', value)
+  },
 
 
   /**

@@ -1,41 +1,27 @@
 <!--pages/auditModify/index.wxml-->
 <!--pages/newPoint/index.wxml-->
 <view class="instructions"></view>
-<view class="container">
-  <view class="sideways">
-    <view class="description">单位名称</view>
-    <view class="content">宁波海曙唐荟烘琣店</view>
-  </view>
-  <view class="sideways">
-    <view class="description">类型</view>
-    <view class="content">商业</view>
-  </view>
-  <view class="sideways">
-    <view class="description">类别</view>
-    <view class="content">餐饮企业</view>
-  </view>
-  <view class="sideways">
-    <view class="description">区域</view>
-    <view class="content">海曙区</view>
-  </view>
-  <view class="sideways">
-    <view class="description">街道</view>
-    <view class="content">西门街道新高路45号</view>
-  </view>
-  <view class="sideways">
-    <view class="description">联系人</view>
-    <view class="content">张叁</view>
-  </view>
-  <view class="sideways">
-    <view class="description">联系人电话</view>
-    <view class="content">13113137139</view>
-  </view>
-  <view class="sideways">
-    <view class="description">地理位置</view>
-    <view class="content">
-      <view class="latitude">50.27548</view>
-      <view class="longitude" style="margin-left: 90rpx;">120.11307</view>
-    </view>
-  </view>
+<view class="con">
+  <form bindsubmit="submitNewStuInfo">
+    <van-cell-group>
+      <van-field custom-style="height:116rpx;align-items:center" name="stuName"  clearable label="单位名称" title-width="3em" placeholder="宁波海曙唐荟烘琣店" />
+      <view  bindtap="showPopup">
+        <van-field custom-style="height:116rpx;align-items:center" name="stuClass" label="类型" title-width="3em" placeholder="商业"  value="{{gender}}" clearable />
+      </view>
+      <view bindtap="showCategory">
+        <van-field custom-style="height:116rpx;align-items:center" label="类别" title-width="3em" placeholder="选择类别" value="{{gender}}" readonly />
+      </view>
+      <van-field custom-style="height:116rpx;align-items:center" name="stuClass" label="类型" title-width="3em" placeholder="商业" clearable />
+      <view bindtap="showPopup">
+        <van-field custom-style="height:116rpx;align-items:center" label="类别" title-width="3em" placeholder="选择类别" value="{{gender}}" readonly />
+      </view>
+      <van-field custom-style="height:116rpx;align-items:center" name="authCode" label="联系人" type="number" maxlength="6" title-width="3em" placeholder="张叁" clearable />
+      <van-field custom-style="height:116rpx;align-items:center" name="phone" label="联系人电话" type="number" maxlength="11" title-width="3em" placeholder="13133123233"  clearable />
+      <van-field custom-style="height:116rpx;align-items:center" name="authCode" label="地理位置" type="number" maxlength="6" title-width="3em" placeholder="50.27548        120.2323" clearable />
+    </van-cell-group>
+    <van-popup show="{{ show }}" bind:close="onClose" position="bottom" custom-style="height: 40%">
+      <van-picker title="选择类型" show-toolbar columns="{{ columns }}" bind:cancel="onClose" bind:confirm="onConfirm" />
+    </van-popup>
+  </form>
 </view>
 <view class="button">确定修改</view>

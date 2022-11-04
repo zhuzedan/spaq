@@ -56,6 +56,20 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "新增检查点",
+          "pathName": "pages/newPoint/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "检查点审核记录修改",
+          "pathName": "pages/auditModify/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

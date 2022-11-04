@@ -3,35 +3,48 @@
 <view class="container">
   <view class="sideways">
     <view class="description">单位名称</view>
-    <view class="content">请输入单位名称</view>
+    <view class="input"><input placeholder-style="color:rgba(0, 0, 0, 0.4);" placeholder="请输入单位名称"></input></view>
   </view>
   <view class="sideways">
     <view class="description">类型</view>
-    <view class="content">请选择类型</view>
+    <view class="input">
+      <van-field readonly  is-link value="{{ unit }}" catchtap="getUnit" placeholder="请选择类型">
+      </van-field>
+      <!-- 单位弹出层 -->
+      <van-popup show="{{ showUnit }}" bind:close="onCloseUnit" position="bottom">
+        <van-picker loading="{{false}}" show-toolbar title="类型" columns="{{ columns }}" bind:cancel="onCancel" bind:confirm="onConfirm" />
+      </van-popup>
+    </view>
   </view>
   <view class="sideways">
     <view class="description">类别</view>
-    <view class="content">请选择类别</view>
+    <view class="input"><input placeholder-style="color:rgba(0, 0, 0, 0.4);" placeholder="请选择类别"></input></view>
   </view>
   <view class="sideways">
     <view class="description">区域</view>
-    <view class="content">请选择区域</view>
+    <view class="content">海曙区</view>
   </view>
   <view class="sideways">
     <view class="description">街道</view>
-    <view class="content">请选择街道</view>
+    <view class="content">西门街道新高路45号</view>
   </view>
   <view class="sideways">
     <view class="description">联系人</view>
-    <view class="content">请输入联系人</view>
+    <view class="input"><input placeholder-style="color:rgba(0, 0, 0, 0.4);" placeholder="请输入联系人"></input></view>
   </view>
   <view class="sideways">
     <view class="description">联系人电话</view>
-    <view class="content">请输入联系人电话</view>
+    <view class="input"><input type='number' placeholder-style="color:rgba(0, 0, 0, 0.4);" placeholder="请输入联系人电话"></input></view>
   </view>
   <view class="sideways">
     <view class="description">地理位置</view>
-    <view class="content">获取当前地理位置</view>
+    <view class="content">
+      <view class="latitude">50.27548</view>
+      <view class="longitude" style="margin-left: 90rpx;">120.11307</view>
+    </view>
   </view>
 </view>
 <view class="button">确定</view>
+<view>
+
+</view>
