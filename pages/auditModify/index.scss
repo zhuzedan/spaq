@@ -88,11 +88,17 @@
   border-radius: 12rpx;
   display: flex;
   position: relative;
+
   .van-field__label {
     font-size: 32rpx;
-    width: 400rpx;
+    width: 200rpx;
+    color: rgba(0, 0, 0, 0.9);
   }
   .van-field__body {
     margin-left: 150rpx;
+  }
+  .van-cell {
+    width: 686rpx;
+    box-sizing: border-box;
   }
 }

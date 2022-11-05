@@ -9,11 +9,11 @@
         <van-field custom-style="height:116rpx;align-items:center" name="stuClass" label="类型" title-width="3em" placeholder="商业"  value="{{gender}}" clearable />
       </view>
       <view bindtap="showCategory">
-        <van-field custom-style="height:116rpx;align-items:center" label="类别" title-width="3em" placeholder="选择类别" value="{{gender}}" readonly />
+        <van-field custom-style="height:116rpx;align-items:center" label="类别" title-width="3em" placeholder="餐饮企业" value="{{gender}}" readonly />
       </view>
-      <van-field custom-style="height:116rpx;align-items:center" name="stuClass" label="类型" title-width="3em" placeholder="商业" clearable />
+      <van-field custom-style="height:116rpx;align-items:center" name="stuClass" label="区域" title-width="3em" placeholder="海曙区" clearable />
       <view bindtap="showPopup">
-        <van-field custom-style="height:116rpx;align-items:center" label="类别" title-width="3em" placeholder="选择类别" value="{{gender}}" readonly />
+        <van-field custom-style="height:116rpx;align-items:center" label="街道" title-width="3em" placeholder="西门街道新高路45号" value="{{gender}}" readonly />
       </view>
       <van-field custom-style="height:116rpx;align-items:center" name="authCode" label="联系人" type="number" maxlength="6" title-width="3em" placeholder="张叁" clearable />
       <van-field custom-style="height:116rpx;align-items:center" name="phone" label="联系人电话" type="number" maxlength="11" title-width="3em" placeholder="13133123233"  clearable />

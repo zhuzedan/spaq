@@ -1,4 +1,6 @@
 const app = getApp()
+import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog';
+
 Page({
   data: {
     currentIndex: 0, //默认第一个
@@ -31,5 +33,16 @@ Page({
         selected: 0
       })
     }
+  },
+  onLoad() {
+    Dialog.alert({
+      message: '团队长已拒绝您的请求！',
+    })
+      .then(() => {
+        // on confirm
+      })
+      .catch(() => {
+        // on cancel
+      });
   }
 })

@@ -70,6 +70,13 @@
           "query": "",
           "launchMode": "default",
           "scene": null
+        },
+        {
+          "name": "检查记录查看",
+          "pathName": "pages/inspectionDetail/index",
+          "query": "",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

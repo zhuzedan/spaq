@@ -1,5 +1,6 @@
 /* pages/fillReport/index.wxss */
 @import '../../style/theme.scss';
+
 .header {
   display: flex;
   width: 100%;
@@ -10,8 +11,9 @@
   box-sizing: border-box;
   justify-content: center;
 }
+
 // 基础信息
-.basicInformation{
+.basicInformation {
   position: relative;
   display: flex;
   width: 686rpx;
@@ -22,16 +24,19 @@
   //align-items: center;
   height: 460rpx;
   border-radius: 12rpx;
+
   .inform {
     position: relative;
     flex-direction: row;
     display: flex;
     align-items: center;
     height: 25%;
+
     .basicKey {
       font-size: 32rpx;
       margin-left: 32rpx;
     }
+
     .basicValue {
       position: absolute;
       font-size: 28rpx;
@@ -40,11 +45,22 @@
     }
   }
 }
+.submitTime {
+  display: flex;
+  position: relative;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin-top: 762rpx;
+  font-size: 24rpx;
+  color: rgba(56, 56, 56, 1);
+}
 // 基础信息两个按钮
 .buttons {
   display: flex;
   width: 100%;
   margin-top: 120rpx;
+
   .button {
     display: flex;
     color: #fff;
@@ -59,6 +75,7 @@
     margin-left: 15rpx;
   }
 }
+
 // 检查项
 .checkBackground {
   display: flex;
@@ -68,9 +85,11 @@
   //align-items: center;
   height: 1140rpx;
   border-radius: 12rpx;
+
   .menu {
     display: grid;
     grid-template-columns: 160rpx 1fr;
+
     .menuList {
       .steps_box {
         width: 500rpx;
@@ -79,6 +98,7 @@
         /* flex-direction: row; */
         align-items: center;
         justify-content: center;
+
         .block-step {
           display: flex;
           flex-direction: row;
@@ -86,11 +106,13 @@
           justify-content: center; */
         }
       }
+
       .view_item {
         display: flex;
         align-items: center;
         justify-content: center;
         flex-direction: column;
+
         view {
           width: 36rpx;
           height: 36rpx;
@@ -104,24 +126,30 @@
           content: "\e732";
         }
       }
+
       .view_line {
         width: 15%;
         height: 5rpx;
         /* background: linear-gradient(to right, #ead6ee, #a0f1ea); */
       }
-      .line_bgcolor1{
+
+      .line_bgcolor1 {
         background-color: $primary-color;
       }
-      .line_bgcolor{
+
+      .line_bgcolor {
         background: $primary-color;
       }
+
       .titleO {
         font-size: 28rpx;
         padding-left: 26rpx;
         padding-right: 26rpx;
+
         .title {
           padding: 20rpx;
         }
+
         .detail {
           margin-top: 27rpx;
           margin-bottom: 57rpx;
@@ -131,6 +159,7 @@
     }
   }
 }
+
 // 图片管理
 .picManage {
   display: flex;
@@ -139,39 +168,36 @@
   background-color: #fff;
   flex-direction: column;
   //align-items: center;
-  height: 1068rpx;
+  margin-top: -20rpx;
+  height: 1274rpx;
   border-radius: 12rpx;
+
   .sideways {
     display: flex;
-    flex-direction: row;
-    height: 114rpx;
-    justify-content: space-between;
+    height: 300rpx;
     width: 100%;
+    margin-left: 32rpx;
     border-bottom: 3rpx solid #f6f6f6;
+    flex-direction: column;
     .description {
       display: flex;
-      margin-left: 32rpx;
-      justify-content: center;
       text-align: center;
-      align-items: center;
+      margin-top: 40rpx;
     }
+
     .content {
+      margin-top: 40rpx;
       color: rgba(0, 0, 0, 0.4);
       text-align: right;
       display: flex;
       margin-right: 32rpx;
-      justify-content: center;
-      text-align: center;
-      align-items: center;
       font-size: 28rpx;
       flex-direction: row;
+      image {
+        height: 140rpx;
+        width: 140rpx;
+        margin-right: 40rpx;
+      }
     }
   }
-}
-.submitTime {
-  display: flex;
-  position: absolute;
-  margin-top: 1310rpx;
-  font-size: 24rpx;
-  color: rgba(56, 56, 56, 1);
 }
