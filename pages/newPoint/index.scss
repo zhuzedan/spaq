@@ -22,7 +22,7 @@
     position: relative;
     border-bottom: 3rpx solid #f6f6f6;
     .description {
-      width: 230rpx;
+      width: 254rpx;
       display: flex;
       margin-left: 32rpx;
       align-items: center;
@@ -31,22 +31,14 @@
       position: relative;
       color: rgba(0, 0, 0, 0.4);
       display: flex;
-      margin-left: 32rpx;
       justify-content: center;
       align-items: center;
       font-size: 28rpx;
       flex-direction: row;
-      .van-field__control {
-        border: 0;
-      }
-    }
-    .van-cell {
-      padding: 0;
     }
     .content {
       color: rgba(0, 0, 0, 0.4);
       display: flex;
-      margin-left: 32rpx;
       justify-content: center;
       text-align: center;
       align-items: center;

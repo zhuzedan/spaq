@@ -35,14 +35,14 @@ Page({
     }
   },
   onLoad() {
-    Dialog.alert({
-      message: '团队长已拒绝您的请求！',
-    })
-      .then(() => {
-        // on confirm
-      })
-      .catch(() => {
-        // on cancel
-      });
+    // Dialog.alert({
+    //   message: '团队长已拒绝您的请求！',
+    // })
+    //   .then(() => {
+    //     // on confirm
+    //   })
+    //   .catch(() => {
+    //     // on cancel
+    //   });
   }
 })
