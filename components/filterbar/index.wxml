@@ -1,23 +1,26 @@
 <view class="nav">
+  <!-- 类别 -->
   <view class="nav-item borders-right {{ twoStage ? 'active' : '' }}" bindtap="onTwoStageActive">
-    <view class="content">{{ twoStageDataLeft.label }}</view>
+    <view class="content {{ twoStage ? 'active' : '' }}">{{ selectedLabel?selectedLabel:'类别' }}</view>
     <view class="icon dropdownIcon" />
   </view>
+  <!-- 区域 -->
   <view class="nav-item borders-right {{ radio ? 'active' : '' }}" bindtap="onRadioActive">
     <view class="content">{{ radioData.label }}</view>
     <view class="icon dropdownIcon" />
   </view>
+  <!-- 排序 -->
   <view class="nav-item borders-right {{ sort ? 'active' : '' }}" bindtap="onSortActive">
-    <view class="content">{{ sortData.label }}</view>
+    <view class="content">{{ sortLabel?sortLabel:'排序' }}</view>
     <view class="icon dropdownIcon" />
   </view>
 </view>
 
 <view class="mask" hidden="{{ !(twoStage || radio || sort || multi) }}" style="top: {{ top }}" bindtap="closeFilter" />
-
+<!-- 类别 -->
 <view class="filter {{ twoStage ? 'show' : 'hide' }}">
   <view class="items left">
-    <view class="{{ twoStageSelectedLeft.value === item.value ? 'current' : '' }}" wx:for="{{ twoStageDataLeft.children }}" bindtap="onTwoStageLeft" data-group="{{ twoStageDataLeft }}" data-item="{{ item }}" wx:key="unique">{{ item.label }}</view>
+    <view class="{{ twoStageSelectedLeft.value === item.value ? 'current' : '0' }}" wx:for="{{ twoStageDataLeft.children }}" bindtap="onTwoStageLeft" data-group="{{ twoStageDataLeft }}" data-item="{{ item }}" wx:key="unique">{{ item.label }}</view>
   </view>
   <view class="items right">
     <view class="{{ twoStageSelectedRight === item.value ? 'current' : '' }}" wx:for="{{ twoStageDataRight }}" bindtap="onTwoStageRight" data-group="{{ twoStageDataLeft }}" data-item="{{ item }}" wx:key="unique">{{ item.label }}</view>
@@ -32,6 +35,7 @@
     <view class="{{ twoStageSelectedRight === item.value ? 'current' : '' }}" wx:for="{{ twoStageDataRight }}" bindtap="onTwoStageRight" data-group="{{ radioData }}" data-item="{{ item }}" wx:key="unique">{{ item.label }}</view>
   </view>
 </view>
+<!-- 排序 -->
 <view class="filter {{ sort ? 'show' : 'hide' }} ">
   <block wx:for="{{ sortData.children }}" wx:key="unique">
     <view class="item {{ sortSelected === item.value ? 'active' : '' }}" data-group="{{ sortData }}" data-item="{{ item }}" bindtap="onSort">{{ item.label }}</view>

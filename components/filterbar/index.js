@@ -136,6 +136,9 @@ Component({
           selectedArray: this.data.selectedArray
         })
       }
+      console.log(e.target.dataset.item);
+      console.log(e.target.dataset.item.label);
+      console.log(e.target.dataset.item.children);
     },
     // 二级右栏
     onTwoStageRight: function(e) {
@@ -145,7 +148,8 @@ Component({
       const selectedItemLabel = e.target.dataset.item.label
       this.closeFilter()
       this.setData({
-        twoStageSelectedRight: selectedItemValue
+        twoStageSelectedRight: selectedItemValue,
+        selectedLabel: selectedItemLabel
       })
       this.addUnique2Array(this.data.selectedArray, {
         group: {
@@ -160,6 +164,7 @@ Component({
       this.triggerEvent('confirm', {
         selectedArray: this.data.selectedArray
       })
+      console.log(selectedItemLabel);
     },
     // 单选
     onRadio: function(e) {
@@ -176,8 +181,10 @@ Component({
     onSort: function(e) {
       this.closeFilter()
       this.setData({
-        sortSelected: e.target.dataset.item.value
+        sortSelected: e.target.dataset.item.value,
+        sortLabel: e.target.dataset.item.label
       })
+      console.log(e.target.dataset.item);
       this.addUnique2Array(this.data.selectedArray, e)
       this.triggerEvent('confirm', {
         selectedArray: this.data.selectedArray

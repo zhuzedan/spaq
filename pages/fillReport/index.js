@@ -7,7 +7,7 @@ Page({
   data: {
     currentNum: 0,
     checked: true,
-    
+    editInformation: 1,
     stepList: [{
       name: '1'
     }, {
@@ -20,6 +20,11 @@ Page({
 
     stepNum: 1 //当前的步数
 
+  },
+  forEdit1() {
+    this.setData({
+      editInformation: 2
+    })
   },
   goSignature() {
     wx.navigateTo({

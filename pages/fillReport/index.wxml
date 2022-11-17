@@ -9,23 +9,27 @@
   <view class="basicInformation">
     <view class="inform">
       <view class="basicKey">单位名称</view>
-      <view class="basicValue">宁波舒活餐饮管理有限公司海曙...</view>
+      <view wx:if="{{editInformation == 1}}" class="basicValue">宁波舒活餐饮管理有限公司海曙...</view>
+      <input wx:if="{{editInformation == 2}}" class="basicValue" type="text"/>
     </view>
     <view class="inform">
       <view class="basicKey">单位地址</view>
-      <view class="basicValue">宁波市海曙区中山西路880号</view>
+      <view wx:if="{{editInformation == 1}}" class="basicValue">宁波市海曙区中山西路880号</view>
+      <input wx:if="{{editInformation == 2}}" class="basicValue" type="text"/>
     </view>
     <view class="inform">
       <view class="basicKey">单位联系人</view>
-      <view class="basicValue">-</view>
+      <view wx:if="{{editInformation == 1}}" class="basicValue">-</view>
+      <input  wx:if="{{editInformation == 2}}" class="basicValue" type="text"/>
     </view>
     <view class="inform">
       <view class="basicKey">联系人电话</view>
-      <view class="basicValue">-</view>
+      <view  wx:if="{{editInformation == 1}}" class="basicValue">-</view>
+      <input wx:if="{{editInformation == 2}}" class="basicValue" type="text"/>
     </view>
   </view>
   <view class="buttons">
-    <view class="button">编辑</view>
+    <view class="button" bindtap="forEdit1">编辑</view>
     <view class="button">确认</view>
   </view>
 </view>

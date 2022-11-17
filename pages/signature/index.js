@@ -1,4 +1,4 @@
-// pages/signature/index.js
+// pages/signature/index.jszz
 Page({
 
   /**
