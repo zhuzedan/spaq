@@ -1,10 +1,10 @@
 // app.js
 App({
   onLaunch() {
-    // 展示本地存储能力
-    const logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
+    var userInfo = wx.getStorageSync('userInfo');
+    if (userInfo) {
+      this.globalData.userInfo = userInfo;
+    }
 
     // 登录
     wx.login({
@@ -14,7 +14,12 @@ App({
     })
   },
   globalData: {
-    userInfo: null,
-    userName: null
+    userInfo: null
+  },
+  initUserInfo: function(res) {
+    // 将用户名存在所有公共部分
+    this.globalData.userInfo = res;
+    // 本地“cookie”中赋值 
+    wx.setStorageSync('userInfo', res);
   }
 })

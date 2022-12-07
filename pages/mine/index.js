@@ -6,7 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    userName: app.globalData.userName
+    userInfo: null
   },
   newPoint() {
     wx.navigateTo({
@@ -49,10 +49,9 @@ Page({
         selected: 2
       })
     }
-    var userName = wx.getStorageSync('userName');
     this.setData({
-      // userName: app.globalData.userName
-      userName: userName
+      userInfo: app.globalData.userInfo
+      // userName: userName
     })
   },
 

@@ -5,7 +5,7 @@
     <view class="person_card">
       <image src="../../assets/mine/profiles.jpg"></image>
       <view class="personal">
-        <view class="name">宁萘-{{userName}}</view>
+        <view class="name">宁萘-{{userInfo.userName}}</view>
         <view class="name" bindtap="goLogin">请登录</view>
         <view class="other">张茓宁海曙一队</view>
       </view>
