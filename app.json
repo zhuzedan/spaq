@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/login/index",
     "pages/index/index",
     "pages/mine/index",
     "pages/newPoint/index",
@@ -42,7 +43,7 @@
       "desc": "你的位置信息将用于小程序位置接口的效果展示"
     }
   },
-  "requiredPrivateInfos":[
+  "requiredPrivateInfos": [
     "getLocation"
   ]
 }
