@@ -1,5 +1,7 @@
 // pages/login/index.js
 // import request from '../../utils/request'
+// 获取公共app
+var app = getApp();
 Page({
 
   /**
@@ -60,6 +62,11 @@ Page({
       success: function(res) {
         console.log(res);
         if (res.data.code == 200) {
+          // 将用户名存在所有公共部分
+          app.globalData.userName = res.data.data.userName
+          console.log(app.globalData.userName);
+          // 本地“cookie”中赋值 
+          wx.setStorageSync('userName', res.data.data.userName);
           // 成功进入检查页
           console.log(res.data.data);
           wx.switchTab({

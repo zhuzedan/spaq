@@ -1,8 +1,8 @@
 {
   "pages": [
-    "pages/login/index",
     "pages/index/index",
     "pages/mine/index",
+    "pages/login/index",
     "pages/newPoint/index",
     "pages/basic/index",
     "pages/auditRecord/index",

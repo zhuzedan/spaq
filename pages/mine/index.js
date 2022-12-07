@@ -1,10 +1,13 @@
 // pages/mine/index.js
+var app = getApp();
 Page({
 
   /**
    * 页面的初始数据
    */
-  data: {},
+  data: {
+    userName: app.globalData.userName
+  },
   newPoint() {
     wx.navigateTo({
       url: '../newPoint/index',
@@ -18,6 +21,11 @@ Page({
   auditRecord() {
     wx.navigateTo({
       url: '../auditRecord/index',
+    })
+  },
+  goLogin() {
+    wx.navigateTo({
+      url: '../login/index',
     })
   },
   /**
@@ -41,6 +49,11 @@ Page({
         selected: 2
       })
     }
+    var userName = wx.getStorageSync('userName');
+    this.setData({
+      // userName: app.globalData.userName
+      userName: userName
+    })
   },
 
   /**
