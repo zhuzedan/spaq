@@ -1,4 +1,5 @@
 // pages/login/index.js
+// import request from '../../utils/request'
 Page({
 
   /**
@@ -6,11 +7,20 @@ Page({
    */
   data: {
     defaultType: true,
-    passwordType: true
+    passwordType: true,
+    userName: '',
+    password: ''
   },
-  gotoCheck() {
-    wx.switchTab({
-      url: '../index/index',
+  // input输入框内容双向绑定-用户名
+  bindUserName:function(e) {
+    this.setData({
+      userName: e.detail.value
+    });
+  },
+  // input输入框内容双向绑定-密码
+  bindPassword:function(e) {
+    this.setData({
+      password: e.detail.value
     })
   },
   // 显示or关闭密码
@@ -20,8 +30,56 @@ Page({
     this.setData({
       defaultType: this.data.defaultType,
       passwordType: this.data.passwordType
-  })
-
+    })
+  },
+  // 登录按钮跳转到检查页
+  login() {
+    var userName = this.data.userName
+    var password = this.data.password
+    if (userName == '') {
+      wx.showToast({
+        title: '用户名不能为空',
+        icon: 'none'
+      })
+      return;
+    }
+    if (password == '') {
+      wx.showToast({
+        title: '密码不能为空',
+        icon: 'none'
+      })
+      return;
+    }
+    wx.request({
+      url: 'http://localhost:8082/api/app-login/login',
+      data: {
+        userName: this.data.userName,
+        password: this.data.password
+      },
+      method: 'POST',
+      success: function(res) {
+        console.log(res);
+        if (res.data.code == 200) {
+          // 成功进入检查页
+          console.log(res.data.data);
+          wx.switchTab({
+            url: '../index/index',
+          })
+        }
+        else if (res.data.code == 500) {
+          wx.showToast({
+            title: '用户名或密码不正确',
+            icon: 'none'
+          })
+        }
+        else {
+          wx.showToast({
+            title: '未知错误',
+            icon: 'error'
+          })
+        }
+      }
+    })
   },
   /**
    * 生命周期函数--监听页面加载
