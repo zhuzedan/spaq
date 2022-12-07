@@ -32,25 +32,25 @@
       left: 50rpx;
       .name {
         position: relative;
-        top: -10rpx;
         font-size: 36rpx;
         color: #ffffff;
         font-weight: 500;
       }
       .other {
         position: relative;
-        top: 10rpx;
+        top: 20rpx;
+        font-size: 28rpx;
+        color: #ffffff;
+      }
+      .position {
+        position: relative;
+        left: 300rpx;
+        top: -28rpx;
         font-size: 28rpx;
         color: #ffffff;
       }
     }
-    .position {
-      position: relative;
-      top: 34rpx;
-      left: 200rpx;
-      font-size: 28rpx;
-      color: #ffffff;
-    }
+
   }
 }
 
