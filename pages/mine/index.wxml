@@ -5,7 +5,7 @@
     <view class="person_card">
       <image src="../../assets/mine/profiles.jpg"></image>
       <view class="personal"  wx:if="{{userInfo}}">
-        <view class="name">{{userInfo.userName}}</view>
+        <view class="name" bindtap="doLogout">{{userInfo.userName}}</view>
         <view class="other">张茓宁海曙一队</view>
         <view class="position">检查员</view>
       </view>

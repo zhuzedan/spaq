@@ -8,9 +8,38 @@ Page({
   data: {
     userInfo: null
   },
+  // 新增检查点
   newPoint() {
-    wx.navigateTo({
-      url: '../newPoint/index',
+    if (app.globalData.userInfo == null) {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none'
+      })
+      return;
+    } else {
+      wx.navigateTo({
+        url: '../newPoint/index',
+      })
+    }
+  },
+  // 退出登录
+  doLogout() {
+    wx.showModal({
+      title: '',
+      content: '是否确认退出登录',
+      complete: (res) => {
+        if (res.cancel) {
+          console.log('取消');
+        }
+        if (res.confirm) {
+          console.log('sure');
+          app.globalData.userInfo = null;
+          wx.removeStorageSync('userInfo');
+          this.setData({
+            userInfo: null
+          })
+        }
+      }
     })
   },
   inspectionRecord() {
