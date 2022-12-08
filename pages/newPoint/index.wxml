@@ -3,46 +3,48 @@
 <view class="container">
   <view class="sideways">
     <view class="description">单位名称</view>
-    <view class="input"><input placeholder-style="color:rgba(0, 0, 0, 0.4);" placeholder="请输入单位名称"></input></view>
+    <view class="input"><input placeholder-style="color:rgba(0, 0, 0, 0.4);" placeholder="请输入单位名称" bindinput="getName" value="{{name}}"></input></view>
   </view>
   <view class="sideways">
     <view class="description">类型</view>
     <view class="input">
-      <view class="content" value="{{ unit }}" catchtap="getUnit">{{unit}}</view>
-      <van-popup show="{{ showUnit }}" bind:close="onCloseUnit" position="bottom">
-        <van-picker loading="{{false}}" show-toolbar title="类型" columns="{{ columns }}" bind:cancel="onCancel" bind:confirm="onConfirm" />
-      </van-popup>
+      <picker bindchange="getBusinessType" bindcancel="bindCancelChange" value="{{index1}}" range="{{type}}">
+        <view class="picker">
+          {{type[index1]}}
+        </view>
+      </picker>
     </view>
   </view>
   <view class="sideways">
     <view class="description">类别</view>
     <view class="input">
-      <view class="content" value="{{ unit }}"  bindtap="showPopup">{{unit}}</view>
-      <van-popup show="{{ showUnit }}" bind:close="onCloseUnit" position="bottom">
-        <van-picker loading="{{false}}" show-toolbar title="类别" columns="{{ category }}" bind:cancel="onCancel" bind:confirm="onConfirm" />
-      </van-popup>
-    </view>
+      <picker bindchange="getCategoryCode" bindcancel="bindCancelChange" value="{{index2}}" range="{{category}}">
+        <view class="picker">
+          {{category[index2]}}
+        </view>
+      </picker>
+    </view>  
   </view>
   <view class="sideways">
     <view class="description">区域</view>
     <view class="content">
-      <picker titleText="区域" bindchange="bindPickerChange" range="{{identity}}" value="{{index}}">
-        <view class="content">{{identity[index]}}</view>
+      <picker titleText="区域" bindchange="getAreaOrgCode" range="{{area}}" value="{{index3}}">
+        <view class="content">{{area[index3]}}</view>
       </picker>
     </view>
 
   </view>
   <view class="sideways">
     <view class="description">街道</view>
-    <view class="input"><input placeholder-style="color:rgba(0, 0, 0, 0.4);" placeholder="请输入街道"></input></view>
+    <view class="input"><input placeholder-style="color:rgba(0, 0, 0, 0.4);" placeholder="请输入街道" bindinput="getStreetOrgCode"></input></view>
   </view>
   <view class="sideways">
     <view class="description">联系人</view>
-    <view class="input"><input placeholder-style="color:rgba(0, 0, 0, 0.4);" placeholder="请输入联系人"></input></view>
+    <view class="input"><input placeholder-style="color:rgba(0, 0, 0, 0.4);" placeholder="请输入联系人" bindinput="getConnectName"></input></view>
   </view>
   <view class="sideways">
     <view class="description">联系人电话</view>
-    <view class="input"><input type='number' placeholder-style="color:rgba(0, 0, 0, 0.4);" placeholder="请输入联系人电话"></input></view>
+    <view class="input"><input type='number' placeholder-style="color:rgba(0, 0, 0, 0.4);" placeholder="请输入联系人电话" bindinput="getConnectTel"></input></view>
   </view>
   <view class="sideways">
     <view class="description" bindtap="getLocation">地理位置</view>
@@ -52,7 +54,7 @@
     </view>
   </view>
 </view>
-<view class="button">确定</view>
+<view class="button" bindtap="submit">确定</view>
 <view>
 
 </view>
