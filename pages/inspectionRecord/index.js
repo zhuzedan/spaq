@@ -7,6 +7,7 @@ Page({
    */
   data: {
     dataList: [],
+    currentPage: 1,
     page: 0,
     option1: [
       { text: '月份', value: 0 },
@@ -42,33 +43,44 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    this.getAllData();
+ 
+  },
+  getAllData() {
     var that = this;
     var page = this.data.page + 1;
+    var currentPage = this.data.currentPage;
     this.setData({
       page
     })
     wx.request({
       url: app.globalData.url+'/api/app-my/queryReportFormPage?userId='+app.globalData.getUserInfo.userId+
-        '&current='+page+'&pageSize=10',
+        '&current='+this.data.currentPage+'&pageSize=10',
       header: {
         "Authorization": "Bearer " + app.globalData.userInfo.token
       },
       method: 'POST',
       success: function (res) {
-        console.log(res.data.data.data);
+        console.log(res.data.data);
         // for(var i = 0;i<res.data.data.data.length;i++) {
         //   console.log(res.data.data.data[i]);
         //   res.data.data.data[i]["gtmCreate"] = time.toDate(res.data.data.data[i]["gtmCreate"])
         // }
         if (res.data.code == 200) {
-          that.setData({
-            dataList: res.data.data.data
-          })
+          if (currentPage == 1) {
+            that.setData({
+              dataList: res.data.data.data
+            })
+          }else {
+            that.setData({
+              dataList: dataList.concat(res.data.data.data)
+            })
+          }
+          
         } 
       }
     })
   },
-
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -101,14 +113,16 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh() {
-
+    this.data.currentPage = 1;
+    this.getAllData()
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom() {
-
+    this.data.currentPage ++;
+    this.getAllData()
   },
 
   /**

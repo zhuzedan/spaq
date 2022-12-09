@@ -1,9 +1,10 @@
-const app = getApp()
-import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog';
-
+var app = getApp();
 Page({
   data: {
+    pageIndex: 1,         //列表初始页
+    list: [],            //存放所有数据
     currentIndex: 0, //默认第一个
+    totalCount: 1
   },
   fillReport() {
     wx.navigateTo({
@@ -28,6 +29,72 @@ Page({
       }
     })
   },
+  // 初始加载数据
+  loadInitData() {
+    var that = this;
+    var pageIndex = 1;
+    var msg = '加载第'+ pageIndex +'页数据';
+    // wx.showLoading({
+    //   title: msg,
+    // })
+    wx.request({
+      url: app.globalData.url+'/api/app-check/queryCheckPointPage',
+      header: {
+        "Authorization": "Bearer " + app.globalData.userInfo.token
+      },
+      data : {
+        current: this.data.pageIndex,
+        pageSize: 10
+      },
+      method: 'GET',
+      success: function (res) {
+        if (res.data.code == 200){
+          console.log(res);
+          that.setData({
+            pageIndex: pageIndex,
+            list: res.data.data.data,
+            totalCount: res.data.data.totalCount
+          })
+        } else {
+          wx.showToast({
+            title: '系统发生错误',
+          })
+        }
+      }
+    })
+  },
+  loadMore() {
+    let that = this,
+    pageIndex = that.data.pageIndex;
+    pageIndex += 1;
+    wx.request({
+      url: app.globalData.url+'/api/app-check/queryCheckPointPage',
+      header: {
+        "Authorization": "Bearer " + app.globalData.userInfo.token
+      },
+      data : {
+        current: this.data.pageIndex,
+        pageSize: 10
+      },
+      method: 'GET',
+      success: function (res) {
+        if (res.data.code == 200){
+          console.log(res);
+          let data = res.data.data;
+          let originList = that.data.list;
+          let newList = originList.concat(data)
+          that.setData({
+            pageIndex: pageIndex,
+            list: newList
+          })
+        } else {
+          wx.showToast({
+            title: '系统发生错误',
+          })
+        }
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面显示
    */
@@ -40,6 +107,7 @@ Page({
     }
   },
   onLoad() {
+    this.loadInitData()
     // Dialog.alert({
     //   message: '团队长已拒绝您的请求！',
     // })
@@ -49,5 +117,30 @@ Page({
     //   .catch(() => {
     //     // on cancel
     //   });
+  },
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+    var that = this
+    that.loadInitData()
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+    let that= this,
+        pageIndex = that.data.pageIndex,
+        pageCount = that.data.totalCount;
+    //当页面小于总页数时加载下页面
+    if(pageIndex < pageCount){
+      that.loadMore()
+    }else{
+      wx.showToast({
+        title: '没有更多数据了',
+        icon: 'none'
+      })
+    }
   }
 })

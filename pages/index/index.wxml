@@ -12,47 +12,14 @@
   </view>
   <!-- 内容布局 -->
   <view class='swiperTtemBox'>
-    <view class="card">
-      <view class="title">慈溪市逍林多佑食品店</view>
-      <view class="area">慈溪市-逍林镇</view>
-      <view class="location">水云浦水云路27号</view>
+    <view class="card" wx:for="{{list}}" wx:key="key">
+      <view class="title">{{item.name}}</view>
+      <view class="area">{{item.areaOrgCode}}</view>
+      <view class="location">{{item.streetOrgCode}}</view>
       <view class="checkNum">已检查2次</view>
       <view class="buttons">
         <view class="button" bindtap="getLocation">导航</view>
         <view class="button" bindtap="fillReport">填报</view>
-      </view>
-      <view class="distance">距离1.6km</view>
-    </view>
-    <view class="card">
-      <view class="title">慈溪市逍林多佑食品店</view>
-      <view class="area">慈溪市-逍林镇</view>
-      <view class="location">水云浦水云路27号</view>
-      <view class="checkNum">已检查2次</view>
-      <view class="buttons">
-        <view class="button">导航</view>
-        <view class="button">填报</view>
-      </view>
-      <view class="distance">距离1.6km</view>
-    </view>
-    <view class="card">
-      <view class="title">慈溪市逍林多佑食品店</view>
-      <view class="area">慈溪市-逍林镇</view>
-      <view class="location">水云浦水云路27号</view>
-      <view class="checkNum">已检查2次</view>
-      <view class="buttons">
-        <view class="button">导航</view>
-        <view class="button">填报</view>
-      </view>
-      <view class="distance">距离1.6km</view>
-    </view>
-    <view class="card">
-      <view class="title">慈溪市逍林多佑食品店</view>
-      <view class="area">慈溪市-逍林镇</view>
-      <view class="location">水云浦水云路27号</view>
-      <view class="checkNum">已检查2次</view>
-      <view class="buttons">
-        <view class="button">导航</view>
-        <view class="button">填报</view>
       </view>
       <view class="distance">距离1.6km</view>
     </view>
