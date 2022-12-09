@@ -14,12 +14,14 @@ App({
     })
   },
   globalData: {
-    userInfo: null
+    userInfo: null,
+    url: 'http://localhost:8082',
+    getUserInfo: null
   },
   initUserInfo: function(res) {
     // 将用户名存在所有公共部分
     this.globalData.userInfo = res;
     // 本地“cookie”中赋值 
     wx.setStorageSync('userInfo', res);
-  }
+  },
 })

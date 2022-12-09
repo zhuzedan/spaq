@@ -1,10 +1,13 @@
-
+var app = getApp();
+// var time = require('../../utils/time.js')
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    dataList: [],
+    page: 0,
     option1: [
       { text: '月份', value: 0 },
       { text: '新款商品', value: 1 },
@@ -39,7 +42,31 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-
+    var that = this;
+    var page = this.data.page + 1;
+    this.setData({
+      page
+    })
+    wx.request({
+      url: app.globalData.url+'/api/app-my/queryReportFormPage?userId='+app.globalData.getUserInfo.userId+
+        '&current='+page+'&pageSize=10',
+      header: {
+        "Authorization": "Bearer " + app.globalData.userInfo.token
+      },
+      method: 'POST',
+      success: function (res) {
+        console.log(res.data.data.data);
+        // for(var i = 0;i<res.data.data.data.length;i++) {
+        //   console.log(res.data.data.data[i]);
+        //   res.data.data.data[i]["gtmCreate"] = time.toDate(res.data.data.data[i]["gtmCreate"])
+        // }
+        if (res.data.code == 200) {
+          that.setData({
+            dataList: res.data.data.data
+          })
+        } 
+      }
+    })
   },
 
   /**

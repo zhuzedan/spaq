@@ -42,10 +42,19 @@ Page({
       }
     })
   },
+  // 检查记录
   inspectionRecord() {
-    wx.navigateTo({
-      url: '../inspectionRecord/index',
-    })
+    if (app.globalData.userInfo == null) {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none'
+      })
+      return;
+    } else {
+      wx.navigateTo({
+        url: '../inspectionRecord/index',
+      })
+    }
   },
   auditRecord() {
     wx.navigateTo({

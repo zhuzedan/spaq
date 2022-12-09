@@ -154,7 +154,7 @@ Page({
       header: {
         "Authorization": "Bearer " + app.globalData.userInfo.token
       },
-      url: 'http://localhost:8082/api/app-my/insertCheckPoint',
+      url: app.globalData.url+'/api/app-my/insertCheckPoint',
       data: {
         name: this.data.name,
         connectName: this.data.connectName,

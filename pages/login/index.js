@@ -53,18 +53,30 @@ Page({
       return;
     }
     wx.request({
-      url: 'http://localhost:8082/api/app-login/login',
+      url: app.globalData.url+'/api/app-login/login',
       data: {
         userName: this.data.userName,
         password: this.data.password
       },
       method: 'POST',
       success: function(res) {
-        console.log(res);
+        // console.log(res);
         if (res.data.code == 200) {
           // 初始化用户信息
           app.initUserInfo(res.data.data);
-          
+          // 获取当前登录用户
+          wx.request({
+            url: app.globalData.url+'/api/base/getUserInfo',
+            header: {
+              "Authorization": "Bearer " + app.globalData.userInfo.token
+            },
+            method: 'GET',
+            success: function (res) {
+              console.log(res.data.data);
+              app.globalData.getUserInfo =  res.data.data
+              console.log(app.globalData.getUserInfo);
+            }
+          })
           // 成功进入检查页
           console.log(res.data.data);
           wx.switchTab({
