@@ -1,5 +1,5 @@
 var app = getApp();
-// var time = require('../../utils/time.js')
+var times = require('../../utils/times.js')
 Page({
 
   /**
@@ -44,7 +44,6 @@ Page({
    */
   onLoad(options) {
     this.getAllData();
- 
   },
   getAllData() {
     var that = this;
@@ -61,11 +60,11 @@ Page({
       },
       method: 'POST',
       success: function (res) {
-        console.log(res.data.data);
-        // for(var i = 0;i<res.data.data.data.length;i++) {
-        //   console.log(res.data.data.data[i]);
-        //   res.data.data.data[i]["gtmCreate"] = time.toDate(res.data.data.data[i]["gtmCreate"])
-        // }
+        console.log(res.data.data.data);
+        var dataArray = res.data.data.data
+        for(var i = 0;i<dataArray.length;i++) {
+          dataArray[i]["gmtCreate"] = times.toDate(dataArray[i]["gmtCreate"])
+        }
         if (res.data.code == 200) {
           if (currentPage == 1) {
             that.setData({

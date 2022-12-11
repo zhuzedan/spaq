@@ -107,7 +107,14 @@ Page({
     }
   },
   onLoad() {
-    this.loadInitData()
+    if (app.globalData.userInfo == null) {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none'
+      })
+    } else {
+      this.loadInitData()
+    }
     // Dialog.alert({
     //   message: '团队长已拒绝您的请求！',
     // })

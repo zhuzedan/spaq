@@ -23,7 +23,7 @@
       </view>
       <view class="distance">距离1.6km</view>
     </view>
-    <view class="card">
+    <!-- <view class="card">
       <view class="title">慈溪市逍林多佑食品店</view>
       <view class="area">慈溪市-逍林镇</view>
       <view class="location">水云浦水云路27号</view>
@@ -33,7 +33,7 @@
         <view class="button">填报</view>
       </view>
       <view class="distance">距离1.6km</view>
-    </view>
+    </view> -->
   </view>
   <view class="container">
     <van-dialog id="van-dialog" confirm-button-color="#3161FF" />
