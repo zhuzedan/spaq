@@ -9,23 +9,23 @@
   <view class="basicInformation">
     <view class="inform">
       <view class="basicKey">单位名称</view>
-      <view wx:if="{{editInformation == 1}}" class="basicValue">宁波舒活餐饮管理有限公司海曙...</view>
-      <input wx:if="{{editInformation == 2}}" class="basicValue" type="text"/>
+      <view wx:if="{{editInformation == 1}}" class="basicValue">{{info.name}}</view>
+      <input wx:if="{{editInformation == 2}}" class="basicValue" type="text" placeholder="{{info.name}}"/>
     </view>
     <view class="inform">
       <view class="basicKey">单位地址</view>
-      <view wx:if="{{editInformation == 1}}" class="basicValue">宁波市海曙区中山西路880号</view>
-      <input wx:if="{{editInformation == 2}}" class="basicValue" type="text"/>
+      <view wx:if="{{editInformation == 1}}" class="basicValue">{{info.address}}</view>
+      <input wx:if="{{editInformation == 2}}" class="basicValue" type="text" placeholder="{{info.address}}"/>
     </view>
     <view class="inform">
       <view class="basicKey">单位联系人</view>
-      <view wx:if="{{editInformation == 1}}" class="basicValue">-</view>
-      <input  wx:if="{{editInformation == 2}}" class="basicValue" type="text"/>
+      <view wx:if="{{editInformation == 1}}" class="basicValue">{{info.connectName}}</view>
+      <input  wx:if="{{editInformation == 2}}" class="basicValue" type="text" placeholder="{{info.connectName}}"/>
     </view>
     <view class="inform">
       <view class="basicKey">联系人电话</view>
-      <view  wx:if="{{editInformation == 1}}" class="basicValue">-</view>
-      <input wx:if="{{editInformation == 2}}" class="basicValue" type="text"/>
+      <view  wx:if="{{editInformation == 1}}" class="basicValue">{{info.connectTel}}</view>
+      <input wx:if="{{editInformation == 2}}" class="basicValue" type="text" placeholder="{{info.connectTel}}"/>
     </view>
   </view>
   <view class="buttons">

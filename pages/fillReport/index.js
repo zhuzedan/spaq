@@ -1,10 +1,12 @@
 // pages/fillReport/index.js
+var app = getApp();
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    info: '',
     currentNum: 0,
     checked: true,
     editInformation: 1,
@@ -50,7 +52,28 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-
+    // console.log(options);
+    var that = this;
+    wx.request({
+      url: app.globalData.url+'/api/app-check/queryCheckPointOne',
+      data: {
+        checkPointId: options.checkPointId
+      },
+      header: {
+        "Authorization": "Bearer " + app.globalData.userInfo.token
+      },
+      method: 'GET',
+      success: function (res) {
+        // console.log(res.data.data);
+        that.setData({
+          info: res.data.data
+        })
+        // console.log(that.data.info);
+      },
+      fail: function (error) {
+        console.log(error);
+      }
+    })
   },
 
   /**

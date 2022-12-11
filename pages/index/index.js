@@ -6,11 +6,11 @@ Page({
     currentIndex: 0, //默认第一个
     totalCount: 1
   },
-  fillReport() {
-    wx.navigateTo({
-      url: '../fillReport/index',
-    })
-  },
+  // fillReport() {
+  //   wx.navigateTo({
+  //     url: '../fillReport/index',
+  //   })
+  // },
   getLocation(e) {
     var that = this,
     address = e.currentTarget.dataset.address;

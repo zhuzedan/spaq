@@ -19,7 +19,9 @@
       <view class="checkNum">已检查2次</view>
       <view class="buttons">
         <view class="button" bindtap="getLocation">导航</view>
-        <view class="button" bindtap="fillReport">填报</view>
+        <navigator url='../fillReport/index?checkPointId={{item.id}}'>
+          <view class="button">填报</view>         
+        </navigator>
       </view>
       <view class="distance">距离1.6km</view>
     </view>
