@@ -62,11 +62,28 @@ Page({
   },
   // 上传图片
   uploadFile: function (e) {
-    // console.log(this.data.imageList);
+    console.log(this.data.imageList);
     for(var index in this.data.imageList) {
       // var filePath = this.data.imageList[index];
       console.log(this.data.imageList[index]);
-    }                                                                                                                                                                                                                       
+      wx.showLoading({
+        title: '上传中',
+      })
+      wx.uploadFile({
+        filePath: this.data.imageList[index],
+        name: 'file',
+        url: app.globalData.url+'/api/app-check/uploadPic',
+        header: {
+          "Authorization": "Bearer " + app.globalData.userInfo.token
+        },
+        success: function (res) {
+          console.log(res.data);
+          setTimeout(function () {
+            wx.hideLoading()
+          } , 2000);
+        }
+      })
+    }
   },
   // 删除图片
   deleteImg: function (e) {
