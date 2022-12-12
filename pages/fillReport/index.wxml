@@ -83,10 +83,23 @@
   </view>
 </view>
 <view wx:if="{{currentNum==2}}">
+  <!-- <view class='pic' wx:for="{{imageList}}" wx:for-item="item" wx:key="*this">
+      <image class='weui-uploader__img ' src="{{item}}" data-index="{{index}}" mode="aspectFill" bindtap="previewImg">
+        <icon type='cancel' class="delete-btn" data-index="{{index}}" catchtap="deleteImg"></icon>
+      </image>
+    </view> -->
   <view class="picManage">
-    <view class="sideways">
+    <view class="sideways {{imageList.length != 0 ? 'active' : ''}}">
       <view class="description">门头照片</view>
-      <view class="content">请选择照片</view>
+      <view bindtap="uploadFile">上传到oss</view>
+      <view class="content" wx:if="{{imageList.length == 0}}" bindtap="upLoadImage">请选择照片</view>
+      <view class="photoStyle" wx:for="{{imageList}}" wx:for-item="item" wx:key="*this">
+        <image src="{{item}}" data-index="{{index}}" mode="aspectFill" bindtap="previewImg">
+          <icon type='cancel' class="delete-btn" data-index="{{index}}" catchtap="deleteImg"></icon>
+        </image>
+      </view>
+      <view class="uploadPic" bindtap="upLoadImage" wx:if="{{imageList.length != 0}}">继续上传</view>
+
     </view>
     <view class="sideways">
       <view class="description">食品经营许可证</view>

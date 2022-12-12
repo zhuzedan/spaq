@@ -6,6 +6,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    imageList: [],
+    state: '',
     info: '',
     currentNum: 0,
     checked: true,
@@ -26,6 +28,66 @@ Page({
   forEdit1() {
     this.setData({
       editInformation: 2
+    })
+  },
+  // 门头照片选择
+  upLoadImage: function(e){
+    var that = this;
+    wx.chooseMedia({
+      camera: 'back',
+      count: 9,
+      mediaType: ['image'],
+      sizeType: ['original', 'compressed']	,
+      sourceType: ['album', 'camera'],
+      success: function (res) {
+        // console.log(res.tempFiles);
+        var imageList = that.data.imageList;
+        var tempFiles = res.tempFiles;
+        for(var i = 0;i<tempFiles.length;i++) {
+          if (tempFiles.length >=9) {
+            that.setData({
+              imageList: imageList
+            });
+            return false;
+          }else {
+            imageList.push(tempFiles[i].tempFilePath)
+          }
+        }
+        console.log(imageList);
+        that.setData({
+          imageList: imageList
+        });
+      },
+    })
+  },
+  // 上传图片
+  uploadFile: function (e) {
+    // console.log(this.data.imageList);
+    for(var index in this.data.imageList) {
+      // var filePath = this.data.imageList[index];
+      console.log(this.data.imageList[index]);
+    }                                                                                                                                                                                                                       
+  },
+  // 删除图片
+  deleteImg: function (e) {
+    var imageList = this.data.imageList;
+    var index = e.currentTarget.dataset.index;
+    imageList.splice(index, 1);
+    this.setData({
+      imageList: imageList
+    });
+  },
+  // 预览图片
+  previewImg: function (e) {
+    //获取当前图片的下标
+    var index = e.currentTarget.dataset.index;
+    //所有图片
+    var imageList = this.data.imageList;
+    wx.previewImage({
+      //当前显示图片
+      current: imageList[index],
+      //所有图片
+      urls: imageList
     })
   },
   goSignature() {

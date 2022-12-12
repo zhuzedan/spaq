@@ -167,4 +167,49 @@
       flex-direction: row;
     }
   }
+  .active {
+    display: flex;
+    height: 300rpx;
+    width: 100%;
+    flex-direction: row;
+    border-bottom: 3rpx solid #f6f6f6;
+    .description {
+      display: flex;
+      position: absolute;
+      margin-top: 20rpx;
+    }
+    .content {
+      margin-top: 40rpx;
+      color: #E5E5E5;
+      text-align: right;
+      display: flex;
+      margin-right: 32rpx;
+      font-size: 28rpx;
+      flex-direction: row;
+    }
+    .photoStyle {
+      position: relative;
+      margin-top: 70rpx;
+      float: left;
+      image {
+        height: 170rpx;
+        width: 170rpx;
+        margin-left: 20rpx;
+        margin-right: 20rpx;
+        .delete-btn {
+          position: absolute;
+          top: -20rpx;
+          right: 0;
+        }
+      }
+    }
+    .uploadPic {
+      display: flex;
+      position: absolute;
+      margin-top: 20rpx;
+      color: rgba(0, 0, 0, 0.4);
+      font-size: 28rpx;
+      margin-left: 550rpx;
+    }
+  }
 }
