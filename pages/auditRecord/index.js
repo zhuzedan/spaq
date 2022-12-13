@@ -65,9 +65,12 @@ Page({
     value3: 'd',
     value4: 'e'
   },
-  getDetail() {
+  getDetail(e) {
+    // console.log(e);
+    // console.log(e.currentTarget.dataset.checkpersonid);
+    var checkPersonId = e.currentTarget.dataset.checkpersonid
     wx.navigateTo({
-      url: '../auditDetail/index',
+      url: '../auditDetail/index?checkPersonId='+checkPersonId,
     })
   },
   getModify() {

@@ -1,18 +1,50 @@
 // pages/auditDetail/index.js
+var app = getApp();
+var times = require('../../utils/times.js')
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    info: ''
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-
+    console.log(options);
+    var that = this;
+    wx.request({
+      url: app.globalData.url+'/api/app-my/queryCheckPointExamineOne',
+      data: {
+        checkPersonId: options.checkPersonId
+      },
+      header: {
+        "Authorization": "Bearer " + app.globalData.userInfo.token
+      },
+      method: 'GET',
+      success: function (res) {
+        console.log(res.data.data);
+        // 时间戳格式转换
+        res.data.data.gmtCreate = times.toDate(res.data.data.gmtCreate)
+        // 审核状态
+        if (res.data.data.examineResult == 0) {
+          res.data.data.examineResult = '待审核'
+        } else if (res.data.data.examineResult == 1) {
+          res.data.data.examineResult = '待审核'
+        } else if (res.data.data.examineResult == 2) {
+          res.data.data.examineResult = '待审核'
+        }
+        that.setData({
+          info: res.data.data
+        })
+      },
+      fail: function (error) {
+        console.log(error);
+      }
+    })
   },
 
   /**

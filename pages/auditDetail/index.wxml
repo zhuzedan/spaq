@@ -2,15 +2,15 @@
 <view class="card">
   <view class="sideways">
     <view class="description">单位名称</view>
-    <view class="content">宁波海曙唐荟烘琣店</view>
+    <view class="content">{{info.address}}</view>
   </view>
   <view class="sideways">
     <view class="description">类型</view>
-    <view class="content">商业</view>
+    <view class="content">{{info.businessType == 0 ? '公益' : '商业'}}</view>
   </view>
   <view class="sideways">
     <view class="description">类别</view>
-    <view class="content">餐饮企业</view>
+    <view class="content">{{info.categoryName}}</view>
   </view>
   <view class="sideways">
     <view class="description">区域</view>
@@ -22,11 +22,11 @@
   </view>
   <view class="sideways">
     <view class="description">联系人</view>
-    <view class="content">张三</view>
+    <view class="content">{{info.connectName}}</view>
   </view>
   <view class="sideways">
     <view class="description">联系人电话</view>
-    <view class="content">13113137139</view>
+    <view class="content">{{info.connectTel}}</view>
   </view>
   <view class="sideways">
     <view class="description">地理位置</view>
@@ -37,10 +37,10 @@
   </view>
   <view class="sideways" style="border-bottom: 0rpx;">
     <view class="description">审核状态</view>
-    <view class="content" style="font-size: 40rpx; color: rgba(68, 177, 129, 1); font-weight: bold; position: absolute; margin-left: 500rpx;margin-top: 30rpx;">通过</view>
+    <view class="content" style="font-size: 40rpx; ; font-weight: bold; position: absolute; margin-left: 500rpx;margin-top: 30rpx;">{{info.examineResult}}</view>
   </view>
 </view>
 <view class="submitTime">
   <view class="time">提交时间</view>
-  <view class="subtime" style="margin-left: 20rpx;">2022-08-29 20:20</view>
+  <view class="subtime" style="margin-left: 20rpx;">{{info.gmtCreate}}</view>
 </view>
