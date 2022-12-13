@@ -43,6 +43,7 @@ Page({
         // console.log(res.tempFiles);
         var imageList = that.data.imageList;
         var tempFiles = res.tempFiles;
+        // imageList数组的值为小程序图片本地缓存的地址
         for(var i = 0;i<tempFiles.length;i++) {
           if (tempFiles.length >=9) {
             that.setData({
@@ -57,20 +58,21 @@ Page({
         that.setData({
           imageList: imageList
         });
+        that.uploadFile();
       },
     })
   },
   // 上传图片
   uploadFile: function (e) {
-    console.log(this.data.imageList);
-    for(var index in this.data.imageList) {
+    // console.log(this.data.imageList);
+    for(var i = 0;i<this.data.imageList.length;i++) {
       // var filePath = this.data.imageList[index];
-      console.log(this.data.imageList[index]);
+      console.log(this.data.imageList[i]);
       wx.showLoading({
         title: '上传中',
       })
       wx.uploadFile({
-        filePath: this.data.imageList[index],
+        filePath: this.data.imageList[i],
         name: 'file',
         url: app.globalData.url+'/api/app-check/uploadPic',
         header: {
@@ -133,6 +135,7 @@ Page({
   onLoad(options) {
     // console.log(options);
     var that = this;
+    // 查询单个详情
     wx.request({
       url: app.globalData.url+'/api/app-check/queryCheckPointOne',
       data: {
@@ -143,14 +146,31 @@ Page({
       },
       method: 'GET',
       success: function (res) {
-        // console.log(res.data.data);
+        console.log(res.data.data);
         that.setData({
           info: res.data.data
         })
         // console.log(that.data.info);
+        // console.log(that.data.info.categoryCode);
+        // console.log(that.data.info.streetOrgCode);
       },
       fail: function (error) {
         console.log(error);
+      }
+    })
+    // 查询所需检查点类型
+    wx.request({
+      url: app.globalData.url+'/api/app-check/queryCheckPhotoList',
+      data: {
+        categoryCode: options.categoryCode,
+        orgCode: options.streetOrgCode
+      },
+      header: {
+        "Authorization": "Bearer " + app.globalData.userInfo.token
+      },
+      method: 'GET',
+      success: function (res) {
+        console.log(res.data);
       }
     })
   },

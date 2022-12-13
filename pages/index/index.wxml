@@ -18,8 +18,8 @@
       <view class="location">{{item.streetOrgCode}}</view>
       <view class="checkNum">已检查2次</view>
       <view class="buttons">
-        <view class="button" bindtap="getLocation">导航</view>
-        <navigator url='../fillReport/index?checkPointId={{item.id}}'>
+        <view class="button" bindtap="getLocation">导航{{item.id}}</view>
+        <navigator url='../fillReport/index?checkPointId={{item.id}}&categoryCode={{item.categoryCode}}&streetOrgCode={{item.streetOrgCode}}'>
           <view class="button">填报</view>         
         </navigator>
       </view>

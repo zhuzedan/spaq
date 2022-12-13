@@ -6,7 +6,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    userInfo: null
+    userInfo: null,
+    realName: ''
   },
   // 新增检查点
   newPoint() {
@@ -69,7 +70,14 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad(options) {},
+  onLoad(options) {
+    if (app.globalData.userInfo != null) {
+      console.log(app.globalData.getUserInfo.realName);
+      this.setData({
+        realName: app.globalData.getUserInfo.realName
+      })
+    }
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

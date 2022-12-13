@@ -91,7 +91,6 @@
   <view class="picManage">
     <view class="sideways {{imageList.length != 0 ? 'active' : ''}}">
       <view class="description">门头照片</view>
-      <view bindtap="uploadFile">上传到oss</view>
       <view class="content" wx:if="{{imageList.length == 0}}" bindtap="upLoadImage">请选择照片</view>
       <view class="photoStyle" wx:for="{{imageList}}" wx:for-item="item" wx:key="*this">
         <image src="{{item}}" data-index="{{index}}" mode="aspectFill" bindtap="previewImg">
