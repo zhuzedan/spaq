@@ -6,11 +6,6 @@ Page({
     currentIndex: 0, //默认第一个
     totalCount: 1
   },
-  // fillReport() {
-  //   wx.navigateTo({
-  //     url: '../fillReport/index',
-  //   })
-  // },
   getLocation(e) {
     var that = this,
     address = e.currentTarget.dataset.address;
@@ -32,11 +27,6 @@ Page({
   // 初始加载数据
   loadInitData() {
     var that = this;
-    var pageIndex = 1;
-    var msg = '加载第'+ pageIndex +'页数据';
-    // wx.showLoading({
-    //   title: msg,
-    // })
     wx.request({
       url: app.globalData.url+'/api/app-check/queryCheckPointPage',
       header: {
@@ -44,48 +34,15 @@ Page({
       },
       data : {
         current: this.data.pageIndex,
-        pageSize: 10
+        pageSize: 5
       },
       method: 'GET',
       success: function (res) {
         if (res.data.code == 200){
           console.log(res);
           that.setData({
-            pageIndex: pageIndex,
             list: res.data.data.data,
             totalCount: res.data.data.totalCount
-          })
-        } else {
-          wx.showToast({
-            title: '系统发生错误',
-          })
-        }
-      }
-    })
-  },
-  loadMore() {
-    let that = this,
-    pageIndex = that.data.pageIndex;
-    pageIndex += 1;
-    wx.request({
-      url: app.globalData.url+'/api/app-check/queryCheckPointPage',
-      header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token
-      },
-      data : {
-        current: this.data.pageIndex,
-        pageSize: 10
-      },
-      method: 'GET',
-      success: function (res) {
-        if (res.data.code == 200){
-          console.log(res);
-          let data = res.data.data;
-          let originList = that.data.list;
-          let newList = originList.concat(data)
-          that.setData({
-            pageIndex: pageIndex,
-            list: newList
           })
         } else {
           wx.showToast({
@@ -129,25 +86,39 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-    var that = this
-    that.loadInitData()
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-    let that= this,
-        pageIndex = that.data.pageIndex,
-        pageCount = that.data.totalCount;
-    //当页面小于总页数时加载下页面
-    if(pageIndex < pageCount){
-      that.loadMore()
-    }else{
-      wx.showToast({
-        title: '没有更多数据了',
-        icon: 'none'
-      })
-    }
+    var that = this;
+    this.data.pageIndex++;
+    console.log('加载更多数据',this.data.pageIndex);
+    wx.request({
+      url: app.globalData.url+'/api/app-check/queryCheckPointPage',
+      header: {
+        "Authorization": "Bearer " + app.globalData.userInfo.token
+      },
+      data : {
+        current: this.data.pageIndex,
+        pageSize: 5
+      },
+      method: 'GET',
+      success: function (res) {
+        console.log(res.data.data.data);
+        if (res.data.code == 200 & res.data.data.data.length != 0){
+          // console.log(res);
+          that.setData({
+            list: that.data.list.concat(res.data.data.data),
+          })
+        } else {
+          wx.showToast({
+            title: '没有更多数据',
+            icon: 'none'
+          })
+        }
+      }
+    })
   }
 })
