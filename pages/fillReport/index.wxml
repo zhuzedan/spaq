@@ -83,13 +83,8 @@
   </view>
 </view>
 <view wx:if="{{currentNum==2}}">
-  <!-- <view class='pic' wx:for="{{imageList}}" wx:for-item="item" wx:key="*this">
-      <image class='weui-uploader__img ' src="{{item}}" data-index="{{index}}" mode="aspectFill" bindtap="previewImg">
-        <icon type='cancel' class="delete-btn" data-index="{{index}}" catchtap="deleteImg"></icon>
-      </image>
-    </view> -->
-  <view class="picManage">
-    <view class="sideways {{imageList.length != 0 ? 'active' : ''}}">
+  <scroll-view scroll-y="true" class="picManage">
+    <!-- <view class="sideways {{imageList.length != 0 ? 'active' : ''}}">
       <view class="description">门头照片</view>
       <view class="content" wx:if="{{imageList.length == 0}}" bindtap="upLoadImage">请选择照片</view>
       <view class="photoStyle" wx:for="{{imageList}}" wx:for-item="item" wx:key="*this">
@@ -97,20 +92,15 @@
           <icon type='cancel' class="delete-btn" data-index="{{index}}" catchtap="deleteImg"></icon>
         </image>
       </view>
-      <view class="uploadPic" bindtap="upLoadImage" wx:if="{{imageList.length != 0}}">继续上传</view>
-
-    </view>
-    <view class="sideways">
-      <view class="description">食品经营许可证</view>
-      <view class="content">请选择照片</view>
-    </view>
-    <view class="sideways">
-      <view class="description">健康证</view>
-      <view class="content">-</view>
-    </view>
-    <view class="sideways">
-      <view class="description">就餐环境</view>
-      <view class="content">请选择照片</view>
+      <view class="uploadPic" bindtap="upLoadImage" data-photoId="{{item.id}}" data-photoTypeName="{{item.photoTypeName}}" wx:if="{{imageList.length != 0}}">继续上传</view>
+    </view> -->
+    <view class="sideways {{imageList.length != 0 ? 'active' : ''}}" wx:for="{{checkPhotoList}}" wx:key="key">
+      <view class="description">{{item.photoTypeName}}</view>
+      <view class="content" wx:if="{{imageList.length == 0}}" bindtap="upLoadImage" data-photoId="{{item.id}}" data-photoTypeName="{{item.photoTypeName}}">请选择照片</view>
+      <view class="photoStyle" wx:for="{{imageList}}" wx:for-item="item" wx:key="*this">
+        <image src="{{item}}" data-index="{{index}}" mode="aspectFill" bindtap="previewImg"></image>
+      </view>
+      <view class="uploadPic" bindtap="upLoadImage" data-photoId="{{item.id}}" data-photoTypeName="{{item.photoTypeName}}" wx:if="{{imageList.length != 0}}">继续上传</view>
     </view>
     <view class="sideways">
       <view class="description">厨房环境</view>
@@ -137,7 +127,7 @@
       <view class="description">问题图片</view>
       <view class="content">请选择照片</view>
     </view>
-  </view>
+  </scroll-view>
 
   <view class="buttons" style="margin-top: 44rpx;">
     <view class="button">上一步</view>

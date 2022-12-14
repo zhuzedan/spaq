@@ -6,7 +6,17 @@ Page({
    * 页面的初始数据
    */
   data: {
+    // 本地图片缓存链接
     imageList: [],
+    // oss链接
+    imageListUrl: [],
+    photoId: [],
+    photoTypeName: [],
+    photoid:'',
+    phototypename: '',
+    sort: 0,
+    // 表单类型与名称
+    checkPhotoList: '',
     state: '',
     info: '',
     currentNum: 0,
@@ -32,12 +42,21 @@ Page({
   },
   // 门头照片选择
   upLoadImage: function(e){
+    console.log(e.currentTarget.dataset);
+    console.log(e.currentTarget.dataset.photoid)
+    console.log(e.currentTarget.dataset.phototypename);
+    var photoId = e.currentTarget.dataset.photoid;
+    var photoTypeName = e.currentTarget.dataset.phototypename;
+    this.setData({
+      photoid: photoId,
+      phototypename: photoTypeName
+    })
     var that = this;
     wx.chooseMedia({
       camera: 'back',
       count: 9,
       mediaType: ['image'],
-      sizeType: ['original', 'compressed']	,
+      sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
       success: function (res) {
         // console.log(res.tempFiles);
@@ -54,35 +73,75 @@ Page({
             imageList.push(tempFiles[i].tempFilePath)
           }
         }
-        console.log(imageList);
+        // console.log(imageList);
         that.setData({
           imageList: imageList
         });
+        // 上传到oss
         that.uploadFile();
       },
     })
   },
-  // 上传图片
+  // 上传图片url到oss
   uploadFile: function (e) {
-    // console.log(this.data.imageList);
-    for(var i = 0;i<this.data.imageList.length;i++) {
+    var that = this;
+    // console.log(that.data.imageList);
+    for(var i = 0;i<that.data.imageList.length;i++) {
       // var filePath = this.data.imageList[index];
-      console.log(this.data.imageList[i]);
+      // console.log(this.data.imageList[i]);
       wx.showLoading({
         title: '上传中',
       })
       wx.uploadFile({
-        filePath: this.data.imageList[i],
+        filePath: that.data.imageList[i],
         name: 'file',
         url: app.globalData.url+'/api/app-check/uploadPic',
         header: {
           "Authorization": "Bearer " + app.globalData.userInfo.token
         },
-        success: function (res) {
-          console.log(res.data);
+        success: (res) => {
+          // 将返回的json格式数据转换成对象
+          var successData = res.data
+          var jsonStr = successData.replace(" ", "")
+          if (typeof jsonStr != 'object') {
+            jsonStr = jsonStr.replace(/\ufeff/g, "");
+            var jj = JSON.parse(jsonStr);
+            res.data = jj;
+          }
+          // that.data.imageListUrl.concat(res.data.data.url)
+          // console.log(res.data.data.url);
+          that.setData({
+            imageListUrl: that.data.imageListUrl.concat(res.data.data.url)
+          })
           setTimeout(function () {
             wx.hideLoading()
           } , 2000);
+          console.log(that.data.imageListUrl);
+          that.insertReportPhoto()
+        }
+      })
+    }
+  },
+  // 新增图片接口
+  insertReportPhoto(){
+    var that = this;
+    for(var i = 0;i<that.data.imageListUrl.length;i++) {
+      that.data.sort++;
+      wx.request({
+        url: app.globalData.url+'/api/app-check/insertReportPhoto',
+        header: {
+          "Authorization": "Bearer " + app.globalData.userInfo.token
+        },
+        data: {
+          photoId: that.data.photoid,
+          photoTypeName: that.data.phototypename,
+          picAdd: that.data.imageListUrl[i],
+          reportFormId: 1,
+          sort: that.data.sort
+        },
+        method: 'POST',
+        success: (res) => {
+          console.log(res.data);
         }
       })
     }
@@ -146,7 +205,7 @@ Page({
       },
       method: 'GET',
       success: function (res) {
-        console.log(res.data.data);
+        // console.log(res.data.data);
         that.setData({
           info: res.data.data
         })
@@ -170,7 +229,20 @@ Page({
       },
       method: 'GET',
       success: function (res) {
-        console.log(res.data);
+        // console.log(res.data);
+        var dataArray = res.data.data
+        for(var i = 0;i<dataArray.length;i++) {
+          // console.log(dataArray[i]["id"])
+          // console.log(dataArray[i]["photoTypeName"]);
+          that.setData({
+            photoId: that.data.photoId.concat(dataArray[i]["id"]),
+            photoTypeName: that.data.photoTypeName.concat(dataArray[i]["photoTypeName"]),
+            checkPhotoList: res.data.data
+          })
+        }
+        // console.log(that.data.photoId);
+        // console.log(that.data.photoTypeName);
+        console.log(that.data.checkPhotoList);
       }
     })
   },
