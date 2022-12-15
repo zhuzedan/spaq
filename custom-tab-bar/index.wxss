@@ -1,3 +1,4 @@
+/* custom-tab-bar/index.wxss */
 .tab-bar {
   position: fixed;
   bottom: 0;
@@ -28,11 +29,13 @@
   flex-direction: column;
 }
 
-.tab-bar-item cover-image {
-  width: 27px;
-  height: 27px;
+.tab-bar-item .cover-image {
+  width: 44rpx;
+  height: 44rpx;
 }
 
-.tab-bar-item cover-view {
-  font-size: 10px;
+.tab-bar-item .cover-view {
+  margin-top: 8rpx;
+  font-size: 24rpx;
 }
+

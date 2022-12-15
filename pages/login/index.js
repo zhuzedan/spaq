@@ -72,13 +72,15 @@ Page({
             },
             method: 'GET',
             success: function (res) {
-              console.log(res.data.data);
+              // console.log(res.data.data);
               app.globalData.getUserInfo =  res.data.data
-              console.log(app.globalData.getUserInfo);
+              // console.log(app.globalData.getUserInfo.userId);
+              // 角色存入缓存中
+              wx.setStorageSync('role', app.globalData.getUserInfo.userId)
             }
           })
           // 成功进入检查页
-          console.log(res.data.data);
+          // console.log(res.data.data);
           wx.switchTab({
             url: '../index/index',
           })

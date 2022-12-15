@@ -16,7 +16,8 @@ App({
   globalData: {
     userInfo: null,
     url: 'http://localhost:8082',
-    getUserInfo: null
+    getUserInfo: null,
+    role: ''
   },
   initUserInfo: function(res) {
     // 将用户名存在所有公共部分

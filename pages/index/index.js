@@ -1,23 +1,23 @@
 var app = getApp();
 Page({
   data: {
-    pageIndex: 1,         //列表初始页
-    list: [],            //存放所有数据
+    pageIndex: 1, //列表初始页
+    list: [], //存放所有数据
     currentIndex: 0, //默认第一个
     totalCount: 1
   },
   getLocation(e) {
     var that = this,
-    address = e.currentTarget.dataset.address;
+      address = e.currentTarget.dataset.address;
     wx.getLocation({
-      type: 'wgs84', 
+      type: 'wgs84',
       success: function (res) {
         console.log("定位信息", res);
-        var url = 'https://apis.map.qq.com/ws/geocoder/v1/?address='+address+'&key=KFVBZ-2AJ36-N6WSI-EHODX-LRBVS-AIB2U';
+        var url = 'https://apis.map.qq.com/ws/geocoder/v1/?address=' + address + '&key=KFVBZ-2AJ36-N6WSI-EHODX-LRBVS-AIB2U';
         console.log(url);
-        wx.openLocation({//​使用微信内置地图查看位置。
-          latitude: 30.169665,//要去的纬度-地址
-          longitude: 121.266579,//要去的经度-地址
+        wx.openLocation({ //​使用微信内置地图查看位置。
+          latitude: 30.169665, //要去的纬度-地址
+          longitude: 121.266579, //要去的经度-地址
           name: "慈溪市逍林多佑食品店",
           address: '慈溪市逍林多佑食品店'
         })
@@ -28,17 +28,17 @@ Page({
   loadInitData() {
     var that = this;
     wx.request({
-      url: app.globalData.url+'/api/app-check/queryCheckPointPage',
+      url: app.globalData.url + '/api/app-check/queryCheckPointPage',
       header: {
         "Authorization": "Bearer " + app.globalData.userInfo.token
       },
-      data : {
+      data: {
         current: this.data.pageIndex,
         pageSize: 5
       },
       method: 'GET',
       success: function (res) {
-        if (res.data.code == 200){
+        if (res.data.code == 200) {
           console.log(res);
           that.setData({
             list: res.data.data.data,
@@ -59,7 +59,7 @@ Page({
     if (typeof this.getTabBar === 'function' &&
       this.getTabBar()) {
       this.getTabBar().setData({
-        selected: 0
+        selected: "index"
       })
     }
   },
@@ -85,8 +85,7 @@ Page({
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
-  },
+  onPullDownRefresh: function () {},
 
   /**
    * 页面上拉触底事件的处理函数
@@ -94,20 +93,20 @@ Page({
   onReachBottom: function () {
     var that = this;
     this.data.pageIndex++;
-    console.log('加载更多数据',this.data.pageIndex);
+    console.log('加载更多数据', this.data.pageIndex);
     wx.request({
-      url: app.globalData.url+'/api/app-check/queryCheckPointPage',
+      url: app.globalData.url + '/api/app-check/queryCheckPointPage',
       header: {
         "Authorization": "Bearer " + app.globalData.userInfo.token
       },
-      data : {
+      data: {
         current: this.data.pageIndex,
         pageSize: 5
       },
       method: 'GET',
       success: function (res) {
         console.log(res.data.data.data);
-        if (res.data.code == 200 & res.data.data.data.length != 0){
+        if (res.data.code == 200 & res.data.data.data.length != 0) {
           // console.log(res);
           that.setData({
             list: that.data.list.concat(res.data.data.data),

@@ -1,66 +1,85 @@
+// custom-tab-bar/index.js
 Component({
+  /**
+   * 组件的属性列表
+   */
+  properties: {
+
+  },
+
+  /**
+   * 组件的初始数据
+   */
   data: {
-    selected: 0,
-    color: "#000",
-    roleId: '',
     selectedColor: "#3161ff",
-    allList: [{
-      // 检查员角色
-      list1: [{
-        pagePath: "/pages/index/index",
-        iconPath: "../assets/tabbar/check.png",
-        selectedIconPath: "../assets/tabbar/check_select.jpg",
-        text: "检查"
-      }, {
-        pagePath: "/pages/mine/index",
-        iconPath: "../assets/tabbar/me.png",
-        selectedIconPath: "../assets/tabbar/me_select.png",
-        text: "我的"
-      }],
-      // 团队长角色
-      list2: [{
-          pagePath: "/pages/index/index",
-          iconPath: "../assets/tabbar/check.png",
-          selectedIconPath: "../assets/tabbar/check_select.jpg",
-          text: "检查"
+    allList: [
+      [{
+          "pagePath": "/pages/index/index",
+          "text": "检查",
+          "iconPath": "../assets/tabbar/check.png",
+          "selectedIconPath": "../assets/tabbar/check_select.jpg",
+          "selected": "index"
+        },
+        {
+          "pagePath": "/pages/mine/index",
+          "text": "我的",
+          "iconPath": "../assets/tabbar/me.png",
+          "selectedIconPath": "../assets/tabbar/me_select.png",
+          "selected": "mine"
+        }
+      ],
+      [{
+          "pagePath": "/pages/index/index",
+          "text": "检查",
+          "iconPath": "../assets/tabbar/check.png",
+          "selectedIconPath": "../assets/tabbar/check_select.jpg",
+          "selected": "index"
         },
         {
           "pagePath": "/pages/approval/index",
           "text": "审批",
           "iconPath": "../assets/tabbar/approval.png",
-          "selectedIconPath": "../assets/tabbar/approval_select.png"
+          "selectedIconPath": "../assets/tabbar/approval_select.png",
+          "selected": "approval"
         },
         {
-          pagePath: "/pages/mine/index",
-          iconPath: "../assets/tabbar/me.png",
-          selectedIconPath: "../assets/tabbar/me_select.png",
-          text: "我的"
+          "pagePath": "/pages/mine/index",
+          "text": "我的",
+          "iconPath": "../assets/tabbar/me.png",
+          "selectedIconPath": "../assets/tabbar/me_select.png",
+          "selected": "mine"
         }
-      ],
-      list: []
-    }],
+      ]
+    ],
+    selectList: []
   },
+  /**
+   * 生命周期方法
+   */
   attached() {
-    const roleId = 2
-    if (roleId == 1) {
+    const roleId = wx.getStorageSync('role')
+    if (roleId != "admin") {
       this.setData({
-        list: this.data.allList[0].list1
+        selectList: this.data.allList[1]
       })
-    } else if (roleId == 2) {
+    } else {
       this.setData({
-        list: this.data.allList[0].list2
+        selectList: this.data.allList[0]
       })
     }
+    
   },
+  /**
+   * 组件的方法列表
+   */
   methods: {
     switchTab(e) {
-      const data = e.currentTarget.dataset
-      const url = data.path
+      // console.log(e.currentTarget.dataset);
+      let path = e.currentTarget.dataset.path;
+      let selected = e.currentTarget.dataset.selected
+      // console.log(e.currentTarget.dataset.selected);
       wx.switchTab({
-        url
-      })
-      this.setData({
-        selected: data.index
+        url: path,
       })
     }
   }
