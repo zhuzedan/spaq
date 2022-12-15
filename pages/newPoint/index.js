@@ -163,7 +163,8 @@ Page({
         categoryCode: this.data.categoryCode,
         areaOrgCode: this.data.areaOrgCode,
         streetOrgCode: this.data.streetOrgCode,
-        address: this.data.latitude + "," + this.data.longitude
+        address: this.data.latitude + "," + this.data.longitude,
+        checkPersonId: app.globalData.getUserInfo.id
       },
       method: 'POST',
       success: function (res) {

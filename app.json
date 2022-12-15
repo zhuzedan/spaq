@@ -30,6 +30,12 @@
         "selectedIconPath": "./assets/tabbar/check_select.jpg"
       },
       {
+        "pagePath": "pages/approval/index",
+        "text": "审批",
+        "iconPath": "./assets/tabbar/approval.png",
+        "selectedIconPath": "./assets/tabbar/approval_select.png"
+      },
+      {
         "pagePath": "pages/mine/index",
         "text": "我的",
         "iconPath": "./assets/tabbar/me.png",
