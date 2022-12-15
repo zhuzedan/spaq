@@ -28,5 +28,19 @@
     width: 50%;
     height: 100%;
     padding: 0 !important;
-  }  
+  }
+  .button {
+    display: flex;
+    color: #fff;
+    border-radius: 875rpx;
+    background-color: $primary-color;
+    font-size: 32rpx;
+    align-items: center;
+    justify-content: center;
+    height: 80rpx;
+    width: 318rpx;
+    margin-right: 15rpx;
+    margin-left: 15rpx;
+    margin-top: 240rpx;
+  }
 }

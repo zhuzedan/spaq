@@ -1,5 +1,5 @@
 // components/signature/index.js
-
+var app = getApp();
 Component({
   properties: {
 
@@ -10,6 +10,8 @@ Component({
    */
   data: {
     canvasName: 'handWriting',
+    tempFilePath: '',
+    imageListUrl: '',
     ctx: '',
     canvasWidth: 0,
     canvasHeight: 0,
@@ -43,15 +45,13 @@ Component({
 
   ready() {
     var that = this
-
     const ctx = wx.createCanvasContext(this.data.canvasName, this)
     this.setData({
       ctx: ctx
     })
-
     const obj = this.createSelectorQuery()
     obj.select('.handWriting').boundingClientRect()
-    obj.exec(function(rect) {
+    obj.exec(function (rect) {
       that.setData({
         canvasWidth: rect[0].width,
         canvasHeight: rect[0].height
@@ -195,8 +195,8 @@ Component({
         linePrack,
         currentLine: []
       })
+      var that = this;
     },
-
     //画两点之间的线条；参数为:line，会绘制最近的开始的两个点；
     pointToLine(line) {
       this.calcBethelLine(line);
@@ -389,26 +389,67 @@ Component({
       }
       ctx.draw(true)
     },
-
     //清除重新绘制
     retDraw() {
       this.data.ctx.clearRect(0, 0, this.data.canvasWidth, this.data.canvasHeight)
       this.data.ctx.draw()
     },
-
     //保存图片
     saveImage() {
       var that = this
       wx.canvasToTempFilePath({
+        x: 0,
+        y: 0,
         canvasId: 'handWriting',
-
         //设置保存的图片
-        success: function(res) {
-          that.triggerEvent('saveImage', {
-            path: res.tempFilePath
-          }, {})
+        success: function (res) {
+          // console.log(res.tempFilePath);
+          that.setData({
+            tempFilePath: res.tempFilePath
+          })
+          // that.triggerEvent('saveImage', {
+          //   path: res.tempFilePath
+          // }, {})
+          that.uploadFile()
+          that.triggerEvent('myevent',that.data.tempFilePath)
         }
       }, this)
-    }
+    },
+    // 上传图片url到oss
+    uploadFile: function (e) {
+      var that = this;
+      // console.log(that.data.tempFilePath);
+      wx.showLoading({
+        title: '上传中',
+      })
+      wx.uploadFile({
+        filePath: that.data.tempFilePath,
+        name: 'file',
+        url: app.globalData.url + '/api/app-check/uploadPic',
+        header: {
+          "Authorization": "Bearer " + app.globalData.userInfo.token
+        },
+        success: (res) => {
+          // 将返回的json格式数据转换成对象
+          var successData = res.data
+          var jsonStr = successData.replace(" ", "")
+          if (typeof jsonStr != 'object') {
+            jsonStr = jsonStr.replace(/\ufeff/g, "");
+            var jj = JSON.parse(jsonStr);
+            res.data = jj;
+          }
+          // console.log(res.data);
+          // console.log(res.data.data.url);
+          that.setData({
+            imageListUrl: res.data.data.url
+          })
+          setTimeout(function () {
+            wx.hideLoading()
+          }, 2000);
+          // console.log(that.data.imageListUrl);
+          that.triggerEvent('myevent',that.data.imageListUrl)
+        }
+      })
+    },
   }
 })

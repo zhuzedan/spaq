@@ -131,6 +131,6 @@
 
   <view class="buttons" style="margin-top: 44rpx;">
     <view class="button">上一步</view>
-    <view class="button" bindtap="goSignature">下一步</view>
+    <view class="button" bindtap="goSignature" data-reportFormid="{{info.id}}">下一步</view>
   </view>
 </view>

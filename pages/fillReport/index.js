@@ -168,9 +168,10 @@ Page({
       urls: imageList
     })
   },
-  goSignature() {
+  goSignature(e) {
+    console.log(e.currentTarget.dataset.reportformid);
     wx.navigateTo({
-      url: '../signature/index',
+      url: '../signature/index?reportFormId='+e.currentTarget.dataset.reportformid,
     })
   },
   onChange(event) {
