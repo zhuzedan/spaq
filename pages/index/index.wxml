@@ -37,6 +37,7 @@
       <view class="distance">距离1.6km</view>
     </view> -->
   </view>
+  <view class='placeholder-view' style="height:{{height}}rpx;width: 100%;"></view>
   <view class="container">
     <van-dialog id="van-dialog" confirm-button-color="#3161FF" />
   </view>

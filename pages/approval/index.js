@@ -88,6 +88,21 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    const res = wx.getSystemInfoSync()
+    const {
+      screenHeight,
+      safeArea: {
+        bottom
+      }
+    } = res
+    console.log('resHeight', res);
+    if (screenHeight && bottom) {
+      let safeBottom = screenHeight - bottom
+      this.setData({
+        height: 108 + safeBottom
+      })
+    }
+    console.log(this.data.height);
 
   },
 

@@ -4,7 +4,8 @@ Page({
     pageIndex: 1, //列表初始页
     list: [], //存放所有数据
     currentIndex: 0, //默认第一个
-    totalCount: 1
+    totalCount: 1,
+    height: 0
   },
   getLocation(e) {
     var that = this,
@@ -64,6 +65,22 @@ Page({
     }
   },
   onLoad() {
+    const res = wx.getSystemInfoSync()
+    const {
+      screenHeight,
+      safeArea: {
+        bottom
+      }
+    } = res
+    console.log('resHeight', res);
+    if (screenHeight && bottom) {
+      let safeBottom = screenHeight - bottom
+      this.setData({
+        height: 108 + safeBottom
+      })
+    }
+    // console.log(this.data.height);
+
     if (app.globalData.userInfo == null) {
       wx.showToast({
         title: '请先登录',
