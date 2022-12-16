@@ -14,21 +14,21 @@ Page({
     password: ''
   },
   // input输入框内容双向绑定-用户名
-  bindUserName:function(e) {
+  bindUserName: function (e) {
     this.setData({
       userName: e.detail.value
     });
   },
   // input输入框内容双向绑定-密码
-  bindPassword:function(e) {
+  bindPassword: function (e) {
     this.setData({
       password: e.detail.value
     })
   },
   // 显示or关闭密码
-  eyeStatus: function(){
-    this.data.defaultType= !this.data.defaultType
-    this.data.passwordType= !this.data.passwordType
+  eyeStatus: function () {
+    this.data.defaultType = !this.data.defaultType
+    this.data.passwordType = !this.data.passwordType
     this.setData({
       defaultType: this.data.defaultType,
       passwordType: this.data.passwordType
@@ -53,45 +53,44 @@ Page({
       return;
     }
     wx.request({
-      url: app.globalData.url+'/api/app-login/login',
+      url: app.globalData.url + '/api/app-login/login',
       data: {
         userName: this.data.userName,
         password: this.data.password
       },
       method: 'POST',
-      success: function(res) {
+      success: function (res) {
         // console.log(res);
         if (res.data.code == 200) {
           // 初始化用户信息
           app.initUserInfo(res.data.data);
           // 获取当前登录用户
           wx.request({
-            url: app.globalData.url+'/api/base/getUserInfo',
+            url: app.globalData.url + '/api/base/getUserInfo',
             header: {
               "Authorization": "Bearer " + app.globalData.userInfo.token
             },
             method: 'GET',
             success: function (res) {
               // console.log(res.data.data);
-              app.globalData.getUserInfo =  res.data.data
+              app.globalData.getUserInfo = res.data.data
               // console.log(app.globalData.getUserInfo.userId);
               // 角色存入缓存中
               wx.setStorageSync('role', app.globalData.getUserInfo.userId)
+              // 成功进入检查页
+              // console.log(res.data.data);
+              wx.switchTab({
+                url: '../index/index',
+              })
             }
           })
-          // 成功进入检查页
-          // console.log(res.data.data);
-          wx.switchTab({
-            url: '../index/index',
-          })
-        }
-        else if (res.data.code == 500) {
+
+        } else if (res.data.code == 500) {
           wx.showToast({
             title: '用户名或密码不正确',
             icon: 'none'
           })
-        }
-        else {
+        } else {
           wx.showToast({
             title: '未知错误',
             icon: 'error'
