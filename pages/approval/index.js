@@ -8,7 +8,8 @@ Page({
    */
   data: {
     pageIndex: 1,
-    list: []
+    list: [],
+    listB: []
   },
   exAgree(e) {
     console.log(e.currentTarget.dataset.examineid);
@@ -138,6 +139,27 @@ Page({
         }
         this.setData({
           list: res.data.data.data
+        })
+        // console.log(this.data.list);
+      },
+      fail: (err) => {},
+      complete: (res) => {},
+    })
+    wx.request({
+      url: app.globalData.url + '/api/app-approval/queryReportExaminePage?leaderUserId=' + app.globalData.getUserInfo.userId +
+        '&current=' + this.data.pageIndex + '&pageSize=5',
+      header: {
+        "Authorization": "Bearer " + app.globalData.userInfo.token
+      },
+      method: 'POST',
+      success: (res) => {
+        console.log(res.data.data.data);
+        var dataArray = res.data.data.data
+        for (var i = 0; i < dataArray.length; i++) {
+          dataArray[i]["gmtCreate"] = times.toDate(dataArray[i]["gmtCreate"])
+        }
+        this.setData({
+          listB: res.data.data.data
         })
         // console.log(this.data.list);
       },

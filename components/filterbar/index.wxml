@@ -44,7 +44,7 @@
 
 <wxs module="common">
   module.exports = {
-    selected: function(multiSelected, value) {
+    selected: function (multiSelected, value) {
       for (var i = 0; i < multiSelected.length; i++) {
         if (multiSelected[i].value === value) {
           return true

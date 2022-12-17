@@ -1,6 +1,6 @@
   <!-- 搜索栏 -->
   <view class="search">
-    <input placeholder="检查点名称/详细地址" type='text' confirm-type='search'></input>
+    <input placeholder="检查点名称/详细地址" type='text' confirm-type='search' bindinput="search" bindconfirm="searchOk" value="{{searchValue}}"></input>
     <image src="../../assets/check/search.png" />
     <view class="line"></view>
   </view>
@@ -18,9 +18,9 @@
       <view class="location">{{item.streetOrgCode}}</view>
       <view class="checkNum">已检查2次</view>
       <view class="buttons">
-        <view class="button" bindtap="getLocation">导航{{item.id}}</view>
+        <view class="button" bindtap="getLocation" data-name="{{item.name}}" data-latitude="{{item.latitude}}" data-longitude="{{item.longitude}}">导航{{item.id}}</view>
         <navigator url='../fillReport/index?checkPointId={{item.id}}&categoryCode={{item.categoryCode}}&streetOrgCode={{item.streetOrgCode}}'>
-          <view class="button">填报</view>         
+          <view class="button">填报</view>
         </navigator>
       </view>
       <view class="distance">距离1.6km</view>
