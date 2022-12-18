@@ -1,0 +1,136 @@
+<!--pages/fillReport/index.wxml-->
+<!-- 导航条 -->
+<view class="header">
+  <tabs tabs="{{ [{value: 'basic', label: '基础信息'}, {value: 'check', label: '检查项'},{value: 'picManage', label: '图片管理'}] }}" binditemChange="handleItemChange">
+  </tabs>
+</view>
+<!-- 基本信息 -->
+<view wx:if="{{currentNum==0}}">
+  <view class="basicInformation">
+    <view class="inform">
+      <view class="basicKey">单位名称</view>
+      <view wx:if="{{editInformation == 1}}" class="basicValue">{{info.name}}</view>
+      <input wx:if="{{editInformation == 2}}" class="basicValue" type="text" placeholder="{{info.name}}" bindinput="handle_name"/>
+    </view>
+    <view class="inform">
+      <view class="basicKey">单位地址</view>
+      <view wx:if="{{editInformation == 1}}" class="basicValue">{{info.address}}</view>
+      <input wx:if="{{editInformation == 2}}" class="basicValue" type="text" placeholder="{{info.address}}" bindinput="handle_address"/>
+    </view>
+    <view class="inform">
+      <view class="basicKey">单位联系人</view>
+      <view wx:if="{{editInformation == 1}}" class="basicValue">{{info.connectName}}</view>
+      <input  wx:if="{{editInformation == 2}}" class="basicValue" type="text" placeholder="{{info.connectName}}" bindinput="handle_user"/>
+    </view>
+    <view class="inform">
+      <view class="basicKey">联系人电话</view>
+      <view  wx:if="{{editInformation == 1}}" class="basicValue">{{info.connectTel}}</view>
+      <input wx:if="{{editInformation == 2}}" class="basicValue" type="text" placeholder="{{info.connectTel}}" bindinput="handle_phone"/>
+    </view>
+  </view>
+  <view class="buttons">
+    <view class="button" bindtap="forEdit1">编辑</view>
+    <view class="button" bindtap="submit_basic">确认</view>
+  </view>
+</view>
+<view wx:if="{{currentNum == 1}}">
+  <view class="checkBackground">
+    <view class="menu">
+      <sidebar></sidebar>
+      <view class="menuList">
+        <view class="steps_box">
+          <block class="block-step" wx:for="{{stepList}}">
+            <view class="view_item">
+              <!-- 已状态 -->
+              <view wx:if="{{stepNum>=index+1?true:false}}" style="color:{{stepNum>=index+1?'#fff':'#909090'}};background-color: #3161FF;font-size: 22rpx;">{{index+1}}</view>
+              <!-- 未状态 -->
+              <view wx:else style="font-size: 22rpx;"> {{index+1}} </view>
+              <!-- <text style="color:{{stepNum>=index+1?'#00bd3f':'#909090'}}">{{item.name}}</text> -->
+            </view>
+            <!-- 横线 -->
+            <view wx:if="{{index==stepList.length-1?false:true}}" class="view_line {{stepNum<=index+1?'line_bgcolor1':'line_bgcolor'}} "></view>
+          </block>
+        </view>
+        <view class="titleO">
+          <view class="title">8.《食品经营许可证》是否合法有效且在显著位置摆放？(10分)</view>
+          <view class="detail">
+            <van-checkbox checked-color="#3161FF" shape="square" bind:change="onChange">A 无《食品经营许可证》</van-checkbox>
+          </view>
+          <view class="detail">
+            <van-checkbox checked-color="#3161FF" shape="square" bind:change="onChange">B《食品经营许可证》过期</van-checkbox>
+          </view>
+          <view class="detail">
+            <van-checkbox checked-color="#3161FF" shape="square" bind:change="onChange">C 有《食品经营许可证》，但未在醒目位置摆放</van-checkbox>
+          </view>
+          <view class="detail">
+            <van-checkbox checked-color="#3161FF" shape="square" bind:change="onChange">D 有《食品经营许可证》，但实际经营地点不相符</van-checkbox>
+          </view>
+          <view class="detail">
+            <van-checkbox checked-color="#3161FF" shape="square" bind:change="onChange">E 有《食品经营许可证》，但实际经营范围不相符</van-checkbox>
+          </view>
+          <view class="detail">
+            <van-checkbox value="{{ checked }}" checked-color="#3161FF" shape="square" bind:change="onChange">F《食品经营许可证》合法有效且在显著位置摆放</van-checkbox>
+          </view>
+
+        </view>
+        <!-- <button bindtap="numSteps">下一步</button> -->
+      </view>
+    </view>
+  </view>
+  <view class="buttons" style="margin-top: 22rpx;">
+    <view class="button">上一项</view>
+    <view class="button" bindtap="numSteps">下一项</view>
+  </view>
+</view>
+<view wx:if="{{currentNum==2}}">
+  <scroll-view scroll-y="true" class="picManage">
+    <!-- <view class="sideways {{imageList.length != 0 ? 'active' : ''}}">
+      <view class="description">门头照片</view>
+      <view class="content" wx:if="{{imageList.length == 0}}" bindtap="upLoadImage">请选择照片</view>
+      <view class="photoStyle" wx:for="{{imageList}}" wx:for-item="item" wx:key="*this">
+        <image src="{{item}}" data-index="{{index}}" mode="aspectFill" bindtap="previewImg">
+          <icon type='cancel' class="delete-btn" data-index="{{index}}" catchtap="deleteImg"></icon>
+        </image>
+      </view>
+      <view class="uploadPic" bindtap="upLoadImage" data-photoId="{{item.id}}" data-photoTypeName="{{item.photoTypeName}}" wx:if="{{imageList.length != 0}}">继续上传</view>
+    </view> -->
+    <view class="sideways {{imageList.length != 0 ? 'active' : ''}}" wx:for="{{checkPhotoList}}" wx:key="key">
+      <view class="description">{{item.photoTypeName}}</view>
+      <view class="content" wx:if="{{imageList.length == 0}}" bindtap="upLoadImage" data-photoId="{{item.id}}" data-photoTypeName="{{item.photoTypeName}}">请选择照片</view>
+      <view class="photoStyle" wx:for="{{imageList}}" wx:for-item="item" wx:key="*this">
+        <image src="{{item}}" data-index="{{index}}" mode="aspectFill" bindtap="previewImg"></image>
+      </view>
+      <view class="uploadPic" bindtap="upLoadImage" data-photoId="{{item.id}}" data-photoTypeName="{{item.photoTypeName}}" wx:if="{{imageList.length != 0}}">继续上传</view>
+    </view>
+    <view class="sideways">
+      <view class="description">厨房环境</view>
+      <view class="content">请选择照片</view>
+    </view>
+    <view class="sideways">
+      <view class="description">消毒设施</view>
+      <view class="content">请选择照片</view>
+    </view>
+    <view class="sideways">
+      <view class="description">是否存在问题</view>
+      <view class="content">
+        <icon type="success" size="20" color="#3161FF" />
+        <view style="margin-right: 30rpx;">是</view>
+        <view  style="color: #f6f6f6; width: 40rpx; height: 40rpx;  border-radius: 50%; border: 4rpx solid #f6f6f6;"/>
+        <view>否</view>
+        <!-- <van-radio-group value="{{ radio }}" bind:change="onChangeRadio" direction="horizontal">
+          <van-radio name="1" checked-color="#3161FF">是</van-radio>
+          <van-radio name="2" checked-color="#3161FF">否</van-radio>
+        </van-radio-group> -->
+      </view>
+    </view>
+    <view class="sideways" style="border: 0;">
+      <view class="description">问题图片</view>
+      <view class="content">请选择照片</view>
+    </view>
+  </scroll-view>
+
+  <view class="buttons" style="margin-top: 44rpx;">
+    <view class="button">上一步</view>
+    <view class="button" bindtap="goSignature" data-reportFormid="{{info.id}}">下一步</view>
+  </view>
+</view>

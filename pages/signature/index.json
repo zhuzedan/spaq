@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "v-sign":"/components/signature/index"
+  },
+  "navigationBarTitleText": "填报检查表"
+}

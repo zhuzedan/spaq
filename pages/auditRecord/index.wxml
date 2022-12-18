@@ -1,0 +1,159 @@
+<!--pages/inspectionRecord/index.wxml-->
+<!-- 搜索栏 -->
+<view class="search">
+  <input placeholder="检查点名称/详细地址" type='text' confirm-type='search' bindinput="hanlde_content" bindconfirm="go_search"></input>
+  <image src="../../assets/check/search.png" />
+</view>
+<van-dropdown-menu class="screening" active-color="#3161FF">
+  <van-dropdown-item value="{{ value2 }}" options="{{ option2 }}" />
+  <van-dropdown-item value="{{ value3 }}" options="{{ option3 }}" />
+  <van-dropdown-item value="{{ value4 }}" options="{{ option4 }}" />
+</van-dropdown-menu>
+<view class="card" wx:for="{{list}}" wx:key="key">
+  <view class="inform" style="margin-top: 40rpx;">
+    <image src="../../assets/check/point.png"></image>
+    <view class="name">检查点</view>
+    <view class="detail">{{item.address}}</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/type.png"></image>
+    <view class="name">类型 </view>
+    <view class="detail">{{item.businessType == 0 ? '公益' : '商业'}}</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/category.png"></image>
+    <view class="name">类别</view>
+    <view class="detail">{{item.categoryName}}</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/address.png"></image>
+    <view class="name">地址 </view>
+    <view class="detail">{{item.streetOrgName}}</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/phone.png"></image>
+    <view class="name">联系电话</view>
+    <view class="detail">{{item.connectTel}}</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/time.png"></image>
+    <view class="name">提交时间 </view>
+    <view class="detail">{{item.gmtCreate}}</view>
+  </view>
+  <view class="buttons">
+    <view class="button" bindtap="getDetail" data-index="{{index}}">查看</view>
+    <view class="button" style="background-color: #f88934" bindtap="getModify" data-id="{{item.id}}">修改</view>
+  </view>
+  <view class="score">{{item.examineResult}}</view>
+</view>
+<!-- <view class="card">
+  <view class="inform" style="margin-top: 40rpx;">
+    <image src="../../assets/check/point.png"></image>
+    <view class="name">检查点</view>
+    <view class="detail">宁波海曙唐荟烘琣店</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/type.png"></image>
+    <view class="name">类型 </view>
+    <view class="detail">商业</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/category.png"></image>
+    <view class="name">类别</view>
+    <view class="detail">餐饮企业</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/address.png"></image>
+    <view class="name">地址 </view>
+    <view class="detail">海曙区新高路45号</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/phone.png"></image>
+    <view class="name">联系电话</view>
+    <view class="detail">13113137139</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/time.png"></image>
+    <view class="name">提交时间 </view>
+    <view class="detail">2022-08-29 20:20</view>
+  </view>
+  <view class="buttons">
+    <view class="button" bindtap="getDetail">查看</view>
+    <view class="button" style="background-color: #f88934" bindtap="getModify">修改</view>
+  </view>
+  <view class="score">待审核</view>
+</view>
+<view class="card">
+  <view class="inform" style="margin-top: 40rpx;">
+    <image src="../../assets/check/point.png"></image>
+    <view class="name">检查点</view>
+    <view class="detail">宁波海曙唐荟烘琣店</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/type.png"></image>
+    <view class="name">类型 </view>
+    <view class="detail">商业</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/category.png"></image>
+    <view class="name">类别</view>
+    <view class="detail">餐饮企业</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/address.png"></image>
+    <view class="name">地址 </view>
+    <view class="detail">海曙区新高路45号</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/phone.png"></image>
+    <view class="name">联系电话</view>
+    <view class="detail">13113137139</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/time.png"></image>
+    <view class="name">提交时间 </view>
+    <view class="detail">2022-08-29 20:20</view>
+  </view>
+  <view class="buttons">
+    <view class="button">查看</view>
+    <view class="button" style="background-color: #f88934">修改</view>
+  </view>
+  <view class="score">待审核</view>
+</view>
+<view class="card">
+  <view class="inform" style="margin-top: 40rpx;">
+    <image src="../../assets/check/point.png"></image>
+    <view class="name">检查点</view>
+    <view class="detail">宁波海曙唐荟烘琣店</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/type.png"></image>
+    <view class="name">类型 </view>
+    <view class="detail">商业</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/category.png"></image>
+    <view class="name">类别</view>
+    <view class="detail">餐饮企业</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/address.png"></image>
+    <view class="name">地址 </view>
+    <view class="detail">海曙区新高路45号</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/phone.png"></image>
+    <view class="name">联系电话</view>
+    <view class="detail">13113137139</view>
+  </view>
+  <view class="inform">
+    <image src="../../assets/check/time.png"></image>
+    <view class="name">提交时间 </view>
+    <view class="detail">2022-08-29 20:20</view>
+  </view>
+  <view class="buttons">
+    <view class="button">查看</view>
+    <view class="button" style="background-color: #f88934">修改</view>
+  </view>
+  <view class="score" style="color: rgba(47, 168, 115, 0.9);">通过</view>
+</view> -->

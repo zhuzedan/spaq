@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "tabs": "../../components/tabs/index",
+    "filterbar": "../../components/filterbar/index",
+    "van-dialog": "@vant/weapp/dialog/index"
+  }
+}

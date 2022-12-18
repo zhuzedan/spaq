@@ -1,0 +1,25 @@
+<!--pages/basic/index.wxml-->
+<van-tabs class="boxx" animated>
+  <van-tab title="基础信息">
+    <view class="backgroundc">
+      <view class="line">
+        <view>单位名称</view>
+        <view class="detail">nksfsdf</view>
+      </view>
+      <view class="line">
+        <view>单位地址</view>
+        <view class="detail">nksfsdf</view>
+      </view>
+      <view class="line">
+        <view>单位联系人</view>
+        <view class="detail">nksfsdf</view>
+      </view>
+      <view class="line">
+        <view>联系人电话</view>
+        <view class="detail">nksfsdf</view>
+      </view>
+    </view>
+  </van-tab>
+  <van-tab title="检查项">内容 2</van-tab>
+  <van-tab title="图片管理">内容 3</van-tab>
+</van-tabs>

@@ -1,0 +1,60 @@
+<!--pages/newPoint/index.wxml-->
+<view class="instructions">上报发现新的检查点</view>
+<view class="container">
+  <view class="sideways">
+    <view class="description">单位名称</view>
+    <view class="input"><input placeholder-style="color:rgba(0, 0, 0, 0.4);" placeholder="请输入单位名称" bindinput="getName" value="{{name}}"></input></view>
+  </view>
+  <view class="sideways">
+    <view class="description">类型</view>
+    <view class="input">
+      <picker bindchange="getBusinessType" bindcancel="bindCancelChange" value="{{index1}}" range="{{type}}">
+        <view class="picker">
+          {{type[index1]}}
+        </view>
+      </picker>
+    </view>
+  </view>
+  <view class="sideways">
+    <view class="description">类别</view>
+    <view class="input">
+      <picker bindchange="getCategoryCode" bindcancel="bindCancelChange" value="{{index2}}" range="{{category}}">
+        <view class="picker">
+          {{category[index2]}}
+        </view>
+      </picker>
+    </view>  
+  </view>
+  <view class="sideways">
+    <view class="description">区域</view>
+    <view class="content">
+      <picker titleText="区域" bindchange="getAreaOrgCode" range="{{area}}" value="{{index3}}">
+        <view class="content">{{area[index3]}}</view>
+      </picker>
+    </view>
+
+  </view>
+  <view class="sideways">
+    <view class="description">街道</view>
+    <view class="input"><input placeholder-style="color:rgba(0, 0, 0, 0.4);" placeholder="请输入街道" bindinput="getStreetOrgCode"></input></view>
+  </view>
+  <view class="sideways">
+    <view class="description">联系人</view>
+    <view class="input"><input placeholder-style="color:rgba(0, 0, 0, 0.4);" placeholder="请输入联系人" bindinput="getConnectName"></input></view>
+  </view>
+  <view class="sideways">
+    <view class="description">联系人电话</view>
+    <view class="input"><input type='number' placeholder-style="color:rgba(0, 0, 0, 0.4);" placeholder="请输入联系人电话" bindinput="getConnectTel"></input></view>
+  </view>
+  <view class="sideways">
+    <view class="description" bindtap="getLocation">地理位置</view>
+    <view class="content">
+      <view class="latitude">{{latitude}}</view>
+      <view class="longitude" style="margin-left: 90rpx;">{{longitude}}</view>
+    </view>
+  </view>
+</view>
+<view class="button" bindtap="submit">确定</view>
+<view>
+
+</view>
