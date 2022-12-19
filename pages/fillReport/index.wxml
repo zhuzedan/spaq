@@ -96,8 +96,8 @@
     </view> -->
     <view class="sideways {{imageList.length != 0 ? 'active' : ''}}" wx:for="{{checkPhotoList}}" wx:key="key">
       <view class="description">{{item.photoTypeName}}</view>
-      <view class="content" wx:if="{{imageList.length == 0}}" bindtap="upLoadImage" data-photoId="{{item.id}}" data-photoTypeName="{{item.photoTypeName}}">请选择照片</view>
-      <view class="photoStyle" wx:for="{{imageList}}" wx:for-item="item" wx:key="*this">
+      <view class="content" wx:if="{{imageList.length == 0}}" bindtap="upLoadImage" data-photoId="{{item.id}}" data-photoTypeName="{{item.photoTypeName}}" data-index="{{index}}">请选择照片</view>
+      <view class="photoStyle" wx:for="{{item.imgArr}}" wx:for-item="item" wx:key="*this">
         <image src="{{item}}" data-index="{{index}}" mode="aspectFill" bindtap="previewImg"></image>
       </view>
       <view class="uploadPic" bindtap="upLoadImage" data-photoId="{{item.id}}" data-photoTypeName="{{item.photoTypeName}}" wx:if="{{imageList.length != 0}}">继续上传</view>

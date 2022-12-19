@@ -42,11 +42,12 @@ Page({
     },
     // 门头照片选择
     upLoadImage: function (e) {
-        console.log(e.currentTarget.dataset);
-        console.log(e.currentTarget.dataset.photoid)
-        console.log(e.currentTarget.dataset.phototypename);
+        // console.log(e.currentTarget.dataset);
+        // console.log(e.currentTarget.dataset.photoid)
+        // console.log(e.currentTarget.dataset.phototypename);
         var photoId = e.currentTarget.dataset.photoid;
         var photoTypeName = e.currentTarget.dataset.phototypename;
+        let index=e.currentTarget.dataset.index;
         this.setData({
             photoid: photoId,
             phototypename: photoTypeName
@@ -78,12 +79,12 @@ Page({
                     imageList: imageList
                 });
                 // 上传到oss
-                that.uploadFile();
+                that.uploadFile(index);
             },
         })
     },
     // 上传图片url到oss
-    uploadFile: function (e) {
+    uploadFile: function (index) {
         var that = this;
         // console.log(that.data.imageList);
         for (var i = 0; i < that.data.imageList.length; i++) {
@@ -110,8 +111,17 @@ Page({
                     }
                     // that.data.imageListUrl.concat(res.data.data.url)
                     // console.log(res.data.data.url);
+                    // that.data.checkPhotoList[index].img_url=res.data.data.url
+                    if(!this.data.checkPhotoList[index].imgArr){
+                      this.data.checkPhotoList[index].imgArr=[]
+                      this.data.checkPhotoList[index].imgArr.push(res.data.data.url)
+                    }
+                    else{
+                      this.data.checkPhotoList[index].imgArr.push(res.data.data.url)
+                    }
                     that.setData({
-                        imageListUrl: that.data.imageListUrl.concat(res.data.data.url)
+                        imageListUrl: that.data.imageListUrl.concat(res.data.data.url),
+                        checkPhotoList:that.data.checkPhotoList
                     })
                     setTimeout(function () {
                         wx.hideLoading()
