@@ -1,5 +1,6 @@
 /* pages/fillReport/index.wxss */
 @import '../../style/theme.scss';
+
 .header {
   display: flex;
   width: 100%;
@@ -10,8 +11,9 @@
   box-sizing: border-box;
   justify-content: center;
 }
+
 // 基础信息
-.basicInformation{
+.basicInformation {
   position: relative;
   display: flex;
   width: 686rpx;
@@ -22,16 +24,19 @@
   //align-items: center;
   height: 460rpx;
   border-radius: 12rpx;
+
   .inform {
     position: relative;
     flex-direction: row;
     display: flex;
     align-items: center;
     height: 25%;
+
     .basicKey {
       font-size: 32rpx;
       margin-left: 32rpx;
     }
+
     .basicValue {
       position: absolute;
       font-size: 28rpx;
@@ -40,11 +45,13 @@
     }
   }
 }
+
 // 基础信息两个按钮
 .buttons {
   display: flex;
   width: 100%;
   margin-top: 120rpx;
+
   .button {
     display: flex;
     color: #fff;
@@ -59,6 +66,7 @@
     margin-left: 15rpx;
   }
 }
+
 // 检查项
 .checkBackground {
   display: flex;
@@ -68,9 +76,11 @@
   //align-items: center;
   height: 1140rpx;
   border-radius: 12rpx;
+
   .menu {
     display: grid;
     grid-template-columns: 160rpx 1fr;
+
     .menuList {
       .steps_box {
         width: 500rpx;
@@ -79,6 +89,7 @@
         /* flex-direction: row; */
         align-items: center;
         justify-content: center;
+
         .block-step {
           display: flex;
           flex-direction: row;
@@ -86,11 +97,13 @@
           justify-content: center; */
         }
       }
+
       .view_item {
         display: flex;
         align-items: center;
         justify-content: center;
         flex-direction: column;
+
         view {
           width: 36rpx;
           height: 36rpx;
@@ -104,24 +117,30 @@
           content: "\e732";
         }
       }
+
       .view_line {
         width: 15%;
         height: 5rpx;
         /* background: linear-gradient(to right, #ead6ee, #a0f1ea); */
       }
-      .line_bgcolor1{
+
+      .line_bgcolor1 {
         background-color: $primary-color;
       }
-      .line_bgcolor{
+
+      .line_bgcolor {
         background: $primary-color;
       }
+
       .titleO {
         font-size: 28rpx;
         padding-left: 26rpx;
         padding-right: 26rpx;
+
         .title {
           padding: 20rpx;
         }
+
         .detail {
           margin-top: 27rpx;
           margin-bottom: 57rpx;
@@ -131,6 +150,7 @@
     }
   }
 }
+
 // 图片管理
 .picManage {
   display: flex;
@@ -141,75 +161,144 @@
   //align-items: center;
   height: 1068rpx;
   border-radius: 12rpx;
-  .sideways {
-    display: flex;
-    flex-direction: row;
-    height: 114rpx;
-    justify-content: space-between;
-    width: 100%;
-    border-bottom: 3rpx solid #f6f6f6;
-    .description {
-      display: flex;
-      margin-left: 32rpx;
-      justify-content: center;
-      text-align: center;
-      align-items: center;
-    }
-    .content {
-      color: rgba(0, 0, 0, 0.4);
-      text-align: right;
-      display: flex;
-      margin-right: 32rpx;
-      justify-content: center;
-      text-align: center;
-      align-items: center;
-      font-size: 28rpx;
-      flex-direction: row;
-    }
-  }
+
+  // .sideways {
+  //   display: flex;
+  //   flex-direction: row;
+  //   height: 114rpx;
+  //   justify-content: space-between;
+  //   width: 100%;
+  //   border-bottom: 3rpx solid #f6f6f6;
+  //   .description {
+  //     display: flex;
+  //     margin-left: 32rpx;
+  //     justify-content: center;
+  //     text-align: center;
+  //     align-items: center;
+  //   }
+  //   .content {
+  //     color: rgba(0, 0, 0, 0.4);
+  //     text-align: right;
+  //     display: flex;
+  //     margin-right: 32rpx;
+  //     justify-content: center;
+  //     text-align: center;
+  //     align-items: center;
+  //     font-size: 28rpx;
+  //     flex-direction: row;
+  //   }
+  // }
   .active {
-    display: flex;
-    height: 300rpx;
-    width: 100%;
-    flex-direction: row;
-    border-bottom: 3rpx solid #f6f6f6;
-    .description {
+
+    .title_wrap {
       display: flex;
-      position: absolute;
-      margin-top: 20rpx;
-    }
-    .content {
-      margin-top: 40rpx;
-      color: #E5E5E5;
-      text-align: right;
-      display: flex;
-      margin-right: 32rpx;
-      font-size: 28rpx;
       flex-direction: row;
+      align-items: center;
+      justify-content: center;
     }
-    .photoStyle {
-      position: relative;
-      margin-top: 70rpx;
-      float: left;
-      image {
-        height: 170rpx;
-        width: 170rpx;
-        margin-left: 20rpx;
-        margin-right: 20rpx;
-        .delete-btn {
-          position: absolute;
-          top: -20rpx;
-          right: 0;
-        }
-      }
-    }
-    .uploadPic {
-      display: flex;
-      position: absolute;
-      margin-top: 20rpx;
-      color: rgba(0, 0, 0, 0.4);
-      font-size: 28rpx;
-      margin-left: 550rpx;
-    }
+
+    // display: flex;
+    // height: 300rpx;
+    // width: 100%;
+    // flex-direction: row;
+    // border-bottom: 3rpx solid #f6f6f6;
+
+    // .description {
+    //   display: flex;
+    //   position: absolute;
+    //   margin-top: 20rpx;
+    // }
+
+    // .content {
+    //   margin-top: 40rpx;
+    //   color: #E5E5E5;
+    //   text-align: right;
+    //   display: flex;
+    //   margin-right: 32rpx;
+    //   font-size: 28rpx;
+    //   flex-direction: row;
+    //   // background-color: red;
+    // }
+
+    // .photoStyle {
+    //   position: relative;
+    //   margin-top: 70rpx;
+    //   float: left;
+    //   background-color: red;
+
+    //   // width: 10%;
+    //   image {
+    //     height: 170rpx;
+    //     width: 170rpx;
+    //     margin-left: 20rpx;
+    //     margin-right: 20rpx;
+
+    //     .delete-btn {
+    //       position: absolute;
+    //       top: -20rpx;
+    //       right: 0;
+    //     }
+    //   }
+    // }
+
+    // .uploadPic {
+    //   display: flex;
+    //   position: absolute;
+    //   margin-top: 20rpx;
+    //   color: rgba(0, 0, 0, 0.4);
+    //   font-size: 28rpx;
+    //   margin-left: 550rpx;
+    // }
   }
+}
+
+.sideways {
+  border-bottom: 3rpx solid #f6f6f6;
+  display: flex;
+  flex-direction: column;
+  margin-top: 24rpx;
+}
+
+.title_wrap {
+  display: flex;
+  align-items: center;
+  padding: 12rpx 0;
+}
+
+.title_wrap view {
+  flex: 1;
+}
+
+.description {
+  text-align: left;
+}
+
+.content {
+  color: rgba(0, 0, 0, 0.4);
+  text-align: right;
+  font-size: 28rpx;
+}
+
+.photoStyle {
+  // margin-top: 24rpx;
+  // height: 170rpx;
+  padding-left: 24rpx;
+}
+
+.photoStyle image {
+  height: 170rpx;
+  width: 170rpx;
+}
+
+.delete-btn {
+  position: absolute;
+  top: -20rpx;
+  right: 0;
+}
+
+.pic_content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: space-around;
 }

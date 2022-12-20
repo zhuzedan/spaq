@@ -32,7 +32,8 @@ Page({
       name: '4'
     }, { name: 's' }, { name: 's' }, { name: 's' }, { name: 's' }],
 
-    stepNum: 1 //当前的步数
+    stepNum: 1,//当前的步数
+    photo_list: []
 
   },
   forEdit1() {
@@ -50,105 +51,74 @@ Page({
       phototypename: photoTypeName
     })
     var that = this;
-    wx.chooseMedia({
-      camera: 'back',
-      count: 9,
-      mediaType: ['image'],
+    wx.chooseImage({
+      count: 1,
       sizeType: ['original', 'compressed'],
       sourceType: ['album', 'camera'],
-      success: function (res) {
-        // console.log(res.tempFiles);
-        var imageList = that.data.imageList;
-        var tempFiles = res.tempFiles;
-        // imageList数组的值为小程序图片本地缓存的地址
-        for (var i = 0; i < tempFiles.length; i++) {
-          if (tempFiles.length >= 9) {
-            that.setData({
-              imageList: imageList
-            });
-            return false;
-          } else {
-            imageList.push(tempFiles[i].tempFilePath)
+      success: (res) => {
+        let tempFilePaths = res.tempFilePaths[0]
+        wx.showLoading({
+          title: '上传中',
+          success: res => {
+            that.uploadFile(index, tempFilePaths)
           }
-        }
-        // console.log(imageList);
-        that.setData({
-          imageList: imageList
-        });
-        // 上传到oss
-        that.uploadFile(index);
+        })
       },
-    })
+    });
   },
   // 上传图片url到oss
-  uploadFile: function (index) {
+  uploadFile: function (index, tempFilePaths) {
     var that = this;
-    for (var i = 0; i < that.data.imageList.length; i++) {
-      wx.showLoading({
-        title: '上传中',
-      })
-      wx.uploadFile({
-        filePath: that.data.imageList[i],
-        name: 'file',
-        url: app.globalData.url + '/api/app-check/uploadPic',
-        header: {
-          "Authorization": "Bearer " + app.globalData.userInfo.token
-        },
-        success: (res) => {
-          // 将返回的json格式数据转换成对象
-          var successData = res.data
-          var jsonStr = successData.replace(" ", "")
-          if (typeof jsonStr != 'object') {
-            jsonStr = jsonStr.replace(/\ufeff/g, "");
-            var jj = JSON.parse(jsonStr);
-            res.data = jj;
-          }
-          if (!this.data.checkPhotoList[index].imgArr) {
-            this.data.checkPhotoList[index].imgArr = []
-            this.data.checkPhotoList[index].imgArr.push(res.data.data.url)
-          }
-          else {
-            this.data.checkPhotoList[index].imgArr.push(res.data.data.url)
-          }
-          that.setData({
-            imageListUrl: that.data.imageListUrl.concat(res.data.data.url),
-            checkPhotoList: that.data.checkPhotoList
-          })
-          this.pushApi(index, res.data.data.url)
-          setTimeout(function () {
-            wx.hideLoading()
-          }, 2000);
-          // console.log(that.data.imageListUrl);
-          // that.insertReportPhoto()
+    wx.uploadFile({
+      filePath: tempFilePaths,
+      name: 'file',
+      url: app.globalData.url + '/api/app-check/uploadPic',
+      header: {
+        "Authorization": "Bearer " + app.globalData.userInfo.token
+      },
+      success: res => {
+        var successData = res.data
+        var jsonStr = successData.replace(" ", "")
+        if (typeof jsonStr != 'object') {
+          jsonStr = jsonStr.replace(/\ufeff/g, "");
+          var jj = JSON.parse(jsonStr);
+          res.data = jj;
         }
-      })
-    }
+        let img_url = res.data.data.url
+        that.pushApi(index, img_url)
+        let temp_obj = {
+          'photoTypeName': that.data.phototypename,
+          'img_url': img_url
+        }
+        that.data.photo_list.push(temp_obj)
+        that.setData({
+          photo_list: that.data.photo_list
+        })
+      }
+    })
   },
   // 上传
   pushApi(index, img_url) {
-    wx.showLoading({
-      title: '上传中',
+    const that = this
+    wx.request({
+      url: app.globalData.url + '/api/app-check/insertReportPhoto',
+      method: "POST",
+      header: {
+        "Authorization": "Bearer " + app.globalData.userInfo.token
+      },
+      data: {
+        "photoId": that.data.photoid,
+        "photoTypeName": that.data.phototypename,
+        "picAdd": img_url,
+        "reportFormId": "1",
+        "sort": that.data.sort
+      },
       success: res => {
-        wx.request({
-          url: app.globalData.url + '/api/app-check/insertReportPhoto',
-          method: "POST",
-          header: {
-            "Authorization": "Bearer " + app.globalData.userInfo.token
-          },
-          data: {
-            "photoId": this.data.checkPhotoList[index].id,
-            "photoTypeName": this.data.checkPhotoList[index].photoTypeName,
-            "picAdd": img_url,
-            "reportFormId": "1",
-            "sort": this.data.sort
-          },
-          success: res => {
-            console.log(res);
-            wx.showToast({
-              title: res.data.msg,
-              icon: "none"
-            })
-          }
+        wx.hideLoading()
+        console.log(res);
+        wx.showToast({
+          title: res.data.msg,
+          icon: "none"
         })
       }
     })
@@ -224,6 +194,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    console.log(options);
     this.setData({
       checkPointId: options.checkPointId
     })

@@ -10,22 +10,22 @@
     <view class="inform">
       <view class="basicKey">单位名称</view>
       <view wx:if="{{editInformation == 1}}" class="basicValue">{{info.name}}</view>
-      <input wx:if="{{editInformation == 2}}" class="basicValue" type="text" placeholder="{{info.name}}" bindinput="handle_name"/>
+      <input wx:if="{{editInformation == 2}}" class="basicValue" type="text" placeholder="{{info.name}}" bindinput="handle_name" />
     </view>
     <view class="inform">
       <view class="basicKey">单位地址</view>
       <view wx:if="{{editInformation == 1}}" class="basicValue">{{info.address}}</view>
-      <input wx:if="{{editInformation == 2}}" class="basicValue" type="text" placeholder="{{info.address}}" bindinput="handle_address"/>
+      <input wx:if="{{editInformation == 2}}" class="basicValue" type="text" placeholder="{{info.address}}" bindinput="handle_address" />
     </view>
     <view class="inform">
       <view class="basicKey">单位联系人</view>
       <view wx:if="{{editInformation == 1}}" class="basicValue">{{info.connectName}}</view>
-      <input  wx:if="{{editInformation == 2}}" class="basicValue" type="text" placeholder="{{info.connectName}}" bindinput="handle_user"/>
+      <input wx:if="{{editInformation == 2}}" class="basicValue" type="text" placeholder="{{info.connectName}}" bindinput="handle_user" />
     </view>
     <view class="inform">
       <view class="basicKey">联系人电话</view>
-      <view  wx:if="{{editInformation == 1}}" class="basicValue">{{info.connectTel}}</view>
-      <input wx:if="{{editInformation == 2}}" class="basicValue" type="text" placeholder="{{info.connectTel}}" bindinput="handle_phone"/>
+      <view wx:if="{{editInformation == 1}}" class="basicValue">{{info.connectTel}}</view>
+      <input wx:if="{{editInformation == 2}}" class="basicValue" type="text" placeholder="{{info.connectTel}}" bindinput="handle_phone" />
     </view>
   </view>
   <view class="buttons">
@@ -84,23 +84,18 @@
 </view>
 <view wx:if="{{currentNum==2}}">
   <scroll-view scroll-y="true" class="picManage">
-    <!-- <view class="sideways {{imageList.length != 0 ? 'active' : ''}}">
-      <view class="description">门头照片</view>
-      <view class="content" wx:if="{{imageList.length == 0}}" bindtap="upLoadImage">请选择照片</view>
-      <view class="photoStyle" wx:for="{{imageList}}" wx:for-item="item" wx:key="*this">
-        <image src="{{item}}" data-index="{{index}}" mode="aspectFill" bindtap="previewImg">
-          <icon type='cancel' class="delete-btn" data-index="{{index}}" catchtap="deleteImg"></icon>
-        </image>
+    <view class="sideways {{photo_list[index].photoTypeName ==checkPhotoList[index].photoTypeName ? 'active' : ''}}" wx:for="{{checkPhotoList}}" wx:key="key">
+      <view class="title_wrap">
+        <view class="description">{{item.photoTypeName}}</view>
+        <view class="content" bindtap="upLoadImage" data-photoId="{{item.id}}" data-photoTypeName="{{item.photoTypeName}}" data-index="{{index}}">请选择照片</view>
       </view>
-      <view class="uploadPic" bindtap="upLoadImage" data-photoId="{{item.id}}" data-photoTypeName="{{item.photoTypeName}}" wx:if="{{imageList.length != 0}}">继续上传</view>
-    </view> -->
-    <view class="sideways {{imageList.length != 0 ? 'active' : ''}}" wx:for="{{checkPhotoList}}" wx:key="key">
-      <view class="description">{{item.photoTypeName}}</view>
-      <view class="content" wx:if="{{imageList.length == 0}}" bindtap="upLoadImage" data-photoId="{{item.id}}" data-photoTypeName="{{item.photoTypeName}}" data-index="{{index}}">请选择照片</view>
-      <view class="photoStyle" wx:for="{{item.imgArr}}" wx:for-item="item" wx:key="*this">
-        <image src="{{item}}" data-index="{{index}}" mode="aspectFill" bindtap="previewImg"></image>
+      <view class="pic_content">
+        <view class="photoStyle" wx:for="{{photo_list}}" wx:for-item="item1" wx:key="*this" wx:for-index="index1" wx:if="{{item.photoTypeName==item1.photoTypeName}}">
+          <image src="{{item1.img_url}}" data-index="{{index}}" mode="aspectFill" bindtap="previewImg"></image>
+        </view>
       </view>
-      <view class="uploadPic" bindtap="upLoadImage" data-photoId="{{item.id}}" data-photoTypeName="{{item.photoTypeName}}" wx:if="{{imageList.length != 0}}">继续上传</view>
+
+      <!-- <view class="uploadPic" bindtap="upLoadImage" data-photoId="{{item.id}}" data-photoTypeName="{{item.photoTypeName}}" wx:if="{{imageList.length != 0}}">继续上传</view> -->
     </view>
     <view class="sideways">
       <view class="description">厨房环境</view>
@@ -115,7 +110,7 @@
       <view class="content">
         <icon type="success" size="20" color="#3161FF" />
         <view style="margin-right: 30rpx;">是</view>
-        <view  style="color: #f6f6f6; width: 40rpx; height: 40rpx;  border-radius: 50%; border: 4rpx solid #f6f6f6;"/>
+        <view style="color: #f6f6f6; width: 40rpx; height: 40rpx;  border-radius: 50%; border: 4rpx solid #f6f6f6;" />
         <view>否</view>
         <!-- <van-radio-group value="{{ radio }}" bind:change="onChangeRadio" direction="horizontal">
           <van-radio name="1" checked-color="#3161FF">是</van-radio>
