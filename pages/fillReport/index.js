@@ -175,20 +175,65 @@ Page({
       url: '../signature/index?reportFormId=' + e.currentTarget.dataset.reportformid,
     })
   },
-  onChange(event) {
-    this.setData({
-      checked: event.detail,
-    });
+  radioChange(e) {
+    console.log(e);
+    const { index } = e.currentTarget.dataset
+    console.log(index);
+    const that = this
+    that.setData({
+      question_value: e.detail.value
+    })
+    // wx.showLoading({
+    //   success: res => {
+    wx.request({
+      url: app.globalData.url + '/api/app-check/insertReportItem',
+      method: "POST",
+      header: {
+        "Authorization": "Bearer " + app.globalData.userInfo.token,
+        'content-type': 'application/x-www-form-urlencoded'
+      },
+      data: {
+        "itemId": that.data.question_list[that.data.question_index].checkItemList[index].id,
+        "itemName": that.data.question_list[that.data.question_index].checkItemList[index].itemName,
+        "projectCode": that.data.question_list[that.data.question_index].projectCode,
+        "projectName": that.data.question_list[that.data.question_index].projectName,
+        "reportFormId": that.data.question_list[that.data.question_index].id,
+        "score": 0,
+        "sort": 0,
+        "subjectId": that.data.question_list[that.data.question_index].checkItemList[index].subjectId,
+        "subjectScore": 0,
+        "subjectStem": that.data.question_list[that.data.question_index].checkItemList[index].stem
+      },
+      success: res => {
+        console.log(res);
+      }
+    })
+    //   }
+    // })
   },
   onChangeRadio(event) {
     this.setData({
       radio: event.detail,
     });
   },
+  sub_setp() {
+    if (this.data.question_index > 0) {
+      this.data.question_index--
+      this.setData({
+        question_index: this.data.question_index
+      })
+    }
+  },
   numSteps() {
-    this.setData({
-      stepNum: this.data.stepNum == this.data.stepList.length ? 1 : this.data.stepNum + 1
-    })
+    if (this.data.question_index < this.data.question_list.length - 1) {
+      this.data.question_index++
+      this.setData({
+        question_index: this.data.question_index
+      })
+    }
+    // this.setData({
+    //   stepNum: this.data.stepNum == this.data.stepList.length ? 1 : this.data.stepNum + 1
+    // })
   },
   /**
    * 生命周期函数--监听页面加载
@@ -258,7 +303,15 @@ Page({
         orgCode: options.streetOrgCode
       },
       success: res => {
-        console.log(321, res);
+        let left_list = res.data.data.map(item => {
+          return item.projectName
+        })
+        left_list = [...new Set(left_list)]
+        that.setData({
+          question_list: res.data.data,
+          question_index: 0,
+          left_list
+        })
       }
     })
   },

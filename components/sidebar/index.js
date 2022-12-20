@@ -7,7 +7,6 @@ Component({
     list: {
       type: Array,
       value: [
-        1,2
       ]
     }
   },

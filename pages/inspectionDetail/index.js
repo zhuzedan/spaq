@@ -65,6 +65,7 @@ Page({
       success: function (res) {
         const { categoryCode, areaOrgCode } = res.data.data
         that.get_title(categoryCode, areaOrgCode)
+        that.get_search(categoryCode, areaOrgCode)
       },
       fail: function (error) {
         console.log(error);
@@ -106,6 +107,51 @@ Page({
         this.setData({ img_list: res.data.data })
       }
     })
+  },
+  // 查询检查项
+  get_search(categoryCode, areaOrgCode) {
+    wx.request({
+      url: app.globalData.url + '/api/app-check/queryCheckItem',
+      method: "GET",
+      header: {
+        "Authorization": "Bearer " + app.globalData.userInfo.token
+      },
+      data: {
+        'categoryCode': categoryCode,
+        'orgCode': areaOrgCode
+      },
+      success: res => {
+        let left_list = res.data.data.map(item => {
+          return item.projectName
+        })
+        left_list = [...new Set(left_list)]
+        this.setData({
+          question_list: res.data.data,
+          question_index: 0,
+          left_list
+        })
+        // this.setData({ img_list: res.data.data })
+      }
+    })
+  },
+  sub_setp() {
+    if (this.data.question_index > 0) {
+      this.data.question_index--
+      this.setData({
+        question_index: this.data.question_index
+      })
+    }
+  },
+  numSteps() {
+    if (this.data.question_index < this.data.question_list.length - 1) {
+      this.data.question_index++
+      this.setData({
+        question_index: this.data.question_index
+      })
+    }
+    // this.setData({
+    //   stepNum: this.data.stepNum == this.data.stepList.length ? 1 : this.data.stepNum + 1
+    // })
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
