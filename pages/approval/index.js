@@ -92,6 +92,53 @@ Page({
       },
     });
   },
+  pointExamine(e) {
+    // console.log(e);
+    let examineresult = e.currentTarget.dataset.examineresult
+    let examineid = e.currentTarget.dataset.examineid
+    console.log(examineid);
+    let content = examineresult == '1' ? '确认同意审批' : '确认拒绝审批'
+    wx.showModal({
+      title: '提示',
+      content,
+      showCancel: true,
+      cancelText: '取消',
+      cancelColor: '#000000',
+      confirmText: '确定',
+      confirmColor: '#3CC51F',
+      success: (result) => {
+        if (result.confirm) {
+          wx.showLoading({
+            title: '操作中',
+            success: res => {
+              wx.request({
+                url: app.globalData.url + '/api/app-approval/updateReportExamine?reportExamineId=' + examineid + '&examineResult=' + examineresult+ '&leaderUserId=' + app.globalData.getUserInfo.userId,
+                method: 'POST',
+                header: {
+                  "Authorization": "Bearer " + app.globalData.userInfo.token
+                },
+                success: res => {
+                  wx.hideLoading()
+                  if (res.data.code == 200) {
+                    wx.showToast({
+                      title: '操作成功',
+                      icon: "none"
+                    })
+                    this.getList()
+                  } else {
+                    wx.showToast({
+                      title: res.data.msg,
+                      icon: "none"
+                    })
+                  }
+                }
+              })
+            }
+          })
+        }
+      },
+    });
+  },
   onLoad(options) {
     const res = wx.getSystemInfoSync()
     const {
