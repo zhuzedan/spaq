@@ -1,6 +1,12 @@
 // pages/newPoint/index.js
-import Toast from '@vant/weapp/toast/toast';
+// import Toast from '@vant/weapp/toast/toast';
 var app = getApp();
+function tao(content){
+  wx.showToast({
+    title: content,
+    icon:"none"
+  })
+}
 Page({
 
   /**
@@ -75,79 +81,45 @@ Page({
   },
   // 确定按钮
   submit() {
-    var name = this.data.name
-    var businessType = this.data.businessType
-    var categoryCode = this.data.categoryCode
-    var areaOrgCode = this.data.areaOrgCode
-    var streetOrgCode = this.data.streetOrgCode
-    var connectName = this.data.connectName
-    var connectTel = this.data.connectTel
-
+    const {name,businessType,categoryCode,areaOrgCode,streetOrgCode,connectName,connectTel}=this.data
     // 判断输入内容是否空值
     if (name == '') {
-      wx.showToast({
-        title: '单位名不能为空',
-        icon: 'none'
-      })
+      tao('单位名不能为空')
       return;
     }
     if (businessType == '') {
-      wx.showToast({
-        title: '请选择类型',
-        icon: 'none'
-      })
+      tao('请选择类型')
       return;
     }
     if (categoryCode == '') {
-      wx.showToast({
-        title: '请选择类别',
-        icon: 'none'
-      })
+      tao('请选择类别')
       return;
     }
     if (areaOrgCode == '') {
-      wx.showToast({
-        title: '请选择区域',
-        icon: 'none'
-      })
+      tao('请选择区域')
       return;
     }
     if (streetOrgCode == '') {
-      wx.showToast({
-        title: '请输入街道',
-        icon: 'none'
-      })
+      tao('请输入街道')
       return;
     }
     if (connectName == '') {
-      wx.showToast({
-        title: '联系人不能为空',
-        icon: 'none'
-      })
+      tao('联系人不能为空')
       return;
     }
     if (connectTel == '') {
-      wx.showToast({
-        title: '联系人电话不能为空',
-        icon: 'none'
-      })
+      tao('联系人电话不能为空')
       return;
     }
     if (connectTel.length != 0 && connectTel.length != 11) { //输入的手机号不足11位提示
-      wx.showToast({
-        title: '请输入11位手机号',
-        icon: 'none'
-      })
+      tao('请输入11位手机号')
       return;
     }
     if (connectTel.length == 11) { //输入的手机号满足11位
       //正则匹配开头是1总长度为11的号码
       let regex  = /^(((1[35789][0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/
       if (!regex.test(connectTel)) {
-        wx.showToast({
-          title: '手机号格式有误',
-          icon: 'none'
-        })
+        tao('手机号格式有误')
       }
     }
     wx.request({
@@ -156,9 +128,9 @@ Page({
       },
       url: app.globalData.url+'/api/app-my/insertCheckPoint',
       data: {
-        name: this.data.name,
-        connectName: this.data.connectName,
-        connectTel: this.data.connectTel,
+        name,
+        connectName,
+        connectTel,
         businessType: this.data.index1 - 1,
         categoryCode: this.data.categoryCode,
         areaOrgCode: this.data.areaOrgCode,
@@ -168,17 +140,13 @@ Page({
       },
       method: 'POST',
       success: function (res) {
-        console.log(res);
         if (res.data.code == 200) {
           wx.showModal({
             title: '',
             content: '确认提交吗？',
             complete: (res) => {
               if (res.confirm) {
-                wx.showToast({
-                  title: '提交成功',
-                  duration: 2000
-                })
+                tao('提交成功')
                 wx.switchTab({
                   url: '../index/index',
                 })

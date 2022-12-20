@@ -7,6 +7,7 @@
     "pages/basic/index",
     "pages/auditRecord/index",
     "pages/inspectionRecord/index",
+    "pages/inspectionEdit/index",
     "pages/fillReport/index",
     "pages/approval/index",
     "pages/signature/index",

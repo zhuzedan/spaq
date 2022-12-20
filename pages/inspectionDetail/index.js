@@ -1,4 +1,4 @@
-// pages/fillReport/index.js
+var app = getApp();
 Page({
 
   /**
@@ -7,7 +7,7 @@ Page({
   data: {
     currentNum: 0,
     checked: true,
-    
+
     stepList: [{
       name: '1'
     }, {
@@ -16,7 +16,7 @@ Page({
       name: '3'
     }, {
       name: '4'
-    },{name:'s'},{name:'s'},{name:'s'},{name:'s'} ],
+    }, { name: 's' }, { name: 's' }, { name: 's' }, { name: 's' }],
 
     stepNum: 1 //当前的步数
 
@@ -45,9 +45,68 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    let basic_obj = JSON.parse(options.item)
+    this.setData({ basic_obj })
+    this.initData(basic_obj.checkPointId)
+    this.get_img()
 
   },
+  initData(checkPointId) {
+    const that = this
+    wx.request({
+      url: app.globalData.url + '/api/app-check/queryCheckPointOne',
+      data: {
+        checkPointId
+      },
+      header: {
+        "Authorization": "Bearer " + app.globalData.userInfo.token
+      },
+      method: 'GET',
+      success: function (res) {
+        const { categoryCode, areaOrgCode } = res.data.data
+        that.get_title(categoryCode, areaOrgCode)
+      },
+      fail: function (error) {
+        console.log(error);
+      }
+    })
+  },
+  // 查询分类
+  get_title(categoryCode, areaOrgCode) {
+    wx.request({
+      url: app.globalData.url + '/api/app-check/queryCheckPhotoList',
+      header: {
+        "Authorization": "Bearer " + app.globalData.userInfo.token
+      },
+      method: "GET",
+      data: {
+        'categoryCode': categoryCode,
+        'orgCode': areaOrgCode
+      },
+      success: res => {
+        this.setData({
+          title_list: res.data.data
+        })
+      }
+    })
+  },
 
+  // 查询图片
+  get_img() {
+    wx.request({
+      url: app.globalData.url + '/api/app-my/queryReportPhotoList',
+      method: "POST",
+      header: {
+        "Authorization": "Bearer " + app.globalData.userInfo.token
+      },
+      data: {
+        'reportFormId': '1'
+      },
+      success: res => {
+        this.setData({ img_list: res.data.data })
+      }
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
