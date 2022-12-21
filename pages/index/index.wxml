@@ -26,7 +26,7 @@
         <view wx:for="{{area}}" wx:key="{{item.id}}" bindtap="setAreaIndex" data-areaindex="{{index}}" data-areaid="{{item.id}}" class="{{areaindex==index?'active':''}}">{{item.name}}</view>
       </view>
       <view class="filter-panel-right">
-        <view wx:for="{{area[areaindex].zone}}" wx:key="{{item.id}}" bindtap="setSubareaIndex" data-subareaindex="{{index}}" data-subareaid="{{item.id}}" class="{{subareaindex==index?'active':''}}">{{item.name}}</view>
+        <view wx:for="{{zone}}" wx:key="{{item.id}}" bindtap="setSubareaIndex" data-subareaindex="{{index}}" data-subareaid="{{item.id}}" class="{{subareaindex==index?'active':''}}">{{item.name}}</view>
       </view>
     </view>
     <view class="filter-panel" wx:if="{{showfilterindex==3}}">

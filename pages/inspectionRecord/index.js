@@ -32,81 +32,55 @@ Page({
   },
   fetchFilterData: function () { //获取筛选条件
     this.setData({
-      category: [{
-          "id": 0,
-          "title": "全部"
-        },
-        {
-          "id": 27,
-          "title": "公益",
-          "cate_two": [{
-            "id": 4,
-            "title": "养老院"
-          }]
-        },
-        {
-          "id": 24,
-          "title": "商业",
-          "cate_two": [{
-              "id": "24",
-              "title": "餐饮企业"
-            },
-            {
-              "id": 25,
-              "title": "建筑工地"
-            }
-          ]
-        }
-      ],
       month: [
         {
           "id": 0,
           "name": "全部"
         },
         {
-          "id": 23,
+          "id": 1,
           "name": "1"
         },
         {
-          "id": 24,
+          "id": 2,
           "name": "2",
         },
         {
-          "id": 25,
+          "id": 3,
           "name": "3"
         },
         {
-          "id": 26,
+          "id": 4,
           "name": "4",
         },
         {
-          "id": 27,
+          "id": 5,
           "name": "5"
         },
         {
-          "id": 28,
+          "id": 6,
           "name": "6",
         },
         {
-          "id": 29,
+          "id": 7,
           "name": "7",
         },
         {
-          "id": 29,
+          "id": 8,
           "name": "8",
         },
         {
-          "id": 29,
+          "id": 9,
           "name": "9",
         },
         {
-          "id": 29,
+          "id": 10,
           "name": "10",
-        },{
-          "id": 29,
+        }, {
+          "id": 11,
           "name": "11",
-        },{
-          "id": 29,
+        }, {
+          "id": 12,
           "name": "12",
         }
       ],
@@ -116,23 +90,23 @@ Page({
           "name": "全部"
         },
         {
-          "id": 12,
+          "id": '0,60',
           "name": "<60"
         },
         {
-          "id": 13,
+          "id": '60,70',
           "name": "60~70"
         },
         {
-          "id": 14,
+          "id": '70,80',
           "name": "70~80"
         },
         {
-          "id": 15,
+          "id": '80,90',
           "name": "80~90"
         },
         {
-          "id": 16,
+          "id": '90,100',
           "name": "90~100"
         }
       ]
@@ -167,19 +141,86 @@ Page({
   },
   setSubcateIndex: function (e) { //分类二级索引
     const dataset = e.currentTarget.dataset;
+    const that=this
     this.hideFilter()
     this.setData({
       subcateindex: dataset.subcateindex,
       subcateid: dataset.subcateid,
     })
-    console.log('商家分类：一级id__' + this.data.cateid + ',二级id__' + this.data.subcateid);
+    let businessType = this.data.cateid
+    let categoryCode = dataset.subcateid
+    wx.showLoading({
+      success:res=>{
+        wx.request({
+          url: app.globalData.url + '/api/app-my/queryReportFormPage?userId=' + app.globalData.getUserInfo.userId +
+            '&current=' + that.data.currentPage + '&pageSize=10' + '&businessType=' + businessType + '&categoryCode=' + categoryCode,
+          header: {
+            "Authorization": "Bearer " + app.globalData.userInfo.token
+          },
+          method: 'POST',
+          success: function (res) {
+            var dataArray = res.data.data.data
+            wx.hideLoading()
+            for (var i = 0; i < dataArray.length; i++) {
+              dataArray[i]["gmtCreate"] = times.toDate(dataArray[i]["gmtCreate"])
+            }
+            if (res.data.code == 200) {
+              if (that.data.currentPage == 1) {
+                that.setData({
+                  dataList: res.data.data.data
+                })
+              } else {
+                that.setData({
+                  dataList: dataList.concat(res.data.data.data)
+                })
+              }
+            }
+          }
+        })
+      }
+    })
+    // console.log('商家分类：一级id__' + this.data.cateid + ',二级id__' + this.data.subcateid);
   },
   setMonthIndex: function (e) { //月份索引
     const d = this.data;
     const dataset = e.currentTarget.dataset;
+    var date = new Date()
+    const year = date.getFullYear()
+    let startDate = `${year}-${dataset.monthid}-1`
+    let endDate = `${year}-${dataset.monthid}-30`
     this.setData({
       monthindex: dataset.monthindex,
       monthid: dataset.monthid
+    })
+    wx.showLoading({
+      success: res => {
+        wx.request({
+          url: app.globalData.url + '/api/app-my/queryReportFormPage?userId=' + app.globalData.getUserInfo.userId +
+            '&current=' + this.data.currentPage + '&pageSize=10' + '&startDate=' + startDate + '&endDate=' + endDate,
+          header: {
+            "Authorization": "Bearer " + app.globalData.userInfo.token
+          },
+          method: 'POST',
+          success: function (res) {
+            wx.hideLoading()
+            var dataArray = res.data.data.data
+            for (var i = 0; i < dataArray.length; i++) {
+              dataArray[i]["gmtCreate"] = times.toDate(dataArray[i]["gmtCreate"])
+            }
+            if (res.data.code == 200) {
+              if (currentPage == 1) {
+                that.setData({
+                  dataList: res.data.data.data
+                })
+              } else {
+                that.setData({
+                  dataList: dataList.concat(res.data.data.data)
+                })
+              }
+            }
+          }
+        })
+      }
     })
     console.log('所在地区：一级id__' + this.data.monthid);
     this.hideFilter()
@@ -190,8 +231,32 @@ Page({
       scoreindex: dataset.scoreindex,
       scoreid: dataset.scoreid,
     })
-    console.log('所在地区：一级id__' + this.data.scoreid );
-    console.log(this.data);
+    let scoreArr = dataset.scoreid.split(',')
+    wx.request({
+      url: app.globalData.url + '/api/app-my/queryReportFormPage?userId=' + app.globalData.getUserInfo.userId +
+        '&current=' + this.data.currentPage + '&pageSize=10' + '&lowScore=' + scoreArr[0] + '&highScore' + scoreArr[1],
+      header: {
+        "Authorization": "Bearer " + app.globalData.userInfo.token
+      },
+      method: 'POST',
+      success: function (res) {
+        var dataArray = res.data.data.data
+        for (var i = 0; i < dataArray.length; i++) {
+          dataArray[i]["gmtCreate"] = times.toDate(dataArray[i]["gmtCreate"])
+        }
+        if (res.data.code == 200) {
+          if (currentPage == 1) {
+            that.setData({
+              dataList: res.data.data.data
+            })
+          } else {
+            that.setData({
+              dataList: dataList.concat(res.data.data.data)
+            })
+          }
+        }
+      }
+    })
     this.hideFilter()
   },
   hideFilter: function () { //关闭筛选面板
@@ -298,7 +363,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+this.get_type()
   },
 
   /**
@@ -336,5 +401,11 @@ Page({
    */
   onShareAppMessage() {
 
-  }
+  },
+  get_type(){
+    let category=wx.getStorageSync('category')
+    this.setData({
+      category
+    })
+  },
 })

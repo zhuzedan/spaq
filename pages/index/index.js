@@ -23,95 +23,42 @@ Page({
     totalCount: 1,
     height: 0,
     latitude: '',
-    longitude: ''
+    longitude: '',
+
+    category: [
+      {
+        "id": 'undefind',
+        "title": "全部"
+      },
+      {
+        "id": 0,
+        "title": "公益",
+        "cate_two": []
+      },
+      {
+        "id": 1,
+        "title": "商业",
+        "cate_two": []
+      }
+    ],
+    area: [{
+      "id": 0,
+      "name": "全城"
+    }
+    ],
+    zone: [],
+    sort: [
+      {
+        "id": 12,
+        "name": "时间排序"
+      },
+      {
+        "id": 12,
+        "name": "距离排序"
+      }
+    ]
   },
-  fetchFilterData: function () { //获取筛选条件
-    this.setData({
-      category: [{
-          "id": 0,
-          "title": "全部"
-        },
-        {
-          "id": 27,
-          "title": "公益",
-          "cate_two": [{
-            "id": 4,
-            "title": "养老院"
-          }]
-        },
-        {
-          "id": 24,
-          "title": "商业",
-          "cate_two": [{
-              "id": "24",
-              "title": "餐饮企业"
-            },
-            {
-              "id": 25,
-              "title": "建筑工地"
-            }
-          ]
-        }
-      ],
-      area: [{
-          "id": 0,
-          "name": "全城"
-        },
-        {
-          "id": 12,
-          "name": "鄞州区",
-          "zone": [{
-              "id": 38,
-              "name": "钟公庙街道"
-            },
-            {
-              "id": 39,
-              "name": "下应街道"
-            },
-            {
-              "id": 40,
-              "name": "潘火街道"
-            },
-            {
-              "id": 39,
-              "name": "首南街道"
-            }
-          ]
-        },
-        {
-          "id": 20,
-          "name": "江北区"
-        },
-        {
-          "id": 21,
-          "name": "海曙区",
-          "zone": []
-        },
-        {
-          "id": 22,
-          "name": "镇海区"
-        },
-        {
-          "id": 23,
-          "name": "北仑区",
-          "zone": [{
-            "id": 55,
-            "name": "金桥"
-          }]
-        }
-      ],
-      sort: [
-        {
-          "id": 12,
-          "name": "时间排序"
-        },
-        {
-          "id": 12,
-          "name": "距离排序"
-        }
-      ]
-    })
-  },
+
   setFilterPanel: function (e) { //展开筛选面板
     const d = this.data;
     const i = e.currentTarget.dataset.findex;
@@ -141,27 +88,134 @@ Page({
   },
   setSubcateIndex: function (e) { //分类二级索引
     const dataset = e.currentTarget.dataset;
+    var that = this;
     this.hideFilter()
     this.setData({
       subcateindex: dataset.subcateindex,
       subcateid: dataset.subcateid,
+    })
+    const businessType = this.data.cateid
+    const categoryCode = dataset.subcateid
+    wx.request({
+      url: app.globalData.url + '/api/app-check/queryCheckPointPage',
+      header: {
+        "Authorization": "Bearer " + app.globalData.userInfo.token
+      },
+      data: {
+        current: this.data.pageIndex,
+        categoryCode,
+        businessType,
+        pageSize: 5
+      },
+      method: 'GET',
+      success: function (res) {
+        if (res.data.code == 200) {
+          console.log(res.data.data.data[0]);
+          var dataArray = res.data.data.data
+          var categoryBenefit = [] //公益类型的类别编码 
+          var categoryCommerce = [] //商业类型的类别编码
+          var j = 0, k = 0
+          for (var i = 0; i < dataArray.length; i++) {
+            if (dataArray[i]["businessType"] == 0) {
+              categoryBenefit[i] = dataArray[i]["categoryCode"]
+              j++
+            } else if (dataArray[i]["businessType"] == 1) {
+              categoryCommerce[k] = dataArray[i]["categoryCode"]
+              k++
+            }
+          }
+          that.setData({
+            list: res.data.data.data,
+            totalCount: res.data.data.totalCount
+          })
+        } else {
+          wx.showToast({
+            title: '系统发生错误',
+          })
+        }
+      }
     })
     console.log('商家分类：一级id__' + this.data.cateid + ',二级id__' + this.data.subcateid);
   },
   setAreaIndex: function (e) { //地区一级索引
     const d = this.data;
     const dataset = e.currentTarget.dataset;
+    let orgCode = dataset.areaid
+    wx.request({
+      url: app.globalData.url + '/api/app-base/queryNextLevelCodeAndName',
+      method: "GET",
+      header: {
+        "Authorization": "Bearer " + app.globalData.userInfo.token
+      },
+      data: {
+        orgCode
+      },
+      success: res => {
+        let len = res.data.data.length
+        let zone = []
+        for (let i = 0; i < len; i++) {
+          let obj = {
+            id: res.data.data[i].orgCode,
+            name: res.data.data[i].name
+          }
+          zone.push(obj)
+        }
+        this.setData({
+          zone
+        })
+      }
+    })
     this.setData({
       areaindex: dataset.areaindex,
       areaid: dataset.areaid,
       subareaindex: d.areaindex == dataset.areaindex ? d.subareaindex : 0
     })
-    console.log('所在地区：一级id__' + this.data.areaid + ',二级id__' + this.data.subareaid);
-    console.log(this.data);
+    // console.log('所在地区：一级id__' + this.data.areaid + ',二级id__' + this.data.subareaid);
   },
   setSubareaIndex: function (e) { //地区二级索引
     const dataset = e.currentTarget.dataset;
-    console.log(dataset);
+    let areaOrgCode = dataset.subareaindex
+    const that = this
+    wx.request({
+      url: app.globalData.url + '/api/app-check/queryCheckPointPage',
+      header: {
+        "Authorization": "Bearer " + app.globalData.userInfo.token
+      },
+      data: {
+        current: this.data.pageIndex,
+        pageSize: 5,
+        areaOrgCode
+      },
+      method: 'GET',
+      success: function (res) {
+        if (res.data.code == 200) {
+          console.log(res.data.data.data[0]);
+          var dataArray = res.data.data.data
+          var categoryBenefit = [] //公益类型的类别编码 
+          var categoryCommerce = [] //商业类型的类别编码
+          var j = 0, k = 0
+          for (var i = 0; i < dataArray.length; i++) {
+            if (dataArray[i]["businessType"] == 0) {
+              categoryBenefit[i] = dataArray[i]["categoryCode"]
+              j++
+            } else if (dataArray[i]["businessType"] == 1) {
+              categoryCommerce[k] = dataArray[i]["categoryCode"]
+              k++
+            }
+          }
+          console.log(categoryBenefit);
+          console.log(categoryCommerce);
+          that.setData({
+            list: res.data.data.data,
+            totalCount: res.data.data.totalCount
+          })
+        } else {
+          wx.showToast({
+            title: '系统发生错误',
+          })
+        }
+      }
+    })
     this.hideFilter()
     this.setData({
       subareaindex: dataset.subareaindex,
@@ -175,8 +229,49 @@ Page({
       sortindex: dataset.sortindex,
       sortid: dataset.sortid,
     })
-    console.log('所在地区：一级id__' + this.data.sortid );
-    console.log(this.data);
+    wx.request({
+      url: app.globalData.url + '/api/app-check/queryCheckPointPage',
+      header: {
+        "Authorization": "Bearer " + app.globalData.userInfo.token
+      },
+      data: {
+        current: this.data.pageIndex,
+        userLatitude:this.data.latitude,
+        userLongitude:this.data.longitude,
+        pageSize: 5
+      },
+      method: 'GET',
+      success: function (res) {
+        console.log(res);
+        // if (res.data.code == 200) {
+        //   var dataArray = res.data.data.data
+        //   var categoryBenefit = [] //公益类型的类别编码 
+        //   var categoryCommerce = [] //商业类型的类别编码
+        //   var j = 0, k = 0
+        //   for (var i = 0; i < dataArray.length; i++) {
+        //     if (dataArray[i]["businessType"] == 0) {
+        //       categoryBenefit[i] = dataArray[i]["categoryCode"]
+        //       j++
+        //     } else if (dataArray[i]["businessType"] == 1) {
+        //       categoryCommerce[k] = dataArray[i]["categoryCode"]
+        //       k++
+        //     }
+        //   }
+        //   console.log(categoryBenefit);
+        //   console.log(categoryCommerce);
+        //   that.setData({
+        //     list: res.data.data.data,
+        //     totalCount: res.data.data.totalCount
+        //   })
+        // } else {
+        //   wx.showToast({
+        //     title: '系统发生错误',
+        //   })
+        // }
+      }
+    })
+    // console.log('所在地区：一级id__' + this.data.sortid);
+    // console.log(this.data);
     this.hideFilter()
   },
   hideFilter: function () { //关闭筛选面板
@@ -263,7 +358,7 @@ Page({
           var dataArray = res.data.data.data
           var categoryBenefit = [] //公益类型的类别编码 
           var categoryCommerce = [] //商业类型的类别编码
-          var j = 0,k = 0
+          var j = 0, k = 0
           for (var i = 0; i < dataArray.length; i++) {
             if (dataArray[i]["businessType"] == 0) {
               categoryBenefit[i] = dataArray[i]["categoryCode"]
@@ -287,10 +382,10 @@ Page({
       }
     })
   },
-  /**
-   * 生命周期函数--监听页面显示
-   */
   onShow() {
+    this.initType()
+    this.init_erea()
+    this.get_local()
     if (typeof this.getTabBar === 'function' &&
       this.getTabBar()) {
       this.getTabBar().setData({
@@ -314,34 +409,14 @@ Page({
         bottom
       }
     } = res
-    // console.log('resHeight', res);
     if (screenHeight && bottom) {
       let safeBottom = screenHeight - bottom
       this.setData({
         height: 108 + safeBottom
       })
     }
-    // console.log(this.data.height);
-
-    // Dialog.alert({
-    //   message: '团队长已拒绝您的请求！',
-    // })
-    //   .then(() => {
-    //     // on confirm
-    //   })
-    //   .catch(() => {
-    //     // on cancel
-    //   });
-    this.fetchFilterData();
+    // this.fetchFilterData();
   },
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {},
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
   onReachBottom: function () {
     var that = this;
     this.data.pageIndex++;
@@ -371,5 +446,94 @@ Page({
         }
       }
     })
-  }
+  },
+  initType() {
+    wx.request({
+      url: app.globalData.url + '/api/app-base/queryBusinessCategoryList',
+      header: {
+        "Authorization": "Bearer " + app.globalData.userInfo.token
+      },
+      method: "GET",
+      success: res => {
+        let category = this.data.category
+        let len = res.data.data.length
+        for (let i = 0; i < len; i++) {
+          let obj = {
+            id: res.data.data[i].dictCode,
+            title: res.data.data[i].dictName
+          }
+          category[1].cate_two.push(obj)
+        }
+        this.setData({
+          category
+        })
+      }
+    })
+    wx.request({
+      url: app.globalData.url + '/api/app-base/queryWelfareCategoryList',
+      header: {
+        "Authorization": "Bearer " + app.globalData.userInfo.token
+      },
+      method: "GET",
+      success: res => {
+        console.log(666, res);
+        let category = this.data.category
+        let len = res.data.data.length
+        for (let i = 0; i < len; i++) {
+          let obj = {
+            id: res.data.data[i].dictCode,
+            title: res.data.data[i].dictName
+          }
+          category[2].cate_two.push(obj)
+        }
+        this.setData({
+          category
+        })
+        wx.setStorageSync('category', category)
+      }
+    })
+  },
+  // 组织
+  init_erea() {
+    wx.request({
+      url: app.globalData.url + '/api/app-base/queryChildOrganization',
+      header: {
+        "Authorization": "Bearer " + app.globalData.userInfo.token
+      },
+      method: "GET",
+      success: res => {
+        let len = res.data.data.length
+        let area = this.data.area
+        for (let i = 0; i < len; i++) {
+          let obj = {
+            id: res.data.data[i].orgCode,
+            name: res.data.data[i].name,
+            zone: []
+          }
+          area.push(obj)
+        }
+        this.setData({
+          area
+        })
+        wx.setStorageSync('area', area)
+      }
+    })
+  },
+  get_local() {
+    const that=this
+    wx.getLocation({
+      type: 'wgs84',
+      success(res) {
+        const latitude = res.latitude
+        const longitude = res.longitude
+        console.log(latitude,longitude);
+        const accuracy = res.accuracy
+        // console.log(res) //将获取到的经纬度信息输出到控制台以便检查
+        that.setData({ //将获取到的经度、纬度数值分别赋值给本地变量
+          latitude: (latitude).toFixed(4),
+          longitude: (longitude).toFixed(4)
+        })
+      }
+    })
+  },
 })

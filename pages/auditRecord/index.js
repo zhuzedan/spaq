@@ -29,49 +29,26 @@ Page({
     value3: 'd',
     value4: 'e'
   },
+  onShow(){
+    this.get_type()
+  },
   fetchFilterData: function () { //获取筛选条件
     this.setData({
-      category: [{
-          "id": 0,
-          "title": "全部"
-        },
-        {
-          "id": 27,
-          "title": "公益",
-          "cate_two": [{
-            "id": 4,
-            "title": "养老院"
-          }]
-        },
-        {
-          "id": 24,
-          "title": "商业",
-          "cate_two": [{
-              "id": "24",
-              "title": "餐饮企业"
-            },
-            {
-              "id": 25,
-              "title": "建筑工地"
-            }
-          ]
-        }
-      ],
       status: [
         {
-          "id": 0,
+          "id": 'undefind',
           "name": "全部"
         },
         {
-          "id": 23,
-          "name": "待审核"
+          "id": 0,
+          "name": "未审批"
         },
         {
-          "id": 24,
-          "name": "已审核",
+          "id": 1,
+          "name": "审批通过",
         },
         {
-          "id": 25,
+          "id": 2,
           "name": "未通过"
         },
       ],
@@ -106,21 +83,96 @@ Page({
   },
   setSubcateIndex: function (e) { //分类二级索引
     const dataset = e.currentTarget.dataset;
+    const that = this
     this.hideFilter()
     this.setData({
       subcateindex: dataset.subcateindex,
       subcateid: dataset.subcateid,
     })
+    if (this.data.cateid == 'undefind') {
+      this.getAllData()
+    }
+    else {
+      wx.showLoading({
+        success: res => {
+          wx.request({
+            url: app.globalData.url + '/api/app-my/queryCheckPointExaminePage?checkPersonId=' + app.globalData.getUserInfo.userId +
+              '&current=' + this.data.pageIndex + '&pageSize=5' + '&categoryCode=' + this.data.cateid + '&categoryCode=' + this.data.subcateid,
+            header: {
+              "Authorization": "Bearer " + app.globalData.userInfo.token
+            },
+            method: 'POST',
+            success: function (res) {
+              console.log(res);
+              wx.hideLoading()
+              var dataArray = res.data.data.data
+              for (var i = 0; i < dataArray.length; i++) {
+                dataArray[i]["gmtCreate"] = times.toDate(dataArray[i]["gmtCreate"])
+                if (dataArray[i]["examineResult"] == 0) {
+                  dataArray[i]["examineResult"] = '待审核'
+                } else if (dataArray[i]["examineResult"] == 1) {
+                  dataArray[i]["examineResult"] = '通过'
+                } else if (dataArray[i]["examineResult"] == 2) {
+                  dataArray[i]["examineResult"] = '未通过'
+                }
+              }
+              if (res.data.code == 200) {
+                that.setData({
+                  list: res.data.data.data
+                })
+              }
+            },
+          })
+        }
+      })
+    }
     console.log('商家分类：一级id__' + this.data.cateid + ',二级id__' + this.data.subcateid);
   },
   setStatusIndex: function (e) { //月份索引
-    const d = this.data;
-    const dataset = e.currentTarget.dataset;
+    // const d = this.data;
+    const that = this
+    const { statusindex, statusid } = e.currentTarget.dataset
     this.setData({
-      statusindex: dataset.statusindex,
-      statusid: dataset.statusid
+      statusindex,
+      statusid
     })
-    console.log('所在地区：一级id__' + this.data.statusid);
+    if (statusid == 'undefind') {
+      this.getAllData()
+    }
+    else {
+      wx.showLoading({
+        success: res => {
+          wx.request({
+            url: app.globalData.url + '/api/app-my/queryCheckPointExaminePage?checkPersonId=' + app.globalData.getUserInfo.userId +
+              '&current=' + this.data.pageIndex + '&pageSize=5' + '&status=' + statusid,
+            header: {
+              "Authorization": "Bearer " + app.globalData.userInfo.token
+            },
+            method: 'POST',
+            success: function (res) {
+              wx.hideLoading()
+              var dataArray = res.data.data.data
+              for (var i = 0; i < dataArray.length; i++) {
+                dataArray[i]["gmtCreate"] = times.toDate(dataArray[i]["gmtCreate"])
+                if (dataArray[i]["examineResult"] == 0) {
+                  dataArray[i]["examineResult"] = '待审核'
+                } else if (dataArray[i]["examineResult"] == 1) {
+                  dataArray[i]["examineResult"] = '通过'
+                } else if (dataArray[i]["examineResult"] == 2) {
+                  dataArray[i]["examineResult"] = '未通过'
+                }
+              }
+              if (res.data.code == 200) {
+                that.setData({
+                  list: res.data.data.data
+                })
+              }
+            },
+          })
+        }
+      })
+    }
+    // console.log('所在地区：一级id__' + this.data.statusid);
     this.hideFilter()
   },
   setScoreIndex: function (e) {    //分数索引
@@ -129,7 +181,7 @@ Page({
       scoreindex: dataset.scoreindex,
       scoreid: dataset.scoreid,
     })
-    console.log('所在地区：一级id__' + this.data.scoreid );
+    console.log('所在地区：一级id__' + this.data.scoreid);
     console.log(this.data);
     this.hideFilter()
   },
@@ -186,7 +238,7 @@ Page({
               })
               wx.showToast({
                 title: '查询成功',
-                icon:"none"
+                icon: "none"
               })
             }
           }
@@ -194,9 +246,6 @@ Page({
       }
     })
   },
-  /**
-   * 生命周期函数--监听页面加载
-   */
   onLoad: function (options) {
     this.getAllData();
     this.fetchFilterData();
@@ -327,5 +376,12 @@ Page({
       })
     }
 
+  },
+  // 获取类别
+  get_type(){
+    let category=wx.getStorageSync('category')
+    this.setData({
+      category
+    })
   },
 })
