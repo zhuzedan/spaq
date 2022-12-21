@@ -7,6 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    active: 0,
     sort: false,
     sortSelected: '0',
     sortData: [{
@@ -20,19 +21,31 @@ Page({
     list: [],
     listB: []
   },
+  // 标签切换
+  onChange(event) {
+    console.log(event);
+    wx.showToast({
+      title: `切换到标签 ${event.detail.name}`,
+      icon: 'none',
+    });
+    this.setData({
+      active: event.detail.name
+    })
+    console.log(event.detail.name);
+  },
   // 关闭筛选
   closeFilter: function () {
     this.setData({
       sort: false,
     })
   },
-  // 排序激活
+  // 激活筛选
   onSortActive: function (e) {
     this.setData({
       sort: !this.data.sort,
     })
   },
-  // 排序
+  // 选择
   onSort: function (e) {
     this.closeFilter()
     this.setData({
@@ -254,6 +267,55 @@ Page({
               }
               this.setData({
                 list: res.data.data.data
+              })
+              wx.hideLoading()
+            },
+          })
+        }
+      })
+    }
+  },
+  go_search_examine() {
+    if (!this.data.handle_content || this.data.handle_content == ''){
+      wx.request({
+        url: app.globalData.url + '/api/app-approval/queryReportExaminePage?leaderUserId=' + app.globalData.getUserInfo.userId +
+          '&current=' + this.data.pageIndex + '&pageSize=5',
+        header: {
+          "Authorization": "Bearer " + app.globalData.userInfo.token
+        },
+        method: 'POST',
+        success: (res) => {
+          console.log(res.data.data.data);
+          var dataArray = res.data.data.data
+          for (var i = 0; i < dataArray.length; i++) {
+            dataArray[i]["gmtCreate"] = times.toDate(dataArray[i]["gmtCreate"])
+          }
+          this.setData({
+            listB: res.data.data.data
+          })
+          // console.log(this.data.list);
+        },
+        fail: (err) => {},
+        complete: (res) => {},
+      })
+    }else {
+      wx.showLoading({
+        success: res => {
+          wx.request({
+            url: app.globalData.url + '/api/app-approval/queryReportExaminePage?leaderUserId=' + app.globalData.getUserInfo.userId +
+              '&current=' + this.data.pageIndex + '&pageSize=5' + '&pointName=' + this.data.handle_content,
+            header: {
+              "Authorization": "Bearer " + app.globalData.userInfo.token
+            },
+            method: 'POST',
+            success: (res) => {
+              console.log(res.data.data.data);
+              var dataArray = res.data.data.data
+              for (var i = 0; i < dataArray.length; i++) {
+                dataArray[i]["gmtCreate"] = times.toDate(dataArray[i]["gmtCreate"])
+              }
+              this.setData({
+                listB: res.data.data.data
               })
               wx.hideLoading()
             },

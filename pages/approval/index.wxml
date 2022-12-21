@@ -1,50 +1,50 @@
 <!-- 搜索栏 -->
-<view class="search">
-  <input placeholder="检查点名称/详细地址" type='text' confirm-type='search' bindinput="handle_content" bindconfirm="go_search"></input>
+<view class="search" wx:if="{{active == 0}}">
+  <input placeholder="检查点名称" type='text' confirm-type='search' bindinput="handle_content" bindconfirm="go_search"></input>
   <image src="../../assets/check/search.png" />
   <view class="line"></view>
 </view>
-<view class="nav" style="margin-top: 10rpx;">
-  <!-- 筛选 -->
-  <view class="nav-item borders-right {{ sort ? 'active' : '' }}" bindtap="onSortActive">
-    <view class="content">{{ sortLabel?sortLabel:'检查记录' }}</view>
-    <view class="icon dropdownIcon" />
-  </view>
+<view class="search" wx:if="{{active == 1}}">
+  <input placeholder="检查点名称" type='text' confirm-type='search' bindinput="handle_content" bindconfirm="go_search_examine"></input>
+  <image src="../../assets/check/search.png" />
+  <view class="line"></view>
 </view>
-<view class="mask" hidden="{{ !(sort) }}" style="top: {{ top }}" bindtap="closeFilter" />
-<!-- 筛选 -->
-<view class="filter {{ sort ? 'show' : 'hide' }} ">
-  <block wx:for="{{ sortData }}" wx:key="unique">
-    <view class="item {{ sortSelected === item.value ? 'active' : '' }}" data-group="{{ sortData }}" data-item="{{ item }}" bindtap="onSort">{{ item.label }}</view>
-  </block>
-</view>
+<van-tabs active="{{ active }}" class="vantab" color="#3161FF"  bind:change="onChange">
+  <van-tab swipeable title="检查记录">
+    <!-- 检查记录 -->
+    <view class="card" wx:for="{{list}}" wx:key="key" wx:if="{{item.examineResult==0}}" style="left: 30rpx;">
+      <view class="title">{{item.categoryName}}</view>
+      <view class="area">{{item.areaOrgName}}</view>
+      <view class="twoLine">
+        <view class="currentTime">{{item.gmtCreate}}</view>
+        <view class="modify">第次修改</view>
+      </view>
+      <view class="buttons">
+        <view class="button" bindtap="examine" data-examineResult="1" data-examineid="{{item.id}}">同意</view>
+        <view class="button" bindtap="examine" data-examineResult="2" data-examineid="{{item.id}}">拒绝</view>
+      </view>
+      <view class="name">{{item.checkPersonId}}</view>
+    </view>
 
-<!-- 检查记录 -->
-<view class="card" wx:for="{{list}}" wx:key="key" wx:if="{{item.examineResult==0}}">
-  <view class="title">{{item.categoryName}}</view>
-  <view class="area">{{item.areaOrgName}}</view>
-  <view class="twoLine">
-    <view class="currentTime">{{item.gmtCreate}}</view>
-    <view class="modify">第3次修改</view>
-  </view>
-  <view class="buttons">
-    <view class="button" bindtap="examine" data-examineResult="1" data-examineid="{{item.id}}">同意</view>
-    <view class="button" bindtap="examine" data-examineResult="2" data-examineid="{{item.id}}">拒绝</view>
-  </view>
-  <view class="name">{{item.checkPersonId}}</view>
-</view>
-<!-- 检查点审核记录 -->
-<view class="card" wx:for="{{listB}}" wx:key="key" wx:if="{{item.examineResult==0}}">
-  <view class="title">{{item.checkPointName}}</view>
-  <view class="area">{{item.examineContent}}</view>
-  <view class="twoLine">
-    <view class="currentTime">{{item.gmtCreate}}</view>
-    <view class="modify">第{{item.updateCount}}次修改</view>
-  </view>
-  <view class="buttons">
-    <view class="button" bindtap="pointExamine" data-examineResult="1" data-examineid="{{item.id}}">同意</view>
-    <view class="button" bindtap="pointExamine" data-examineResult="2" data-examineid="{{item.id}}">拒绝</view>
-  </view>
-  <view class="name">{{item.checkPersonId}}</view>
-</view>
+  </van-tab>
+  <van-tab title="检查审核记录">
+    <!-- 检查点审核记录 -->
+    <view class="card" wx:for="{{listB}}" wx:key="key" wx:if="{{item.examineResult==0}}" style="left: 30rpx;">
+      <view class="title">{{item.checkPointName}}</view>
+      <view class="area">{{item.examineContent}}</view>
+      <view class="twoLine">
+        <view class="currentTime">{{item.gmtCreate}}</view>
+        <view class="modify">第{{item.updateCount}}次修改</view>
+      </view>
+      <view class="buttons">
+        <view class="button" bindtap="pointExamine" data-examineResult="1" data-examineid="{{item.id}}">同意</view>
+        <view class="button" bindtap="pointExamine" data-examineResult="2" data-examineid="{{item.id}}">拒绝</view>
+      </view>
+      <view class="name">{{item.checkPersonId}}</view>
+    </view>
+  </van-tab>
+</van-tabs>
+
+
+
 <view class='placeholder-view' style="height:{{height}}rpx;width: 100%;"></view>
