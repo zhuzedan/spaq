@@ -1,7 +1,5 @@
 {
   "usingComponents": {
-    "van-dropdown-menu": "@vant/weapp/dropdown-menu/index",
-    "van-dropdown-item": "@vant/weapp/dropdown-item/index"
   },
   "navigationBarTitleText": "检查点审核记录"
 }

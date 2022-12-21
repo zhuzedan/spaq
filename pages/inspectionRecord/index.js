@@ -6,46 +6,199 @@ Page({
    * 页面的初始数据
    */
   data: {
+    filterdata: {}, //筛选条件数据
+    showfilter: false, //是否显示下拉筛选
+    showfilterindex: null, //显示哪个筛选类目
+    cateindex: 0, //一级分类索引
+    cateid: null, //一级分类id
+    subcateindex: 0, //二级分类索引
+    subcateid: null, //二级分类id
+    areaindex: 0, //一级城市索引
+    areaid: null, //一级城市id
+    subareaindex: 0, //二级城市索引
+    subareaid: null, //二级城市id
+    scrolltop: null, //滚动位置
+    page: 0, //分页
+    category: {},
+    area: {},
+    sort: {},
     dataList: [],
     currentPage: 1,
     page: 0,
-    option1: [
-      { text: '月份', value: 0 },
-      { text: '1', value: 1 },
-      { text: '2', value: 2 },
-      { text: '3', value: 3 },
-      { text: '4', value: 4 },
-      { text: '5', value: 5 },
-      { text: '6', value: 6 },
-      { text: '7', value: 7 },
-      { text: '8', value: 8 },
-      { text: '9', value: 9 },
-      { text: '10', value: 10 },
-      { text: '11', value: 11 },
-      { text: '12', value: 12 },
-    ],
-    option2: [
-      { text: '类型', value: 'a' },
-      { text: '好评排序', value: 'b' },
-      { text: '销量排序', value: 'c' },
-    ],
-    option3: [
-      { text: '类别', value: 'd' },
-      { text: '好评排序', value: 'b' },
-      { text: '销量排序', value: 'c' },
-    ],
-    option4: [
-      { text: '分数', value: 'e' },
-      { text: '<60', value: 'f' },
-      { text: '60~70', value: 'g' },
-      { text: '70~80', value: 'h' },
-      { text: '80~90', value: 'i' },
-      { text: '90~100', value: 'j' },
-    ],
     value1: 0,
     value2: 'a',
     value3: 'd',
     value4: 'e'
+  },
+  fetchFilterData: function () { //获取筛选条件
+    this.setData({
+      category: [{
+          "id": 0,
+          "title": "全部"
+        },
+        {
+          "id": 27,
+          "title": "公益",
+          "cate_two": [{
+            "id": 4,
+            "title": "养老院"
+          }]
+        },
+        {
+          "id": 24,
+          "title": "商业",
+          "cate_two": [{
+              "id": "24",
+              "title": "餐饮企业"
+            },
+            {
+              "id": 25,
+              "title": "建筑工地"
+            }
+          ]
+        }
+      ],
+      month: [
+        {
+          "id": 0,
+          "name": "全部"
+        },
+        {
+          "id": 23,
+          "name": "1"
+        },
+        {
+          "id": 24,
+          "name": "2",
+        },
+        {
+          "id": 25,
+          "name": "3"
+        },
+        {
+          "id": 26,
+          "name": "4",
+        },
+        {
+          "id": 27,
+          "name": "5"
+        },
+        {
+          "id": 28,
+          "name": "6",
+        },
+        {
+          "id": 29,
+          "name": "7",
+        },
+        {
+          "id": 29,
+          "name": "8",
+        },
+        {
+          "id": 29,
+          "name": "9",
+        },
+        {
+          "id": 29,
+          "name": "10",
+        },{
+          "id": 29,
+          "name": "11",
+        },{
+          "id": 29,
+          "name": "12",
+        }
+      ],
+      score: [
+        {
+          "id": 0,
+          "name": "全部"
+        },
+        {
+          "id": 12,
+          "name": "<60"
+        },
+        {
+          "id": 13,
+          "name": "60~70"
+        },
+        {
+          "id": 14,
+          "name": "70~80"
+        },
+        {
+          "id": 15,
+          "name": "80~90"
+        },
+        {
+          "id": 16,
+          "name": "90~100"
+        }
+      ]
+    })
+  },
+  setFilterPanel: function (e) { //展开筛选面板
+    const d = this.data;
+    const i = e.currentTarget.dataset.findex;
+    if (this.data.showfilterindex == i) {
+      this.setData({
+        showfilter: false,
+        showfilterindex: null
+      })
+    } else {
+      this.setData({
+        showfilter: true,
+        showfilterindex: i,
+      })
+    }
+    console.log('显示第几个筛选类别：' + d.showfilterindex);
+  },
+  setCateIndex: function (e) { //分类一级索引
+    const d = this.data;
+    const dataset = e.currentTarget.dataset;
+    console.log(e);
+    this.setData({
+      cateindex: dataset.cateindex,
+      cateid: dataset.cateid,
+      subcateindex: d.cateindex == dataset.cateindex ? d.subcateindex : 0
+    })
+    // console.log('商家分类：一级id__' + this.data.cateid + ',二级id__' + this.data.subcateid);
+  },
+  setSubcateIndex: function (e) { //分类二级索引
+    const dataset = e.currentTarget.dataset;
+    this.hideFilter()
+    this.setData({
+      subcateindex: dataset.subcateindex,
+      subcateid: dataset.subcateid,
+    })
+    console.log('商家分类：一级id__' + this.data.cateid + ',二级id__' + this.data.subcateid);
+  },
+  setMonthIndex: function (e) { //月份索引
+    const d = this.data;
+    const dataset = e.currentTarget.dataset;
+    this.setData({
+      monthindex: dataset.monthindex,
+      monthid: dataset.monthid
+    })
+    console.log('所在地区：一级id__' + this.data.monthid);
+    this.hideFilter()
+  },
+  setScoreIndex: function (e) {    //分数索引
+    const dataset = e.currentTarget.dataset;
+    this.setData({
+      scoreindex: dataset.scoreindex,
+      scoreid: dataset.scoreid,
+    })
+    console.log('所在地区：一级id__' + this.data.scoreid );
+    console.log(this.data);
+    this.hideFilter()
+  },
+  hideFilter: function () { //关闭筛选面板
+    this.setData({
+      showfilter: false,
+      showfilterindex: null
+    })
   },
   getInspectionDetail(e) {
     let item = e.currentTarget.dataset.item
@@ -64,6 +217,7 @@ Page({
    */
   onLoad(options) {
     this.getAllData();
+    this.fetchFilterData();
   },
   getAllData() {
     var that = this;

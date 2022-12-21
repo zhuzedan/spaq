@@ -6,64 +6,138 @@ Page({
    * 页面的初始数据
    */
   data: {
+    filterdata: {}, //筛选条件数据
+    showfilter: false, //是否显示下拉筛选
+    showfilterindex: null, //显示哪个筛选类目
+    cateindex: 0, //一级分类索引
+    cateid: null, //一级分类id
+    subcateindex: 0, //二级分类索引
+    subcateid: null, //二级分类id
+    areaindex: 0, //一级城市索引
+    areaid: null, //一级城市id
+    subareaindex: 0, //二级城市索引
+    subareaid: null, //二级城市id
+    scrolltop: null, //滚动位置
+    page: 0, //分页
+    category: {},
+    area: {},
+    status: {},
     pageIndex: 1, //列表初始页
     list: [], //存放所有数据
-    option1: [{
-      text: '月份',
-      value: 0
-    },
-    {
-      text: '新款商品',
-      value: 1
-    },
-    {
-      text: '活动商品',
-      value: 2
-    },
-    ],
-    option2: [{
-      text: '类型',
-      value: 'a'
-    },
-    {
-      text: '好评排序',
-      value: 'b'
-    },
-    {
-      text: '销量排序',
-      value: 'c'
-    },
-    ],
-    option3: [{
-      text: '类别',
-      value: 'd'
-    },
-    {
-      text: '好评排序',
-      value: 'b'
-    },
-    {
-      text: '销量排序',
-      value: 'c'
-    },
-    ],
-    option4: [{
-      text: '状态',
-      value: 'e'
-    },
-    {
-      text: '好评排序',
-      value: 'b'
-    },
-    {
-      text: '销量排序',
-      value: 'c'
-    },
-    ],
     value1: 0,
     value2: 'a',
     value3: 'd',
     value4: 'e'
+  },
+  fetchFilterData: function () { //获取筛选条件
+    this.setData({
+      category: [{
+          "id": 0,
+          "title": "全部"
+        },
+        {
+          "id": 27,
+          "title": "公益",
+          "cate_two": [{
+            "id": 4,
+            "title": "养老院"
+          }]
+        },
+        {
+          "id": 24,
+          "title": "商业",
+          "cate_two": [{
+              "id": "24",
+              "title": "餐饮企业"
+            },
+            {
+              "id": 25,
+              "title": "建筑工地"
+            }
+          ]
+        }
+      ],
+      status: [
+        {
+          "id": 0,
+          "name": "全部"
+        },
+        {
+          "id": 23,
+          "name": "待审核"
+        },
+        {
+          "id": 24,
+          "name": "已审核",
+        },
+        {
+          "id": 25,
+          "name": "未通过"
+        },
+      ],
+    })
+  },
+  setFilterPanel: function (e) { //展开筛选面板
+    const d = this.data;
+    const i = e.currentTarget.dataset.findex;
+    if (this.data.showfilterindex == i) {
+      this.setData({
+        showfilter: false,
+        showfilterindex: null
+      })
+    } else {
+      this.setData({
+        showfilter: true,
+        showfilterindex: i,
+      })
+    }
+    console.log('显示第几个筛选类别：' + d.showfilterindex);
+  },
+  setCateIndex: function (e) { //分类一级索引
+    const d = this.data;
+    const dataset = e.currentTarget.dataset;
+    console.log(e);
+    this.setData({
+      cateindex: dataset.cateindex,
+      cateid: dataset.cateid,
+      subcateindex: d.cateindex == dataset.cateindex ? d.subcateindex : 0
+    })
+    // console.log('商家分类：一级id__' + this.data.cateid + ',二级id__' + this.data.subcateid);
+  },
+  setSubcateIndex: function (e) { //分类二级索引
+    const dataset = e.currentTarget.dataset;
+    this.hideFilter()
+    this.setData({
+      subcateindex: dataset.subcateindex,
+      subcateid: dataset.subcateid,
+    })
+    console.log('商家分类：一级id__' + this.data.cateid + ',二级id__' + this.data.subcateid);
+  },
+  setStatusIndex: function (e) { //月份索引
+    const d = this.data;
+    const dataset = e.currentTarget.dataset;
+    this.setData({
+      statusindex: dataset.statusindex,
+      statusid: dataset.statusid
+    })
+    console.log('所在地区：一级id__' + this.data.statusid);
+    this.hideFilter()
+  },
+  setScoreIndex: function (e) {    //分数索引
+    const dataset = e.currentTarget.dataset;
+    this.setData({
+      scoreindex: dataset.scoreindex,
+      scoreid: dataset.scoreid,
+    })
+    console.log('所在地区：一级id__' + this.data.scoreid );
+    console.log(this.data);
+    this.hideFilter()
+  },
+  hideFilter: function () { //关闭筛选面板
+    this.setData({
+      showfilter: false,
+      showfilterindex: null
+    })
   },
   getDetail(e) {
     let index = e.currentTarget.dataset.index
@@ -124,7 +198,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.getAllData()
+    this.getAllData();
+    this.fetchFilterData();
   },
   // 加载数据
   getAllData() {
