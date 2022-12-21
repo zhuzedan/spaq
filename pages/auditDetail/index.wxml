@@ -2,7 +2,7 @@
 <view class="card">
   <view class="sideways">
     <view class="description">单位名称</view>
-    <view class="content">{{info.address}}</view>
+    <view class="content">{{info.pointName}}</view>
   </view>
   <view class="sideways">
     <view class="description">类型</view>
@@ -10,11 +10,11 @@
   </view>
   <view class="sideways">
     <view class="description">类别</view>
-    <view class="content">{{info.categoryName}}</view>
+    <view class="content">{{info.categoryCode}}</view>
   </view>
   <view class="sideways">
     <view class="description">区域</view>
-    <view class="content">海曙区</view>
+    <view class="content">{{info.areaOrgCode}}</view>
   </view>
   <view class="sideways">
     <view class="description">街道</view>
