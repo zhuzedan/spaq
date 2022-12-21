@@ -17,6 +17,7 @@ Page({
     longitude: null,
     showUnit: false, //单位弹层控制
     category: ['请选择类别', '农家乐', '养老院'],
+    welfareCategory: [],
     type: ["请选择类型", '公益', '商业'],
     index1: 0,
     index2: 0,
@@ -126,7 +127,7 @@ Page({
       header: {
         "Authorization": "Bearer " + app.globalData.userInfo.token
       },
-      url: app.globalData.url+'/api/app-my/insertCheckPoint',
+      url: app.globalData.url+'/api/app-my/appInsertCheckPoint',
       data: {
         name,
         connectName,
@@ -135,6 +136,8 @@ Page({
         categoryCode: this.data.categoryCode,
         areaOrgCode: this.data.areaOrgCode,
         streetOrgCode: this.data.streetOrgCode,
+        latitude: this.data.latitude,
+        longitude: this.data.longitude,
         address: this.data.latitude + "," + this.data.longitude,
         checkPersonId: app.globalData.getUserInfo.id
       },
@@ -190,6 +193,22 @@ Page({
           longitude: (res.longitude).toFixed(4)
         })
       }
+    })
+    wx.request({
+      url: app.globalData.url+'/api/app-base/queryWelfareCategoryList',
+      header: {
+        "Authorization": "Bearer " + app.globalData.userInfo.token
+      },
+      method: 'GET',
+      success: (result) => {
+        // console.log(result.data.data);
+        that.setData({
+          welfareCategory: result.data.data
+        })
+        console.log(that.data.welfareCategory);
+      },
+      fail: (err) => {},
+      complete: (res) => {},
     })
   },
 
