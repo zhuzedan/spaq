@@ -22,6 +22,7 @@ Page({
     index1: 0,
     index2: 0,
     index3: 0,
+    index4: 0,
     area: ["请选择区域", "海曙区", "鄞州区", "江北区", "镇海区", "慈溪市", "余姚市"],
     occupation: '',
     // 表单字段
@@ -101,7 +102,7 @@ Page({
       return;
     }
     if (streetOrgCode == '') {
-      tao('请输入街道')
+      tao('请选择街道')
       return;
     }
     if (connectName == '') {

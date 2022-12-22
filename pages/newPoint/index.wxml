@@ -36,7 +36,11 @@
   </view>
   <view class="sideways">
     <view class="description">街道</view>
-    <view class="input"><input placeholder-style="color:rgba(0, 0, 0, 0.4);" placeholder="请输入街道" bindinput="getStreetOrgCode"></input></view>
+    <view class="content">
+      <picker titleText="区域" bindchange="getAreaOrgCode" range="{{area}}" value="{{index4}}">
+        <view class="content">{{area[index3]}}</view>
+      </picker>
+    </view>
   </view>
   <view class="sideways">
     <view class="description">联系人</view>
