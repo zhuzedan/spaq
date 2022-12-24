@@ -18,9 +18,9 @@
   <view class="sideways">
     <view class="description">类别</view>
     <view class="input">
-      <picker bindchange="getCategoryCode" bindcancel="bindCancelChange" value="{{index2}}" range="{{category}}">
+      <picker bindchange="getCategoryCode" bindcancel="bindCancelChange" value="{{index2}}" range="{{categoryRange[index1]}}">
         <view class="picker">
-          {{category[index2]}}
+          {{categoryRange[index1][index2]}}
         </view>
       </picker>
     </view>  

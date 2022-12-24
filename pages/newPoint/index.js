@@ -1,10 +1,10 @@
 // pages/newPoint/index.js
 // import Toast from '@vant/weapp/toast/toast';
 var app = getApp();
-function tao(content){
+function tao(content) {
   wx.showToast({
     title: content,
-    icon:"none"
+    icon: "none"
   })
 }
 Page({
@@ -82,7 +82,7 @@ Page({
   },
   // 确定按钮
   submit() {
-    const {name,businessType,categoryCode,areaOrgCode,streetOrgCode,connectName,connectTel}=this.data
+    const { name, businessType, categoryCode, areaOrgCode, streetOrgCode, connectName, connectTel } = this.data
     // 判断输入内容是否空值
     if (name == '') {
       tao('单位名不能为空')
@@ -118,7 +118,7 @@ Page({
     }
     if (connectTel.length == 11) { //输入的手机号满足11位
       //正则匹配开头是1总长度为11的号码
-      let regex  = /^(((1[35789][0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/
+      let regex = /^(((1[35789][0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/
       if (!regex.test(connectTel)) {
         tao('手机号格式有误')
       }
@@ -127,7 +127,7 @@ Page({
       header: {
         "Authorization": "Bearer " + app.globalData.userInfo.token
       },
-      url: app.globalData.url+'/api/app-my/appInsertCheckPoint',
+      url: app.globalData.url + '/api/app-my/appInsertCheckPoint',
       data: {
         name,
         connectName,
@@ -195,7 +195,7 @@ Page({
       }
     })
     wx.request({
-      url: app.globalData.url+'/api/app-base/queryWelfareCategoryList',
+      url: app.globalData.url + '/api/app-base/queryWelfareCategoryList',
       header: {
         "Authorization": "Bearer " + app.globalData.userInfo.token
       },
@@ -207,8 +207,8 @@ Page({
         })
         console.log(that.data.welfareCategory);
       },
-      fail: (err) => {},
-      complete: (res) => {},
+      fail: (err) => { },
+      complete: (res) => { },
     })
   },
 
@@ -223,7 +223,31 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    let area = wx.getStorageSync('area')
+    let category = wx.getStorageSync('category')
+    if (area) {
+      area = area.map(item => {
+        return item.name
+      })
+      this.setData({ area })
+    }
+    if(category){
+      let type=category.map(item=>{
+        return item.title
+      })
+      console.log(category);
+      let arr1=category[1].cate_two.map(item=>{
+        return item.title
+      })
+      let arr2=category[2].cate_two.map(item=>{
+        return item.title
+      })
+      let categoryRange=[arr1,arr2]
+      this.setData({
+        type,
+        categoryRange
+      })
+    }
   },
 
   /**
