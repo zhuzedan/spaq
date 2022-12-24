@@ -8,9 +8,9 @@
   <view class="sideways">
     <view class="description">类型</view>
     <view class="input">
-      <picker bindchange="getBusinessType" bindcancel="bindCancelChange" value="{{index1}}" range="{{type}}">
+      <picker bindchange="getBusinessType" bindcancel="bindCancelChange" value="{{businessTypeIndex}}" range="{{type}}">
         <view class="picker">
-          {{type[index1]}}
+          {{businessTypeNull?type[businessTypeIndex]:'请选择类型'}}
         </view>
       </picker>
     </view>
@@ -18,9 +18,9 @@
   <view class="sideways">
     <view class="description">类别</view>
     <view class="input">
-      <picker bindchange="getCategoryCode" bindcancel="bindCancelChange" value="{{index2}}" range="{{categoryRange[index1]}}">
+      <picker bindchange="getCategoryCode" bindcancel="bindCancelChange" value="{{index2}}" range="{{categoryRange[businessTypeIndex]}}">
         <view class="picker">
-          {{categoryRange[index1][index2]}}
+          {{categoryCodeNull?categoryRange[businessTypeIndex][index2]:'请选择类别'}}
         </view>
       </picker>
     </view>  
@@ -28,8 +28,8 @@
   <view class="sideways">
     <view class="description">区域</view>
     <view class="content">
-      <picker titleText="区域" bindchange="getAreaOrgCode" range="{{area}}" value="{{index3}}">
-        <view class="content">{{area[index3]}}</view>
+      <picker titleText="区域" bindchange="getAreaOrgCode" range="{{areaName}}" value="{{index3}}">
+        <view class="content">{{areaOrgCodeNull?areaName[index3]:'请选择区域'}}</view>
       </picker>
     </view>
 
@@ -37,8 +37,8 @@
   <view class="sideways">
     <view class="description">街道</view>
     <view class="content">
-      <picker titleText="区域" bindchange="getOrg" range="{{orgArr}}" value="{{index4}}">
-        <view class="content">{{orgArr[index4]}}</view>
+      <picker titleText="区域" bindchange="getStreetOrgCode" range="{{orgArr}}" value="{{index4}}">
+        <view class="content">{{streetOrgCodeNull?orgArr[index4]:'请选择街道'}}</view>
       </picker>
     </view>
   </view>

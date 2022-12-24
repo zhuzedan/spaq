@@ -383,9 +383,7 @@ Page({
     })
   },
   onShow() {
-    this.initType()
-    this.init_erea()
-    this.get_local()
+
     if (typeof this.getTabBar === 'function' &&
       this.getTabBar()) {
       this.getTabBar().setData({
@@ -402,6 +400,9 @@ Page({
     }
   },
   onLoad() {
+    this.initType()
+    this.init_erea()
+    this.get_local()
     const res = wx.getSystemInfoSync()
     const {
       screenHeight,
@@ -449,12 +450,13 @@ Page({
   },
   initType() {
     wx.request({
-      url: app.globalData.url + '/api/app-base/queryBusinessCategoryList',
+      url: app.globalData.url + '/api/app-base/queryWelfareCategoryList',
       header: {
         "Authorization": "Bearer " + app.globalData.userInfo.token
       },
       method: "GET",
       success: res => {
+        console.log(666, res);
         let category = this.data.category
         let len = res.data.data.length
         for (let i = 0; i < len; i++) {
@@ -470,13 +472,12 @@ Page({
       }
     })
     wx.request({
-      url: app.globalData.url + '/api/app-base/queryWelfareCategoryList',
+      url: app.globalData.url + '/api/app-base/queryBusinessCategoryList',
       header: {
         "Authorization": "Bearer " + app.globalData.userInfo.token
       },
       method: "GET",
       success: res => {
-        console.log(666, res);
         let category = this.data.category
         let len = res.data.data.length
         for (let i = 0; i < len; i++) {

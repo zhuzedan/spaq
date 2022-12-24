@@ -1,6 +1,7 @@
 // pages/newPoint/index.js
 // import Toast from '@vant/weapp/toast/toast';
 var app = getApp();
+
 function tao(content) {
   wx.showToast({
     title: content,
@@ -16,14 +17,17 @@ Page({
     latitude: null,
     longitude: null,
     showUnit: false, //单位弹层控制
-    category: ['请选择类别', '农家乐', '养老院'],
-    welfareCategory: [],
-    type: ["请选择类型", '公益', '商业'],
+    businessTypeNull: null, //类型设置初始值
+    type: ['公益', '商业'],
+    businessTypeIndex: 0,
+    categoryCodeNull: null,
+    areaOrgCodeNull: null,
+    streetOrgCodeNull: null,
     index1: 0,
     index2: 0,
     index3: 0,
     index4: 0,
-    area: ["请选择区域", "海曙区", "鄞州区", "江北区", "镇海区", "慈溪市", "余姚市"],
+    area: [],
     occupation: '',
     // 表单字段
     name: '', //单位名
@@ -43,26 +47,41 @@ Page({
   // 双向绑定-类型选择器
   getBusinessType: function (e) {
     this.setData({
-      index1: e.detail.value,
+      businessTypeNull: 111222333,
+      businessTypeIndex: e.detail.value,
       businessType: this.data.type[e.detail.value]
     })
-    // console.log(this.data.index1);
-    // console.log(this.data.type[this.data.index1]);
+    // console.log(this.data.businessType);
+    // console.log(businessTypeIndex,this.data.businessTypeIndex);
   },
   // 双向绑定-类别选择器
   getCategoryCode: function (e) {
-    this.setData({
-      index2: e.detail.value,
-      categoryCode: this.data.category[e.detail.value]
-    })
+    if (this.data.businessTypeIndex == 0) {
+      this.setData({
+        categoryCodeNull: 111222333,
+        index2: e.detail.value,
+        categoryCode: this.data.welfareCategory[e.detail.value].id
+      })
+      // console.log(this.data.index2);
+      // console.log(this.data.welfareCategory[this.data.index2]);
+    }
+    if (this.data.businessTypeIndex == 1) {
+      this.setData({
+        categoryCodeNull: 111222333,
+        index2: e.detail.value,
+        categoryCode: this.data.businessCategory[e.detail.value].id
+      })
+    }
   },
   // 双向绑定-区域:
   getAreaOrgCode: function (e) {
-    let orgCode = this.data.orgCodeArr[e.detail.value].id
+    let orgCode = this.data.area[e.detail.value].id
     this.setData({
+      areaOrgCodeNull: 111222333,
       index3: e.detail.value,
-      areaOrgCode: this.data.area[e.detail.value]
+      areaOrgCode: this.data.area[e.detail.value].id
     });
+    // console.log(this.data.areaOrgCode);
     wx.request({
       url: app.globalData.url + '/api/app-base/queryNextLevelCodeAndName',
       method: "GET",
@@ -73,20 +92,37 @@ Page({
         orgCode
       },
       success: res => {
-        let orgArr = res.data.data.map(item => {
-          return item.name
-        })
-        this.setData({
-          orgArr
-        })
+        if (res.data.code == 200) {
+          let street = [];
+          let length = res.data.data.length
+          for(var i = 0;i<length;i++) {
+            let obj = {
+              id: res.data.data[i].orgCode,
+              name: res.data.data[i].name
+            }
+            street.push(obj)
+          }
+          let orgArr = res.data.data.map(item => {
+            return item.name
+          })
+          this.setData({
+            street,
+            orgArr
+          })
+          // console.log('street',this.data.street);
+          // console.log(this.data.orgArr);
+        }
       }
     })
   },
   // 双向绑定-街道
   getStreetOrgCode: function (e) {
     this.setData({
-      streetOrgCode: e.detail.value
+      streetOrgCodeNull: 112233,
+      streetOrgCode: this.data.street[e.detail.value].id,
+      index4: e.detail.value
     });
+    console.log(this.data.streetOrgCode);
   },
   // 双向绑定-联系人
   getConnectName: function (e) {
@@ -100,14 +136,17 @@ Page({
       connectTel: e.detail.value
     });
   },
-  getOrg(e){
-    this.setData({
-      index4:e.detail.value
-    })
-  },
   // 确定按钮
   submit() {
-    const { name, businessType, categoryCode, areaOrgCode, streetOrgCode, connectName, connectTel } = this.data
+    const {
+      name,
+      businessType,
+      categoryCode,
+      areaOrgCode,
+      streetOrgCode,
+      connectName,
+      connectTel
+    } = this.data
     // 判断输入内容是否空值
     if (name == '') {
       tao('单位名不能为空')
@@ -157,14 +196,14 @@ Page({
         name,
         connectName,
         connectTel,
-        businessType: this.data.index1 - 1,
+        businessType: this.data.businessTypeIndex,
         categoryCode: this.data.categoryCode,
         areaOrgCode: this.data.areaOrgCode,
         streetOrgCode: this.data.streetOrgCode,
         latitude: this.data.latitude,
         longitude: this.data.longitude,
         address: this.data.latitude + "," + this.data.longitude,
-        checkPersonId: app.globalData.getUserInfo.id
+        checkPersonId: app.globalData.getUserInfo.userId
       },
       method: 'POST',
       success: function (res) {
@@ -220,20 +259,36 @@ Page({
       }
     })
     wx.request({
-      url: app.globalData.url + '/api/app-base/queryWelfareCategoryList',
+      url: app.globalData.url + '/api/app-base/queryChildOrganization',
       header: {
         "Authorization": "Bearer " + app.globalData.userInfo.token
       },
       method: 'GET',
-      success: (result) => {
-        // console.log(result.data.data);
-        that.setData({
-          welfareCategory: result.data.data
-        })
-        console.log(that.data.welfareCategory);
+      success: (res) => {
+        if (res.data.code == 200) {
+          // console.log(res.data.data);
+          let area = [];
+          let length = res.data.data.length
+          for (var i = 0; i<length;i++) {
+            let obj = {
+              id: res.data.data[i].orgCode,
+              name: res.data.data[i].name,
+            }
+            area.push(obj)
+          }
+          let areaName = area.map(item => {
+            return item.name
+          })
+          this.setData({
+            areaName,
+            area
+          })
+          // console.log('area',this.data.area);
+          // console.log('areaName',this.data.areaName);
+        }
       },
-      fail: (err) => { },
-      complete: (res) => { },
+      fail: (err) => {},
+      complete: (res) => {},
     })
   },
 
@@ -248,20 +303,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow() {
-    let area = wx.getStorageSync('area')
     let category = wx.getStorageSync('category')
-    if (area) {
-      let orgCodeArr = area
-      area = area.map(item => {
-        return item.name
-      })
-      this.setData({ area, orgCodeArr })
-    }
     if (category) {
-      let type = category.map(item => {
-        return item.title
-      })
-      console.log(category);
+      // console.log(category);
       let arr1 = category[1].cate_two.map(item => {
         return item.title
       })
@@ -269,10 +313,16 @@ Page({
         return item.title
       })
       let categoryRange = [arr1, arr2]
+      let welfareCategory = category[1].cate_two
+      let businessCategory = category[2].cate_two
       this.setData({
-        type,
-        categoryRange
+        categoryRange,
+        welfareCategory,
+        businessCategory
       })
+      // console.log(444,categoryRange);
+      // console.log(555,category[1].cate_two);
+      // console.log(555,category[2].cate_two);
     }
   },
 
