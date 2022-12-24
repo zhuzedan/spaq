@@ -44,16 +44,16 @@
 <view class='swiperTtemBox'>
   <view class="card" wx:for="{{list}}" wx:key="key">
     <view class="title">{{item.name}}</view>
-    <view class="area">{{item.areaOrgCode}}</view>
-    <view class="location">{{item.streetOrgCode}}</view>
-    <view class="checkNum">已检查2次</view>
+    <view class="area">{{item.areaOrgCode}}-{{item.streetOrgCode}}</view>
+    <view class="location">{{item.address}}</view>
+    <view class="checkNum">已检查{{}}次</view>
     <view class="buttons">
       <view class="button" bindtap="getLocation" data-name="{{item.name}}" data-latitude="{{item.latitude}}" data-longitude="{{item.longitude}}">导航{{item.id}}</view>
       <navigator url='../fillReport/index?checkPointId={{item.id}}&categoryCode={{item.categoryCode}}&streetOrgCode={{item.streetOrgCode}}'>
         <view class="button">填报</view>
       </navigator>
     </view>
-    <view class="distance">距离1.6km</view>
+    <view class="distance">距离{{}}km</view>
   </view>
   <!-- <view class="card">
       <view class="title">慈溪市逍林多佑食品店</view>
