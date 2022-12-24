@@ -58,10 +58,29 @@ Page({
   },
   // 双向绑定-区域:
   getAreaOrgCode: function (e) {
+    let orgCode = this.data.orgCodeArr[e.detail.value].id
     this.setData({
       index3: e.detail.value,
       areaOrgCode: this.data.area[e.detail.value]
     });
+    wx.request({
+      url: app.globalData.url + '/api/app-base/queryNextLevelCodeAndName',
+      method: "GET",
+      header: {
+        "Authorization": "Bearer " + app.globalData.userInfo.token
+      },
+      data: {
+        orgCode
+      },
+      success: res => {
+        let orgArr = res.data.data.map(item => {
+          return item.name
+        })
+        this.setData({
+          orgArr
+        })
+      }
+    })
   },
   // 双向绑定-街道
   getStreetOrgCode: function (e) {
@@ -80,6 +99,11 @@ Page({
     this.setData({
       connectTel: e.detail.value
     });
+  },
+  getOrg(e){
+    this.setData({
+      index4:e.detail.value
+    })
   },
   // 确定按钮
   submit() {
@@ -227,23 +251,24 @@ Page({
     let area = wx.getStorageSync('area')
     let category = wx.getStorageSync('category')
     if (area) {
+      let orgCodeArr = area
       area = area.map(item => {
         return item.name
       })
-      this.setData({ area })
+      this.setData({ area, orgCodeArr })
     }
-    if(category){
-      let type=category.map(item=>{
+    if (category) {
+      let type = category.map(item => {
         return item.title
       })
       console.log(category);
-      let arr1=category[1].cate_two.map(item=>{
+      let arr1 = category[1].cate_two.map(item => {
         return item.title
       })
-      let arr2=category[2].cate_two.map(item=>{
+      let arr2 = category[2].cate_two.map(item => {
         return item.title
       })
-      let categoryRange=[arr1,arr2]
+      let categoryRange = [arr1, arr2]
       this.setData({
         type,
         categoryRange

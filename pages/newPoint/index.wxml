@@ -37,8 +37,8 @@
   <view class="sideways">
     <view class="description">街道</view>
     <view class="content">
-      <picker titleText="区域" bindchange="getAreaOrgCode" range="{{area}}" value="{{index4}}">
-        <view class="content">{{area[index3]}}</view>
+      <picker titleText="区域" bindchange="getOrg" range="{{orgArr}}" value="{{index4}}">
+        <view class="content">{{orgArr[index4]}}</view>
       </picker>
     </view>
   </view>
