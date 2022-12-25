@@ -388,8 +388,8 @@ Page({
     let pageCount = that.data.totalCount % app.globalData.pageSize == 0 ? parseInt(that.data.totalCount / app.globalData.pageSize) : parseInt(that.data.totalCount / app.globalData.pageSize) + 1
     if (this.data.pageIndex < pageCount) {
       this.data.pageIndex++;
-      console.log('23423423423423', pageCount);
-      console.log('加载更多数据', this.data.pageIndex);
+      // console.log('23423423423423', pageCount);
+      // console.log('加载更多数据', this.data.pageIndex);
       wx.request({
         url: app.globalData.url + '/api/app-check/queryCheckPointPage',
         header: {
@@ -416,7 +416,6 @@ Page({
         }
       })
     }
-
   },
   initType() {
     wx.request({

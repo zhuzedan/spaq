@@ -199,9 +199,10 @@ Page({
     })
   },
   getModify(e) {
-    let id = e.currentTarget.dataset.id
+    let index = e.currentTarget.dataset.index
+    let item = JSON.stringify(this.data.list[index])
     wx.navigateTo({
-      url: '../auditModify/index?id=' + id,
+      url: '../auditModify/index?item=' + item,
     })
   },
   hanlde_content(e) {

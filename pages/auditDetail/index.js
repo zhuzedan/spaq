@@ -19,36 +19,6 @@ Page({
     this.setData({
       info:item
     })
-    // var that = this;
-    // wx.request({
-    //   url: app.globalData.url+'/api/app-my/queryCheckPointExamineOne',
-    //   data: {
-    //     checkPersonId: options.checkPersonId
-    //   },
-    //   header: {
-    //     "Authorization": "Bearer " + app.globalData.userInfo.token
-    //   },
-    //   method: 'GET',
-    //   success: function (res) {
-    //     console.log(res.data.data);
-    //     // 时间戳格式转换
-    //     res.data.data.gmtCreate = times.toDate(res.data.data.gmtCreate)
-    //     // 审核状态
-    //     if (res.data.data.examineResult == 0) {
-    //       res.data.data.examineResult = '待审核'
-    //     } else if (res.data.data.examineResult == 1) {
-    //       res.data.data.examineResult = '待审核'
-    //     } else if (res.data.data.examineResult == 2) {
-    //       res.data.data.examineResult = '待审核'
-    //     }
-    //     that.setData({
-    //       info: res.data.data
-    //     })
-    //   },
-    //   fail: function (error) {
-    //     console.log(error);
-    //   }
-    // })
   },
 
   /**

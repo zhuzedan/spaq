@@ -18,7 +18,7 @@
   </view>
   <view class="sideways">
     <view class="description">街道</view>
-    <view class="content">西门街道新高路45号</view>
+    <view class="content">{{info.streetOrgName}}</view>
   </view>
   <view class="sideways">
     <view class="description">联系人</view>
@@ -33,7 +33,7 @@
     <view class="content">
       <view class="latitude">50.27548</view>
       <view class="longitude" style="margin-left: 90rpx;">120.11307</view>
-    </view> 
+    </view>
   </view>
   <view class="sideways" style="border-bottom: 0rpx;">
     <view class="description">审核状态</view>
