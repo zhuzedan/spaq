@@ -202,7 +202,7 @@ Page({
         streetOrgCode: this.data.streetOrgCode,
         latitude: this.data.latitude,
         longitude: this.data.longitude,
-        address: this.data.latitude + "," + this.data.longitude,
+        address: 'address',
         checkPersonId: app.globalData.getUserInfo.userId
       },
       method: 'POST',

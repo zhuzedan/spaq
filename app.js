@@ -17,7 +17,8 @@ App({
     userInfo: null,
     url: 'http://127.0.0.1:8082',
     getUserInfo: null,
-    role: ''
+    role: '',
+    pageSize: '5'
   },
   initUserInfo: function(res) {
     // 将用户名存在所有公共部分

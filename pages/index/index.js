@@ -82,6 +82,8 @@ Page({
     if (this.data.cateid == 'undefind') {
       this.hideFilter()
       this.getCheckPointPage()
+      wx.removeStorageSync('businessType')
+      wx.removeStorageSync('categoryCode')
     }
     // console.log('商家分类：一级id__' + this.data.cateid + ',二级id__' + this.data.subcateid);
   },
@@ -95,6 +97,8 @@ Page({
     })
     const businessType = this.data.cateid
     const categoryCode = dataset.subcateid
+    wx.setStorageSync('businessType', businessType);
+    wx.setStorageSync('categoryCode', categoryCode);
     wx.request({
       url: app.globalData.url + '/api/app-check/queryCheckPointPage',
       header: {
@@ -104,7 +108,8 @@ Page({
         current: this.data.pageIndex,
         categoryCode,
         businessType,
-        pageSize: 5
+        pageSize: app.globalData.pageSize,
+        streetOrgCode: wx.getStorageSync('streetOrgCode')
       },
       method: 'GET',
       success: function (res) {
@@ -160,12 +165,14 @@ Page({
     if (this.data.areaid == 0) {
       this.hideFilter();
       this.getCheckPointPage();
+      wx.removeStorageSync('streetOrgCode')
     }
     // console.log('所在地区：一级id__' + this.data.areaid + ',二级id__' + this.data.subareaid);
   },
   setSubareaIndex: function (e) { //地区二级索引
     const dataset = e.currentTarget.dataset;
     let streetOrgCode = dataset.subareaid
+    wx.setStorageSync('streetOrgCode', streetOrgCode)
     const that = this
     wx.request({
       url: app.globalData.url + '/api/app-check/queryCheckPointPage',
@@ -174,8 +181,10 @@ Page({
       },
       data: {
         current: this.data.pageIndex,
-        pageSize: 5,
-        streetOrgCode
+        pageSize: app.globalData.pageSize,
+        streetOrgCode,
+        businessType: wx.getStorageSync('businessType'),
+        categoryCode: wx.getStorageSync('categoryCode')
       },
       method: 'GET',
       success: function (res) {
@@ -218,7 +227,7 @@ Page({
           current: this.data.pageIndex,
           userLatitude: this.data.latitude,
           userLongitude: this.data.longitude,
-          pageSize: 5
+          pageSize: app.globalData.pageSize
         },
         method: 'GET',
         success: function (res) {
@@ -243,7 +252,7 @@ Page({
       method: 'GET',
       data: {
         current: this.data.pageIndex,
-        pageSize: 5
+        pageSize: app.globalData.pageSize
       },
       success: (result) => {
         this.setData({
@@ -294,7 +303,7 @@ Page({
       },
       data: {
         current: this.data.pageIndex,
-        pageSize: 5,
+        pageSize: app.globalData.pageSize,
         name: this.data.searchValue
       },
       method: 'GET',
@@ -322,7 +331,7 @@ Page({
       },
       data: {
         current: this.data.pageIndex,
-        pageSize: 5
+        pageSize: app.globalData.pageSize
       },
       method: 'GET',
       success: function (res) {
@@ -334,13 +343,13 @@ Page({
         } else {
           wx.showToast({
             title: '系统发生错误',
+            icon: 'error'
           })
         }
       }
     })
   },
   onShow() {
-
     if (typeof this.getTabBar === 'function' &&
       this.getTabBar()) {
       this.getTabBar().setData({
@@ -376,33 +385,38 @@ Page({
   },
   onReachBottom: function () {
     var that = this;
-    this.data.pageIndex++;
-    console.log('加载更多数据', this.data.pageIndex);
-    wx.request({
-      url: app.globalData.url + '/api/app-check/queryCheckPointPage',
-      header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token
-      },
-      data: {
-        current: this.data.pageIndex,
-        pageSize: 5
-      },
-      method: 'GET',
-      success: function (res) {
-        console.log(res.data.data.data);
-        if (res.data.code == 200 & res.data.data.data.length != 0) {
-          // console.log(res);
-          that.setData({
-            list: that.data.list.concat(res.data.data.data),
-          })
-        } else {
-          wx.showToast({
-            title: '没有更多数据',
-            icon: 'none'
-          })
+    let pageCount = that.data.totalCount % app.globalData.pageSize == 0 ? parseInt(that.data.totalCount / app.globalData.pageSize) : parseInt(that.data.totalCount / app.globalData.pageSize) + 1
+    if (this.data.pageIndex < pageCount) {
+      this.data.pageIndex++;
+      console.log('23423423423423', pageCount);
+      console.log('加载更多数据', this.data.pageIndex);
+      wx.request({
+        url: app.globalData.url + '/api/app-check/queryCheckPointPage',
+        header: {
+          "Authorization": "Bearer " + app.globalData.userInfo.token
+        },
+        data: {
+          current: this.data.pageIndex,
+          pageSize: app.globalData.pageSize
+        },
+        method: 'GET',
+        success: function (res) {
+          console.log(res.data.data.data);
+          if (res.data.code == 200 & res.data.data.data.length != 0) {
+            // console.log(res);
+            that.setData({
+              list: that.data.list.concat(res.data.data.data),
+            })
+          } else {
+            wx.showToast({
+              title: '没有更多数据',
+              icon: 'none'
+            })
+          }
         }
-      }
-    })
+      })
+    }
+
   },
   initType() {
     wx.request({
