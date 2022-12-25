@@ -1,7 +1,6 @@
 var app = getApp();
 Page({
   data: {
-    filterdata: {}, //筛选条件数据
     showfilter: false, //是否显示下拉筛选
     showfilterindex: null, //显示哪个筛选类目
     cateindex: 0, //一级分类索引
@@ -24,9 +23,7 @@ Page({
     height: 0,
     latitude: '',
     longitude: '',
-
-    category: [
-      {
+    category: [{
         "id": 'undefind',
         "title": "全部"
       },
@@ -43,12 +40,10 @@ Page({
     ],
     area: [{
       "id": 0,
-      "name": "全城"
-    }
-    ],
+      "name": "全部"
+    }],
     zone: [],
-    sort: [
-      {
+    sort: [{
         "id": 12,
         "name": "时间排序"
       },
@@ -78,12 +73,16 @@ Page({
   setCateIndex: function (e) { //分类一级索引
     const d = this.data;
     const dataset = e.currentTarget.dataset;
-    console.log(e);
     this.setData({
       cateindex: dataset.cateindex,
       cateid: dataset.cateid,
       subcateindex: d.cateindex == dataset.cateindex ? d.subcateindex : 0
     })
+    // console.log(this.data.cateid);
+    if (this.data.cateid == 'undefind') {
+      this.hideFilter()
+      this.getCheckPointPage()
+    }
     // console.log('商家分类：一级id__' + this.data.cateid + ',二级id__' + this.data.subcateid);
   },
   setSubcateIndex: function (e) { //分类二级索引
@@ -110,20 +109,6 @@ Page({
       method: 'GET',
       success: function (res) {
         if (res.data.code == 200) {
-          console.log(res.data.data.data[0]);
-          var dataArray = res.data.data.data
-          var categoryBenefit = [] //公益类型的类别编码 
-          var categoryCommerce = [] //商业类型的类别编码
-          var j = 0, k = 0
-          for (var i = 0; i < dataArray.length; i++) {
-            if (dataArray[i]["businessType"] == 0) {
-              categoryBenefit[i] = dataArray[i]["categoryCode"]
-              j++
-            } else if (dataArray[i]["businessType"] == 1) {
-              categoryCommerce[k] = dataArray[i]["categoryCode"]
-              k++
-            }
-          }
           that.setData({
             list: res.data.data.data,
             totalCount: res.data.data.totalCount
@@ -163,6 +148,7 @@ Page({
         this.setData({
           zone
         })
+        console.log(this.data.zone);
       }
     })
     this.setData({
@@ -170,11 +156,16 @@ Page({
       areaid: dataset.areaid,
       subareaindex: d.areaindex == dataset.areaindex ? d.subareaindex : 0
     })
+    console.log(this.data.areaid);
+    if (this.data.areaid == 0) {
+      this.hideFilter();
+      this.getCheckPointPage();
+    }
     // console.log('所在地区：一级id__' + this.data.areaid + ',二级id__' + this.data.subareaid);
   },
   setSubareaIndex: function (e) { //地区二级索引
     const dataset = e.currentTarget.dataset;
-    let areaOrgCode = dataset.subareaindex
+    let streetOrgCode = dataset.subareaid
     const that = this
     wx.request({
       url: app.globalData.url + '/api/app-check/queryCheckPointPage',
@@ -184,27 +175,11 @@ Page({
       data: {
         current: this.data.pageIndex,
         pageSize: 5,
-        areaOrgCode
+        streetOrgCode
       },
       method: 'GET',
       success: function (res) {
         if (res.data.code == 200) {
-          console.log(res.data.data.data[0]);
-          var dataArray = res.data.data.data
-          var categoryBenefit = [] //公益类型的类别编码 
-          var categoryCommerce = [] //商业类型的类别编码
-          var j = 0, k = 0
-          for (var i = 0; i < dataArray.length; i++) {
-            if (dataArray[i]["businessType"] == 0) {
-              categoryBenefit[i] = dataArray[i]["categoryCode"]
-              j++
-            } else if (dataArray[i]["businessType"] == 1) {
-              categoryCommerce[k] = dataArray[i]["categoryCode"]
-              k++
-            }
-          }
-          console.log(categoryBenefit);
-          console.log(categoryCommerce);
           that.setData({
             list: res.data.data.data,
             totalCount: res.data.data.totalCount
@@ -223,61 +198,60 @@ Page({
     })
     // console.log('所在地区：一级id__' + this.data.areaid + ',二级id__' + this.data.subareaid);
   },
-  setSortIndex: function (e) {    //排序索引
+  setSortIndex: function (e) { //排序索引
     const dataset = e.currentTarget.dataset;
     this.setData({
       sortindex: dataset.sortindex,
       sortid: dataset.sortid,
     })
-    wx.request({
-      url: app.globalData.url + '/api/app-check/queryCheckPointPage',
-      header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token
-      },
-      data: {
-        current: this.data.pageIndex,
-        userLatitude:this.data.latitude,
-        userLongitude:this.data.longitude,
-        pageSize: 5
-      },
-      method: 'GET',
-      success: function (res) {
-        console.log(res);
-        // if (res.data.code == 200) {
-        //   var dataArray = res.data.data.data
-        //   var categoryBenefit = [] //公益类型的类别编码 
-        //   var categoryCommerce = [] //商业类型的类别编码
-        //   var j = 0, k = 0
-        //   for (var i = 0; i < dataArray.length; i++) {
-        //     if (dataArray[i]["businessType"] == 0) {
-        //       categoryBenefit[i] = dataArray[i]["categoryCode"]
-        //       j++
-        //     } else if (dataArray[i]["businessType"] == 1) {
-        //       categoryCommerce[k] = dataArray[i]["categoryCode"]
-        //       k++
-        //     }
-        //   }
-        //   console.log(categoryBenefit);
-        //   console.log(categoryCommerce);
-        //   that.setData({
-        //     list: res.data.data.data,
-        //     totalCount: res.data.data.totalCount
-        //   })
-        // } else {
-        //   wx.showToast({
-        //     title: '系统发生错误',
-        //   })
-        // }
-      }
-    })
-    // console.log('所在地区：一级id__' + this.data.sortid);
-    // console.log(this.data);
+    console.log(dataset);
+    if (dataset.sortindex == 0) {
+      this.getCheckPointPage();
+    }
+    if (dataset.sortindex == 1) {
+      wx.request({
+        url: app.globalData.url + '/api/app-check/queryCheckPointPage',
+        header: {
+          "Authorization": "Bearer " + app.globalData.userInfo.token
+        },
+        data: {
+          current: this.data.pageIndex,
+          userLatitude: this.data.latitude,
+          userLongitude: this.data.longitude,
+          pageSize: 5
+        },
+        method: 'GET',
+        success: function (res) {
+          console.log(res);
+        }
+      })
+    }
     this.hideFilter()
   },
   hideFilter: function () { //关闭筛选面板
     this.setData({
       showfilter: false,
       showfilterindex: null
+    })
+  },
+  getCheckPointPage() {
+    wx.request({
+      url: app.globalData.url + '/api/app-check/queryCheckPointPage',
+      header: {
+        "Authorization": "Bearer " + app.globalData.userInfo.token
+      },
+      method: 'GET',
+      data: {
+        current: this.data.pageIndex,
+        pageSize: 5
+      },
+      success: (result) => {
+        this.setData({
+          list: result.data.data.data,
+        })
+      },
+      fail: (err) => {},
+      complete: (res) => {},
     })
   },
   getLocation(e) {
@@ -312,7 +286,6 @@ Page({
   },
   // 确定搜索
   searchOk: function (e) {
-    // console.log(e);
     var that = this;
     wx.request({
       url: app.globalData.url + '/api/app-check/queryCheckPointPage',
@@ -354,22 +327,6 @@ Page({
       method: 'GET',
       success: function (res) {
         if (res.data.code == 200) {
-          console.log(res.data.data.data[0]);
-          var dataArray = res.data.data.data
-          var categoryBenefit = [] //公益类型的类别编码 
-          var categoryCommerce = [] //商业类型的类别编码
-          var j = 0, k = 0
-          for (var i = 0; i < dataArray.length; i++) {
-            if (dataArray[i]["businessType"] == 0) {
-              categoryBenefit[i] = dataArray[i]["categoryCode"]
-              j++
-            } else if (dataArray[i]["businessType"] == 1) {
-              categoryCommerce[k] = dataArray[i]["categoryCode"]
-              k++
-            }
-          }
-          console.log(categoryBenefit);
-          console.log(categoryCommerce);
           that.setData({
             list: res.data.data.data,
             totalCount: res.data.data.totalCount
@@ -401,7 +358,7 @@ Page({
   },
   onLoad() {
     this.initType()
-    this.init_erea()
+    this.init_area()
     this.get_local()
     const res = wx.getSystemInfoSync()
     const {
@@ -416,7 +373,6 @@ Page({
         height: 108 + safeBottom
       })
     }
-    // this.fetchFilterData();
   },
   onReachBottom: function () {
     var that = this;
@@ -456,7 +412,6 @@ Page({
       },
       method: "GET",
       success: res => {
-        console.log(666, res);
         let category = this.data.category
         let len = res.data.data.length
         for (let i = 0; i < len; i++) {
@@ -495,7 +450,7 @@ Page({
     })
   },
   // 组织
-  init_erea() {
+  init_area() {
     wx.request({
       url: app.globalData.url + '/api/app-base/queryChildOrganization',
       header: {
@@ -521,13 +476,13 @@ Page({
     })
   },
   get_local() {
-    const that=this
+    const that = this
     wx.getLocation({
       type: 'wgs84',
       success(res) {
         const latitude = res.latitude
         const longitude = res.longitude
-        console.log(latitude,longitude);
+        console.log(latitude, longitude);
         const accuracy = res.accuracy
         // console.log(res) //将获取到的经纬度信息输出到控制台以便检查
         that.setData({ //将获取到的经度、纬度数值分别赋值给本地变量

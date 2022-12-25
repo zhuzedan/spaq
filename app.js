@@ -15,7 +15,7 @@ App({
   },
   globalData: {
     userInfo: null,
-    url: 'http://114.132.197.83:8082',
+    url: 'http://127.0.0.1:8082',
     getUserInfo: null,
     role: ''
   },

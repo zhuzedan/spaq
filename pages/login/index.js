@@ -54,50 +54,50 @@ Page({
     }
     wx.showLoading({
       title: '登录中',
-      success:res=>{
+      success: res => {
         wx.request({
-            url: app.globalData.url + '/api/app-login/login',
-            data: {
-              userName: this.data.userName,
-              password: this.data.password
-            },
-            method: 'POST',
-            success: function (res) {
-                wx.hideLoading()
-              if (res.data.code == 200) {
-                // 初始化用户信息
-                app.initUserInfo(res.data.data);
-                // 获取当前登录用户
-                wx.request({
-                  url: app.globalData.url + '/api/base/getUserInfo',
-                  header: {
-                    "Authorization": "Bearer " + app.globalData.userInfo.token
-                  },
-                  method: 'GET',
-                  success: function (res) {
-                    app.globalData.getUserInfo = res.data.data
-                    // 角色存入缓存中
-                    wx.setStorageSync('role', app.globalData.getUserInfo.userId)
-                    // 成功进入检查页
-                    wx.switchTab({
-                      url: '../index/index',
-                    })
-                  }
-                })
-      
-              } else if (res.data.code == 500) {
-                wx.showToast({
-                  title: '用户名或密码不正确',
-                  icon: 'none'
-                })
-              } else {
-                wx.showToast({
-                  title: '未知错误',
-                  icon: 'error'
-                })
-              }
+          url: app.globalData.url + '/api/app-login/login',
+          data: {
+            userName: this.data.userName,
+            password: this.data.password
+          },
+          method: 'POST',
+          success: function (res) {
+            wx.hideLoading()
+            if (res.data.code == 200) {
+              // 初始化用户信息
+              app.initUserInfo(res.data.data);
+              // 获取当前登录用户
+              wx.request({
+                url: app.globalData.url + '/api/base/getUserInfo',
+                header: {
+                  "Authorization": "Bearer " + app.globalData.userInfo.token
+                },
+                method: 'GET',
+                success: function (res) {
+                  app.globalData.getUserInfo = res.data.data
+                  // 角色存入缓存中
+                  wx.setStorageSync('role', app.globalData.getUserInfo.userId)
+                  // 成功进入检查页
+                  wx.switchTab({
+                    url: '../index/index',
+                  })
+                }
+              })
+
+            } else if (res.data.code == 500) {
+              wx.showToast({
+                title: '用户名或密码不正确',
+                icon: 'none'
+              })
+            } else {
+              wx.showToast({
+                title: '未知错误',
+                icon: 'error'
+              })
             }
-          })
+          }
+        })
       }
     })
   },
