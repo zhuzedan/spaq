@@ -1,7 +1,6 @@
 // pages/newPoint/index.js
-// import Toast from '@vant/weapp/toast/toast';
 var app = getApp();
-
+import { get } from '../../utils/http.js'
 function tao(content) {
   wx.showToast({
     title: content,
@@ -82,38 +81,29 @@ Page({
       areaOrgCode: this.data.area[e.detail.value].id
     });
     // console.log(this.data.areaOrgCode);
-    wx.request({
-      url: app.globalData.url + '/api/app-base/queryNextLevelCodeAndName',
-      method: "GET",
-      header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token
-      },
-      data: {
-        orgCode
-      },
-      success: res => {
-        if (res.data.code == 200) {
-          let street = [];
-          let length = res.data.data.length
-          for(var i = 0;i<length;i++) {
-            let obj = {
-              id: res.data.data[i].orgCode,
-              name: res.data.data[i].name
-            }
-            street.push(obj)
+    get("/api/app-base/queryNextLevelCodeAndName",orgCode,(res)=>{
+      if (res.data.code == 200) {
+        let street = [];
+        let length = res.data.data.length
+        for(var i = 0;i<length;i++) {
+          let obj = {
+            id: res.data.data[i].orgCode,
+            name: res.data.data[i].name
           }
-          let orgArr = res.data.data.map(item => {
-            return item.name
-          })
-          this.setData({
-            street,
-            orgArr
-          })
-          // console.log('street',this.data.street);
-          // console.log(this.data.orgArr);
+          street.push(obj)
         }
+        let orgArr = res.data.data.map(item => {
+          return item.name
+        })
+        this.setData({
+          street,
+          orgArr
+        })
+        // console.log('street',this.data.street);
+        // console.log(this.data.orgArr);
       }
     })
+
   },
   // 双向绑定-街道
   getStreetOrgCode: function (e) {

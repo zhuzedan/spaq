@@ -14,7 +14,7 @@
   </view>
   <view class="sideways">
     <view class="description">区域</view>
-    <view class="content">{{info.areaOrgCode}}</view>
+    <view class="content">{{info.areaOrgName}}</view>
   </view>
   <view class="sideways">
     <view class="description">街道</view>
@@ -37,7 +37,7 @@
   </view>
   <view class="sideways" style="border-bottom: 0rpx;">
     <view class="description">审核状态</view>
-    <view class="content" style="font-size: 40rpx; ; font-weight: bold; position: absolute; margin-left: 500rpx;margin-top: 30rpx;">{{info.examineResult}}</view>
+    <view class="contentStatus">{{info.examineResult}}</view>
   </view>
 </view>
 <view class="submitTime">

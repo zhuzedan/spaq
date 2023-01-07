@@ -24,10 +24,6 @@ Page({
   // 标签切换
   onChange(event) {
     console.log(event);
-    wx.showToast({
-      title: `切换到标签 ${event.detail.name}`,
-      icon: 'none',
-    });
     this.setData({
       active: event.detail.name
     })
@@ -195,7 +191,8 @@ Page({
           dataArray[i]["gmtCreate"] = times.toDate(dataArray[i]["gmtCreate"])
         }
         this.setData({
-          list: res.data.data.data
+          list: res.data.data.data,
+          totalCount: res.data.data.totalCount
         })
         // console.log(this.data.list);
       },

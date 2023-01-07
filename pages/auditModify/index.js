@@ -1,12 +1,6 @@
 // pages/auditModify/index.js
 const app = getApp();
 
-function tao(content) {
-  wx.showToast({
-    title: content,
-    icon: "none"
-  })
-}
 Page({
 
   /**
@@ -29,13 +23,13 @@ Page({
     area: [],
     occupation: '',
     // 表单字段
-    name: wx.getStorageSync('info').pointName, //单位名
-    businessType: wx.getStorageSync('info').businessType, //类型
-    categoryCode: wx.getStorageSync('info').categoryCode, // 类别
+    name: '', //单位名
+    businessType: '', //类型
+    categoryCode: '', // 类别
     areaOrgCode: '', //区域
     streetOrgCode: '', //街道
-    connectName: wx.getStorageSync('info').connectName, //联系人
-    connectTel: wx.getStorageSync('info').connectTel, //电话
+    connectName: '', //联系人
+    connectTel: '', //电话
   },
   // 双向绑定-单位名称
   getName: function (e) {
@@ -146,46 +140,6 @@ Page({
           connectName,
           connectTel
         } = this.data
-        // 判断输入内容是否空值
-        if (name == '') {
-          tao('单位名不能为空')
-          return;
-        }
-        if (businessType == '') {
-          tao('请选择类型')
-          return;
-        }
-        if (categoryCode == '') {
-          tao('请选择类别')
-          return;
-        }
-        if (areaOrgCode == '') {
-          tao('请选择区域')
-          return;
-        }
-        if (streetOrgCode == '') {
-          tao('请选择街道')
-          return;
-        }
-        if (connectName == '') {
-          tao('联系人不能为空')
-          return;
-        }
-        if (connectTel == '') {
-          tao('联系人电话不能为空')
-          return;
-        }
-        if (connectTel.length != 0 && connectTel.length != 11) { //输入的手机号不足11位提示
-          tao('请输入11位手机号')
-          return;
-        }
-        if (connectTel.length == 11) { //输入的手机号满足11位
-          //正则匹配开头是1总长度为11的号码
-          let regex = /^(((1[35789][0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/
-          if (!regex.test(connectTel)) {
-            tao('手机号格式有误')
-          }
-        }
         wx.request({
           url: app.globalData.url + '/api/app-my/updateCheckPointExamine',
           method: 'POST',
@@ -193,20 +147,31 @@ Page({
             "Authorization": "Bearer " + app.globalData.userInfo.token
           },
           data: {
-            pointName: name, //检查点
-            "areaOrgCode": "areaOrgCode", //区域编码
-            "businessType": 0,
-            "checkPointExamineId": this.data.id, //id
-            "connectName": authCode,
-            "connectTel": phone,
-            "streetOrgCode": "streetOrgCode" //街道编码
+            pointName: name?name:this.data.info.pointName, //检查点
+            areaOrgCode: areaOrgCode?areaOrgCode:this.data.info.areaOrgCode, //区域编码
+            businessType: businessType?businessType:this.data.info.businessType,
+            checkPointExamineId: this.data.info.id, //id
+            connectName: connectName?connectName:this.data.info.connectName,
+            connectTel: connectTel?connectTel:this.data.info.connectTel,
+            streetOrgCode: streetOrgCode?streetOrgCode:this.data.info.streetOrgCode //街道编码
           },
           success: res => {
             wx.hideLoading()
             if (res.data.code == 200) {
-              wx.showToast({
-                title: '修改成功',
-                icon: "none"
+              wx.showModal({
+                title: '',
+                content: '确认提交吗？',
+                complete: (res) => {
+                  if (res.confirm) {
+                    wx.showToast({
+                      title: '修改成功',
+                      icon: "none"
+                    })
+                    wx.navigateTo({
+                      url: '../auditRecord/index',
+                    })
+                  }
+                }
               })
             } else {
               wx.showToast({
@@ -282,6 +247,7 @@ Page({
       // console.log(555,category[1].cate_two);
       // console.log(555,category[2].cate_two);
     }
+    console.log('ppoopop',this.data.info.pointName);
   },
 
   /**

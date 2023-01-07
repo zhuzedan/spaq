@@ -13,8 +13,8 @@
   <van-tab swipeable title="检查记录">
     <!-- 检查记录 -->
     <view class="card" wx:for="{{list}}" wx:key="key" wx:if="{{item.examineResult==0}}" style="left: 30rpx;">
-      <view class="title">{{item.categoryName}}</view>
-      <view class="area">{{item.areaOrgName}}</view>
+      <view class="title">{{item.pointName}}</view>
+      <view class="area">{{item.areaOrgName}}-{{item.streetOrgName}}</view>
       <view class="twoLine">
         <view class="currentTime">{{item.gmtCreate}}</view>
         <view class="modify">第次修改</view>

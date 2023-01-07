@@ -4,7 +4,7 @@
 .filter-tab {
   display: flex;
   width: 100%;
-  line-height: 80rpx;
+  line-height: 50rpx;
   position: relative;
   z-index: 2;
   background: #f6f6f6;
@@ -194,8 +194,9 @@
   .score {
     font-size: 40rpx;
     font-weight: bold;
-    position: absolute;
-    margin-left: 540rpx;
-    margin-top: 40rpx;
+    display: flex;
+    flex-direction: row-reverse;
+    margin-top: -300rpx;
+    margin-right: 30rpx;
   }
 }
