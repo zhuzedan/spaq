@@ -246,10 +246,6 @@ Page({
       index3: e.detail.value
     })
   },
-  getLocation() {
-
-
-  },
 
   /**
    * 生命周期函数--监听页面加载
@@ -259,13 +255,10 @@ Page({
     wx.getLocation({
       type: 'wgs84',
       success(res) {
-        const latitude = res.latitude
-        const longitude = res.longitude
-        const accuracy = res.accuracy
         // console.log(res) //将获取到的经纬度信息输出到控制台以便检查
         that.setData({ //将获取到的经度、纬度数值分别赋值给本地变量
-          latitude: (res.latitude).toFixed(7),
-          longitude: (res.longitude).toFixed(7)
+          latitude: res.latitude,
+          longitude: res.longitude
         })
       }
     })

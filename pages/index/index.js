@@ -1,4 +1,6 @@
 var app = getApp();
+import { getCheckPointPage } from '../../api/check'
+import { getWelfareCategoryList,getBusinessCategoryList,getAreaList,getStreetList } from '../../api/base'
 Page({
   data: {
     showfilter: false, //是否显示下拉筛选
@@ -11,7 +13,6 @@ Page({
     areaid: null, //一级城市id
     subareaindex: 0, //二级城市索引
     subareaid: null, //二级城市id
-    scrolltop: null, //滚动位置
     page: 0, //分页
     category: {},
     area: {},
@@ -131,30 +132,20 @@ Page({
     const d = this.data;
     const dataset = e.currentTarget.dataset;
     let orgCode = dataset.areaid
-    wx.request({
-      url: app.globalData.url + '/api/app-base/queryNextLevelCodeAndName',
-      method: "GET",
-      header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token
-      },
-      data: {
-        orgCode
-      },
-      success: res => {
-        let len = res.data.data.length
-        let zone = []
-        for (let i = 0; i < len; i++) {
-          let obj = {
-            id: res.data.data[i].orgCode,
-            name: res.data.data[i].name
-          }
-          zone.push(obj)
+    getStreetList(orgCode).then((res) => {
+      let len = res.data.length
+      let zone = []
+      for (let i = 0; i < len; i++) {
+        let obj = {
+          id: res.data[i].orgCode,
+          name: res.data[i].name
         }
-        this.setData({
-          zone
-        })
-        console.log(this.data.zone);
+        zone.push(obj)
       }
+      this.setData({
+        zone
+      })
+      console.log(this.data.zone);
     })
     this.setData({
       areaindex: dataset.areaindex,
@@ -324,28 +315,17 @@ Page({
   // 初始加载数据
   loadInitData() {
     var that = this;
-    wx.request({
-      url: app.globalData.url + '/api/app-check/queryCheckPointPage',
-      header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token
-      },
-      data: {
-        current: this.data.pageIndex,
-        pageSize: app.globalData.pageSize
-      },
-      method: 'GET',
-      success: function (res) {
-        if (res.data.code == 200) {
-          that.setData({
-            list: res.data.data.data,
-            totalCount: res.data.data.totalCount
-          })
-        } else {
-          wx.showToast({
-            title: '系统发生错误',
-            icon: 'error'
-          })
-        }
+    getCheckPointPage(this.data.pageIndex).then((res) => {
+      if (res.code == 200) {
+        that.setData({
+          list: res.data.data,
+          totalCount: res.data.totalCount
+        })
+      } else {
+        wx.showToast({
+          title: '系统发生错误',
+          icon: 'error'
+        })
       }
     })
   },
@@ -366,8 +346,8 @@ Page({
     }
   },
   onLoad() {
-    this.initType()
-    this.init_area()
+    this.initCategory()
+    this.initArea()
     this.get_local()
     const res = wx.getSystemInfoSync()
     const {
@@ -391,24 +371,10 @@ Page({
     let pageCount = that.data.totalCount % app.globalData.pageSize == 0 ? parseInt(that.data.totalCount / app.globalData.pageSize) : parseInt(that.data.totalCount / app.globalData.pageSize) + 1
     if (this.data.pageIndex < pageCount) {
       this.data.pageIndex++;
-      // console.log('23423423423423', pageCount);
-      // console.log('加载更多数据', this.data.pageIndex);
-      wx.request({
-        url: app.globalData.url + '/api/app-check/queryCheckPointPage',
-        header: {
-          "Authorization": "Bearer " + app.globalData.userInfo.token
-        },
-        data: {
-          current: this.data.pageIndex,
-          pageSize: app.globalData.pageSize
-        },
-        method: 'GET',
-        success: function (res) {
-          console.log(res.data.data.data);
-          if (res.data.code == 200 & res.data.data.data.length != 0) {
-            // console.log(res);
+      getCheckPointPage(this.data.pageIndex).then((res) => {
+          if (res.code == 200 & res.data.data.length != 0) {
             that.setData({
-              list: that.data.list.concat(res.data.data.data),
+              list: that.data.list.concat(res.data.data),
             })
           } else {
             wx.showToast({
@@ -416,71 +382,50 @@ Page({
               icon: 'none'
             })
           }
-        }
       })
     }
   },
-  initType() {
-    wx.request({
-      url: app.globalData.url + '/api/app-base/queryWelfareCategoryList',
-      header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token
-      },
-      method: "GET",
-      success: res => {
-        let category = this.data.category
-        let len = res.data.data.length
-        for (let i = 0; i < len; i++) {
-          let obj = {
-            id: res.data.data[i].dictCode,
-            title: res.data.data[i].dictName
-          }
-          category[1].cate_two.push(obj)
+  initCategory() {
+    getWelfareCategoryList().then((res) => {
+      let category = this.data.category
+      let len = res.data.length
+      for (let i = 0; i < len; i++) {
+        let obj = {
+          id: res.data[i].dictCode,
+          title: res.data[i].dictName
         }
-        this.setData({
-          category
-        })
-        wx.setStorageSync('category', category)
+        category[1].cate_two.push(obj)
       }
+      this.setData({
+        category
+      })
+      wx.setStorageSync('category', category)
     })
-    wx.request({
-      url: app.globalData.url + '/api/app-base/queryBusinessCategoryList',
-      header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token
-      },
-      method: "GET",
-      success: res => {
-        let category = this.data.category
-        let len = res.data.data.length
-        for (let i = 0; i < len; i++) {
-          let obj = {
-            id: res.data.data[i].dictCode,
-            title: res.data.data[i].dictName
-          }
-          category[2].cate_two.push(obj)
+    getBusinessCategoryList().then((res) => {
+      let category = this.data.category
+      let len = res.data.length
+      for (let i = 0; i < len; i++) {
+        let obj = {
+          id: res.data[i].dictCode,
+          title: res.data[i].dictName
         }
-        this.setData({
-          category
-        })
-        wx.setStorageSync('category', category)
+        category[2].cate_two.push(obj)
       }
+      this.setData({
+        category
+      })
+      wx.setStorageSync('category', category)
     })
   },
   // 组织
-  init_area() {
-    wx.request({
-      url: app.globalData.url + '/api/app-base/queryChildOrganization',
-      header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token
-      },
-      method: "GET",
-      success: res => {
-        let len = res.data.data.length
+  initArea() {
+    getAreaList().then((res) => {
+      let len = res.data.length
         let area = this.data.area
         for (let i = 0; i < len; i++) {
           let obj = {
-            id: res.data.data[i].orgCode,
-            name: res.data.data[i].name,
+            id: res.data[i].orgCode,
+            name: res.data[i].name,
             zone: []
           }
           area.push(obj)
@@ -489,7 +434,6 @@ Page({
           area
         })
         wx.setStorageSync('area', area)
-      }
     })
   },
   get_local() {
@@ -500,11 +444,10 @@ Page({
         const latitude = res.latitude
         const longitude = res.longitude
         console.log(latitude, longitude);
-        const accuracy = res.accuracy
         // console.log(res) //将获取到的经纬度信息输出到控制台以便检查
         that.setData({ //将获取到的经度、纬度数值分别赋值给本地变量
-          latitude: (latitude).toFixed(4),
-          longitude: (longitude).toFixed(4)
+          latitude: (latitude).toFixed(7),
+          longitude: (longitude).toFixed(7)
         })
       }
     })

@@ -57,8 +57,7 @@
   <view class="sideways">
     <view class="description" bindtap="getLocation">地理位置</view>
     <view class="content">
-      <view class="latitude">{{latitude}}</view>
-      <view class="longitude" style="margin-left: 90rpx;">{{longitude}}</view>
+      <text space='nbsp'>{{latitude}}      {{longitude}}</text>
     </view>
   </view>
 </view>

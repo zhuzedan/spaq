@@ -12,6 +12,7 @@ export const $requst = (params = {}) => {
       header: {
         "Authorization": "Bearer " + app.globalData.userInfo.token
       },
+      data: params.data || {},
       method: params.method,
       success: (res) => {
         wx.hideLoading()

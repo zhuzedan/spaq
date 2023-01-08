@@ -1,6 +1,6 @@
 <!-- 搜索栏 -->
 <view class="search">
-  <input placeholder="检查点名称/详细地址" type='text' confirm-type='search' bindinput="search" bindconfirm="searchOk" value="{{searchValue}}"></input>
+  <input placeholder="检查点名称" type='text' confirm-type='search' bindinput="search" bindconfirm="searchOk" value="{{searchValue}}"></input>
   <image src="../../assets/check/search.png" />
   <view class="line"></view>
 </view>
@@ -37,9 +37,6 @@
   </view>
   <view class="filter-shadow" wx:if="{{showfilter}}" bindtap="hideFilter"></view>
 </view>
-
-
-
 <!-- 内容布局 -->
 <view class='swiperTtemBox'>
   <view class="card" wx:for="{{list}}" wx:key="key">
@@ -57,6 +54,3 @@
   </view>
 </view>
 <view class='placeholder-view' style="height:{{height}}rpx;width: 100%;"></view>
-<view class="container">
-  <van-dialog id="van-dialog" confirm-button-color="#3161FF" />
-</view>
