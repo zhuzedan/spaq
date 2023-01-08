@@ -46,7 +46,7 @@
   </view>
   <view class="inform">
     <image src="../../assets/check/address.png"></image>
-    <view class="name">地址 </view>
+    <view class="name">地址</view>
     <view class="detail">{{item.address}}</view>
   </view>
   <view class="inform">

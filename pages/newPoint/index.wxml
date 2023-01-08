@@ -43,6 +43,10 @@
     </view>
   </view>
   <view class="sideways">
+    <view class="description">地址</view>
+    <view class="input"><input placeholder-style="color:rgba(0, 0, 0, 0.4);" placeholder="请输入详细地址" bindinput="getAddress"></input></view>
+  </view>
+  <view class="sideways">
     <view class="description">联系人</view>
     <view class="input"><input placeholder-style="color:rgba(0, 0, 0, 0.4);" placeholder="请输入联系人" bindinput="getConnectName"></input></view>
   </view>

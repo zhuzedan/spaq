@@ -437,6 +437,7 @@ Page({
         this.setData({
           category
         })
+        wx.setStorageSync('category', category)
       }
     })
     wx.request({

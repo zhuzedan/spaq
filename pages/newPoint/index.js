@@ -1,6 +1,6 @@
 // pages/newPoint/index.js
 var app = getApp();
-import { get } from '../../utils/http.js'
+
 function tao(content) {
   wx.showToast({
     title: content,
@@ -35,6 +35,7 @@ Page({
     areaOrgCode: '', //区域
     streetOrgCode: '', //街道
     connectName: '', //联系人
+    address: '',
     connectTel: '', //电话
   },
   // 双向绑定-单位名称
@@ -80,27 +81,36 @@ Page({
       index3: e.detail.value,
       areaOrgCode: this.data.area[e.detail.value].id
     });
-    // console.log(this.data.areaOrgCode);
-    get("/api/app-base/queryNextLevelCodeAndName",orgCode,(res)=>{
-      if (res.data.code == 200) {
-        let street = [];
-        let length = res.data.data.length
-        for(var i = 0;i<length;i++) {
-          let obj = {
-            id: res.data.data[i].orgCode,
-            name: res.data.data[i].name
+    wx.request({
+      url: app.globalData.url + '/api/app-base/queryNextLevelCodeAndName',
+      method: "GET",
+      header: {
+        "Authorization": "Bearer " + app.globalData.userInfo.token
+      },
+      data: {
+        orgCode
+      },
+      success: res => {
+        if (res.data.code == 200) {
+          let street = [];
+          let length = res.data.data.length
+          for(var i = 0;i<length;i++) {
+            let obj = {
+              id: res.data.data[i].orgCode,
+              name: res.data.data[i].name
+            }
+            street.push(obj)
           }
-          street.push(obj)
+          let orgArr = res.data.data.map(item => {
+            return item.name
+          })
+          this.setData({
+            street,
+            orgArr
+          })
+          // console.log('street',this.data.street);
+          // console.log(this.data.orgArr);
         }
-        let orgArr = res.data.data.map(item => {
-          return item.name
-        })
-        this.setData({
-          street,
-          orgArr
-        })
-        // console.log('street',this.data.street);
-        // console.log(this.data.orgArr);
       }
     })
 
@@ -120,6 +130,12 @@ Page({
       connectName: e.detail.value
     });
   },
+  // 双向绑定-详细地址
+  getAddress: function (e) {
+    this.setData({
+      address: e.detail.value
+    });
+  },
   // 双向绑定-联系人电话
   getConnectTel: function (e) {
     this.setData({
@@ -135,7 +151,8 @@ Page({
       areaOrgCode,
       streetOrgCode,
       connectName,
-      connectTel
+      connectTel,
+      address
     } = this.data
     // 判断输入内容是否空值
     if (name == '') {
@@ -160,6 +177,10 @@ Page({
     }
     if (connectName == '') {
       tao('联系人不能为空')
+      return;
+    }
+    if (address == '') {
+      tao('详细地址不能为空')
       return;
     }
     if (connectTel == '') {
@@ -192,7 +213,7 @@ Page({
         streetOrgCode: this.data.streetOrgCode,
         latitude: this.data.latitude,
         longitude: this.data.longitude,
-        address: 'address',
+        address,
         checkPersonId: app.globalData.getUserInfo.userId
       },
       method: 'POST',
@@ -243,8 +264,8 @@ Page({
         const accuracy = res.accuracy
         // console.log(res) //将获取到的经纬度信息输出到控制台以便检查
         that.setData({ //将获取到的经度、纬度数值分别赋值给本地变量
-          latitude: (res.latitude).toFixed(4),
-          longitude: (res.longitude).toFixed(4)
+          latitude: (res.latitude).toFixed(7),
+          longitude: (res.longitude).toFixed(7)
         })
       }
     })
@@ -259,7 +280,7 @@ Page({
           // console.log(res.data.data);
           let area = [];
           let length = res.data.data.length
-          for (var i = 0; i<length;i++) {
+          for (var i = 0; i < length; i++) {
             let obj = {
               id: res.data.data[i].orgCode,
               name: res.data.data[i].name,
