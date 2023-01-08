@@ -262,16 +262,18 @@
 .title_wrap {
   display: flex;
   align-items: center;
-  padding: 12rpx 0;
+  padding: 24rpx 0;
+  .description {
+    text-align: left;
+    margin-left: 20rpx;
+    font-size: 32rpx;
+  }
+  view {
+    flex: 1;
+    margin-right: 30rpx;
+  }
 }
 
-.title_wrap view {
-  flex: 1;
-}
-
-.description {
-  text-align: left;
-}
 
 .content {
   color: rgba(0, 0, 0, 0.4);

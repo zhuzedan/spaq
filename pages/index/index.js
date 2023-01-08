@@ -287,6 +287,9 @@ Page({
   // 确定搜索
   searchOk: function (e) {
     var that = this;
+    that.setData({
+      pageIndex:1
+    })
     wx.request({
       url: app.globalData.url + '/api/app-check/queryCheckPointPage',
       header: {
@@ -336,6 +339,11 @@ Page({
         selected: "index"
       })
     }
+  },
+  onLoad() {
+    this.initCategory()
+    this.initArea()
+    this.get_local()
     if (app.globalData.userInfo == null) {
       wx.showToast({
         title: '请先登录',
@@ -344,11 +352,6 @@ Page({
     } else {
       this.loadInitData()
     }
-  },
-  onLoad() {
-    this.initCategory()
-    this.initArea()
-    this.get_local()
     const res = wx.getSystemInfoSync()
     const {
       screenHeight,
@@ -371,17 +374,18 @@ Page({
     let pageCount = that.data.totalCount % app.globalData.pageSize == 0 ? parseInt(that.data.totalCount / app.globalData.pageSize) : parseInt(that.data.totalCount / app.globalData.pageSize) + 1
     if (this.data.pageIndex < pageCount) {
       this.data.pageIndex++;
-      getCheckPointPage(this.data.pageIndex).then((res) => {
+      getCheckPointPage(this.data.pageIndex,this.data.searchValue).then((res) => {
           if (res.code == 200 & res.data.data.length != 0) {
             that.setData({
               list: that.data.list.concat(res.data.data),
             })
-          } else {
-            wx.showToast({
-              title: '没有更多数据',
-              icon: 'none'
-            })
-          }
+          } 
+      })
+    }
+    else {
+      wx.showToast({
+        title: '没有更多数据',
+        icon: 'none'
       })
     }
   },

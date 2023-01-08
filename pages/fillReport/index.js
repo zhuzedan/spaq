@@ -1,5 +1,6 @@
 // pages/fillReport/index.js
 var app = getApp();
+import { getCheckPointOne,getCheckPhotoList } from '../../api/check'
 Page({
 
   /**
@@ -13,7 +14,6 @@ Page({
     photoId: [],
     photoTypeName: [],
     photoid: '',
-    phototypename: '',
     sort: 0,
     // 表单类型与名称
     checkPhotoList: '',
@@ -110,7 +110,7 @@ Page({
         "photoId": that.data.photoid,
         "photoTypeName": that.data.phototypename,
         "picAdd": img_url,
-        "reportFormId": "1",
+        "reportFormId": that.data.checkPointId,
         "sort": that.data.sort
       },
       success: res => {
@@ -123,30 +123,6 @@ Page({
       }
     })
   },
-  // 新增图片接口
-  // insertReportPhoto() {
-  //   var that = this;
-  //   for (var i = 0; i < that.data.imageListUrl.length; i++) {
-  //     that.data.sort++;
-  //     wx.request({
-  //       url: app.globalData.url + '/api/app-check/insertReportPhoto',
-  //       header: {
-  //         "Authorization": "Bearer " + app.globalData.userInfo.token
-  //       },
-  //       data: {
-  //         photoId: that.data.photoid,
-  //         photoTypeName: that.data.phototypename,
-  //         picAdd: that.data.imageListUrl[i],
-  //         reportFormId: 1,
-  //         sort: that.data.sort
-  //       },
-  //       method: 'POST',
-  //       success: (res) => {
-  //         console.log(res.data);
-  //       }
-  //     })
-  //   }
-  // },
   // 删除图片
   deleteImg: function (e) {
     var imageList = this.data.imageList;
@@ -244,51 +220,21 @@ Page({
       checkPointId: options.checkPointId
     })
     var that = this;
-    // 查询单个详情
-    wx.request({
-      url: app.globalData.url + '/api/app-check/queryCheckPointOne',
-      data: {
-        checkPointId: options.checkPointId
-      },
-      header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token
-      },
-      method: 'GET',
-      success: function (res) {
-        that.setData({
-          info: res.data.data
-        })
-      },
-      fail: function (error) {
-        console.log(error);
-      }
+    // 查询单个检查点详情
+    getCheckPointOne(options.checkPointId).then((res) => {
+      that.setData({
+        info: res.data
+      })
     })
-    // 查询所需检查点类型
-    wx.request({
-      url: app.globalData.url + '/api/app-check/queryCheckPhotoList',
-      data: {
-        categoryCode: options.categoryCode,
-        orgCode: options.streetOrgCode
-      },
-      header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token
-      },
-      method: 'GET',
-      success: function (res) {
-        // console.log(res.data);
-        var dataArray = res.data.data
-        for (var i = 0; i < dataArray.length; i++) {
-          // console.log(dataArray[i]["id"])
-          // console.log(dataArray[i]["photoTypeName"]);
-          that.setData({
-            photoId: that.data.photoId.concat(dataArray[i]["id"]),
-            photoTypeName: that.data.photoTypeName.concat(dataArray[i]["photoTypeName"]),
-            checkPhotoList: res.data.data
-          })
-        }
-        // console.log(that.data.photoId);
-        // console.log(that.data.photoTypeName);
-        console.log(that.data.checkPhotoList);
+    // 查询检查表图片类型与名称
+    getCheckPhotoList(options.categoryCode,options.streetOrgCode).then((res) => {
+      var dataArray = res.data
+      for (var i = 0; i < dataArray.length; i++) {
+        that.setData({
+          photoId: that.data.photoId.concat(dataArray[i]["id"]),
+          photoTypeName: that.data.photoTypeName.concat(dataArray[i]["photoTypeName"]),
+          checkPhotoList: res.data
+        })
       }
     })
     // 查询检查项
@@ -362,7 +308,6 @@ Page({
                   icon: "none"
                 })
               }
-              // console.log(res);
             }
           })
         }
