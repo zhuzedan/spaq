@@ -1,5 +1,5 @@
 // pages/login/index.js
-// import request from '../../utils/request'
+import { getUserInfo } from '../../api/login'
 // 获取公共app
 var app = getApp();
 Page({
@@ -68,23 +68,16 @@ Page({
               // 初始化用户信息
               app.initUserInfo(res.data.data);
               // 获取当前登录用户
-              wx.request({
-                url: app.globalData.url + '/api/base/getUserInfo',
-                header: {
-                  "Authorization": "Bearer " + app.globalData.userInfo.token
-                },
-                method: 'GET',
-                success: function (res) {
-                  app.globalData.getUserInfo = res.data.data
-                  // 角色存入缓存中
-                  wx.setStorageSync('role', app.globalData.getUserInfo.userId)
-                  // 成功进入检查页
-                  wx.switchTab({
-                    url: '../index/index',
-                  })
-                }
+              getUserInfo().then((res) => {
+                // console.log('当前用户数据',res);
+                app.globalData.getUserInfo = res.data
+                // 角色存入缓存中
+                wx.setStorageSync('role', app.globalData.getUserInfo.userId)
+                // 成功进入检查页
+                wx.switchTab({
+                  url: '../index/index',
+                })
               })
-
             } else if (res.data.code == 500) {
               wx.showToast({
                 title: '用户名或密码不正确',

@@ -383,6 +383,9 @@ Page({
       })
     }
   },
+  onPullDownRefresh: function () {
+
+  },
   onReachBottom: function () {
     var that = this;
     let pageCount = that.data.totalCount % app.globalData.pageSize == 0 ? parseInt(that.data.totalCount / app.globalData.pageSize) : parseInt(that.data.totalCount / app.globalData.pageSize) + 1
