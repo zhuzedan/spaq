@@ -25,6 +25,7 @@ Page({
     // 表单字段
     name: '', //单位名
     businessType: '', //类型
+    businessTypeIndex: '',
     categoryCode: '', // 类别
     areaOrgCode: '', //区域
     streetOrgCode: '', //街道
@@ -193,7 +194,7 @@ Page({
       info: item
     })
     wx.setStorageSync('info', this.data.info)
-    console.log(this.data.info);
+    // console.log(this.data.info);
     wx.request({
       url: app.globalData.url + '/api/app-base/queryChildOrganization',
       header: {
@@ -243,9 +244,6 @@ Page({
         welfareCategory,
         businessCategory
       })
-      // console.log(444,categoryRange);
-      // console.log(555,category[1].cate_two);
-      // console.log(555,category[2].cate_two);
     }
     console.log('ppoopop',this.data.info.pointName);
   },

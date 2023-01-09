@@ -72,52 +72,5 @@
         <!-- <image src="../../assets/pic.png" mode="" /> -->
       </view>
     </view>
-    <!-- <view class="sideways">
-      <view class="description">食品经营许可证</view>
-      <view class="content">
-        <image src="../../assets/pic.png"  mode="" />
-        <image src="../../assets/pic.png" mode="" />
-      </view>
-    </view>
-    <view class="sideways">
-      <view class="description">健康证</view>
-      <view class="content">
-        <image src="../../assets/pic.png"  mode="" />
-      </view>
-    </view>
-    <view class="sideways">
-      <view class="description">就餐环境</view>
-      <view class="content">
-        <image src="../../assets/pic.png"  mode="" />
-        <image src="../../assets/pic.png"  mode="" />
-        <image src="../../assets/pic.png"  mode="" />
-      </view>
-    </view>
-    <view class="sideways">
-      <view class="description">厨房环境</view>
-      <view class="content">请选择照片</view>
-    </view>
-    <view class="sideways">
-      <view class="description">消毒设施</view>
-      <view class="content">请选择照片</view>
-    </view> -->
-
-    <view class="sideways">
-      <view class="description">是否存在问题</view>
-      <view class="content">
-        <icon type="success" size="20" color="#3161FF" />
-        <view style="margin-right: 30rpx;">是</view>
-        <view style="color: #f6f6f6; width: 40rpx; height: 40rpx;  border-radius: 50%; border: 4rpx solid #f6f6f6;" />
-        <view>否</view>
-        <!-- <van-radio-group value="{{ radio }}" bind:change="onChangeRadio" direction="horizontal">
-          <van-radio name="1" checked-color="#3161FF">是</van-radio>
-          <van-radio name="2" checked-color="#3161FF">否</van-radio>
-        </van-radio-group> -->
-      </view>
-    </view>
-    <view class="sideways" style="border: 0;">
-      <view class="description">问题图片</view>
-      <view class="content">请选择照片</view>
-    </view>
   </scroll-view>
 </view>

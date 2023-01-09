@@ -338,7 +338,7 @@ Page({
     if (this.data.pageIndex < pageCount) {
       this.data.pageIndex++;
       getCheckPointPage(this.data.pageIndex,this.data.searchValue,wx.getStorageSync('streetOrgCode'),wx.getStorageSync('categoryCode'),wx.getStorageSync('userLatitude'),wx.getStorageSync('userLongitude')).then((res) => {
-          if (res.code == 200 & res.data.data.length != 0) {
+          if (res.code == 200 & res.data.length != 0) {
             that.setData({
               list: that.data.list.concat(res.data.data),
             })

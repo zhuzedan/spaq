@@ -49,29 +49,6 @@
             <view wx:if="{{index==stepList.length-1?false:true}}" class="view_line {{stepNum<=index+1?'line_bgcolor1':'line_bgcolor'}} "></view>
           </block>
         </view>
-        <view class="titleO">
-          <view class="title">8.《食品经营许可证》是否合法有效且在显著位置摆放？(10分)</view>
-          <view class="detail">
-            <van-checkbox checked-color="#3161FF" shape="square" bind:change="onChange">A 无《食品经营许可证》</van-checkbox>
-          </view>
-          <view class="detail">
-            <van-checkbox checked-color="#3161FF" shape="square" bind:change="onChange">B《食品经营许可证》过期</van-checkbox>
-          </view>
-          <view class="detail">
-            <van-checkbox checked-color="#3161FF" shape="square" bind:change="onChange">C 有《食品经营许可证》，但未在醒目位置摆放</van-checkbox>
-          </view>
-          <view class="detail">
-            <van-checkbox checked-color="#3161FF" shape="square" bind:change="onChange">D 有《食品经营许可证》，但实际经营地点不相符</van-checkbox>
-          </view>
-          <view class="detail">
-            <van-checkbox checked-color="#3161FF" shape="square" bind:change="onChange">E 有《食品经营许可证》，但实际经营范围不相符</van-checkbox>
-          </view>
-          <view class="detail">
-            <van-checkbox value="{{ checked }}" checked-color="#3161FF" shape="square" bind:change="onChange">F《食品经营许可证》合法有效且在显著位置摆放</van-checkbox>
-          </view>
-
-        </view>
-        <!-- <button bindtap="numSteps">下一步</button> -->
       </view>
     </view>
   </view>

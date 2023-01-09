@@ -3,14 +3,14 @@
 <view class="container">
   <view class="sideways">
     <view class="description">单位名称</view>
-    <view class="input"><input placeholder-style="color:rgba(0, 0, 0, 0.4);" bindinput="getName" value="{{name?name:info.pointName}}"></input></view>
+    <view class="input"><input placeholder-style="color:rgba(0, 0, 0, 0.4);" bindinput="getName" placeholder="{{name?name:info.pointName}}"></input></view>
   </view>
   <view class="sideways">
     <view class="description">类型</view>
     <view class="input">
       <picker bindchange="getBusinessType" bindcancel="bindCancelChange" value="{{businessTypeIndex}}" range="{{type}}">
         <view class="picker">
-          {{businessTypeNull?type[businessTypeIndex]:info.businessType}}
+          {{businessTypeNull?type[businessTypeIndex]:(info.businessType==0?'公益':'商业')}}
         </view>
       </picker>
     </view>
