@@ -1,6 +1,7 @@
 // pages/newPoint/index.js
 var app = getApp();
-
+import { getAreaList, getStreetList } from '../../api/base'
+import { insertCheckPoint } from '../../api/mine'
 function tao(content) {
   wx.showToast({
     title: content,
@@ -81,39 +82,26 @@ Page({
       index3: e.detail.value,
       areaOrgCode: this.data.area[e.detail.value].id
     });
-    wx.request({
-      url: app.globalData.url + '/api/app-base/queryNextLevelCodeAndName',
-      method: "GET",
-      header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token
-      },
-      data: {
-        orgCode
-      },
-      success: res => {
-        if (res.data.code == 200) {
-          let street = [];
-          let length = res.data.data.length
-          for(var i = 0;i<length;i++) {
-            let obj = {
-              id: res.data.data[i].orgCode,
-              name: res.data.data[i].name
-            }
-            street.push(obj)
+    getStreetList(orgCode).then((res) => {
+      if (res.code == 200) {
+        let street = [];
+        let length = res.data.length
+        for(var i = 0;i<length;i++) {
+          let obj = {
+            id: res.data[i].orgCode,
+            name: res.data[i].name
           }
-          let orgArr = res.data.data.map(item => {
-            return item.name
-          })
-          this.setData({
-            street,
-            orgArr
-          })
-          // console.log('street',this.data.street);
-          // console.log(this.data.orgArr);
+          street.push(obj)
         }
+        let orgArr = res.data.map(item => {
+          return item.name
+        })
+        this.setData({
+          street,
+          orgArr
+        })
       }
     })
-
   },
   // 双向绑定-街道
   getStreetOrgCode: function (e) {
@@ -199,46 +187,26 @@ Page({
         return;
       }
     }
-    wx.request({
-      header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token
-      },
-      url: app.globalData.url + '/api/app-my/appInsertCheckPoint',
-      data: {
-        name,
-        connectName,
-        connectTel,
-        businessType: this.data.businessTypeIndex,
-        categoryCode: this.data.categoryCode,
-        areaOrgCode: this.data.areaOrgCode,
-        streetOrgCode: this.data.streetOrgCode,
-        latitude: this.data.latitude,
-        longitude: this.data.longitude,
-        address,
-        checkPersonId: app.globalData.getUserInfo.userId
-      },
-      method: 'POST',
-      success: function (res) {
-        if (res.data.code == 200) {
-          wx.showModal({
-            title: '',
-            content: '确认提交吗？',
-            complete: (res) => {
-              if (res.confirm) {
-                tao('提交成功')
-                wx.switchTab({
-                  url: '../index/index',
-                })
-              }
+    wx.showModal({
+      title: '',
+      content: '确认提交吗？',
+      complete: (res) => {
+        if (res.confirm) {
+          insertCheckPoint(name,this.data.businessTypeIndex,this.data.categoryCode,this.data.areaOrgCode,this.data.streetOrgCode,address,connectName,connectTel,this.data.latitude,this.data.longitude).then((res) => {
+            if(res.code == 200) {
+              tao('提交成功')
+              wx.switchTab({
+                url: '../index/index',
+              })
             }
-          })
-
-        } else {
-          wx.showToast({
-            title: '未知错误',
-          })
+            else{
+              tao('异常')
+            }
+          })  
         }
-
+        else if (res.cancel) {
+          tao('取消提交')
+        }
       }
     })
   },
@@ -263,37 +231,25 @@ Page({
         })
       }
     })
-    wx.request({
-      url: app.globalData.url + '/api/app-base/queryChildOrganization',
-      header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token
-      },
-      method: 'GET',
-      success: (res) => {
-        if (res.data.code == 200) {
-          // console.log(res.data.data);
-          let area = [];
-          let length = res.data.data.length
-          for (var i = 0; i < length; i++) {
-            let obj = {
-              id: res.data.data[i].orgCode,
-              name: res.data.data[i].name,
-            }
-            area.push(obj)
+    getAreaList().then((res) => {
+      if (res.code == 200) {
+        let area = [];
+        let length = res.data.length
+        for (var i = 0; i < length; i++) {
+          let obj = {
+            id: res.data[i].orgCode,
+            name: res.data[i].name,
           }
-          let areaName = area.map(item => {
-            return item.name
-          })
-          this.setData({
-            areaName,
-            area
-          })
-          // console.log('area',this.data.area);
-          // console.log('areaName',this.data.areaName);
+          area.push(obj)
         }
-      },
-      fail: (err) => {},
-      complete: (res) => {},
+        let areaName = area.map(item => {
+          return item.name
+        })
+        this.setData({
+          areaName,
+          area
+        })
+      }
     })
   },
 
@@ -325,7 +281,6 @@ Page({
         welfareCategory,
         businessCategory
       })
-      // console.log(444,categoryRange);
       // console.log(555,category[1].cate_two);
       // console.log(555,category[2].cate_two);
     }
