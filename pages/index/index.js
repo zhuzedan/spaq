@@ -82,7 +82,7 @@ Page({
     // console.log(this.data.cateid);
     if (this.data.cateid == 'undefind') {
       this.hideFilter()
-      this.getCheckPointPage()
+      this.loadInitData()
       wx.removeStorageSync('businessType')
       wx.removeStorageSync('categoryCode')
     }
@@ -100,31 +100,21 @@ Page({
     const categoryCode = dataset.subcateid
     wx.setStorageSync('businessType', businessType);
     wx.setStorageSync('categoryCode', categoryCode);
-    wx.request({
-      url: app.globalData.url + '/api/app-check/queryCheckPointPage',
-      header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token
-      },
-      data: {
-        current: this.data.pageIndex,
-        categoryCode,
-        businessType,
-        pageSize: app.globalData.pageSize,
-        streetOrgCode: wx.getStorageSync('streetOrgCode')
-      },
-      method: 'GET',
-      success: function (res) {
-        if (res.data.code == 200) {
-          that.setData({
-            list: res.data.data.data,
-            totalCount: res.data.data.totalCount
-          })
-        } else {
-          wx.showToast({
-            title: '系统发生错误',
-          })
-        }
-      }
+    that.setData({
+      pageIndex: 1
+    })
+    getCheckPointPage(this.data.pageIndex,'',wx.getStorageSync('streetOrgCode'),categoryCode).then((res) => {
+      console.log('类别筛选',res);
+      if (res.code == 200) {
+        that.setData({
+          list: res.data.data,
+          totalCount: res.data.totalCount
+        })
+      } else {
+        wx.showToast({
+          title: '系统发生错误',
+        })
+      }      
     })
     console.log('商家分类：一级id__' + this.data.cateid + ',二级id__' + this.data.subcateid);
   },
@@ -155,7 +145,7 @@ Page({
     console.log(this.data.areaid);
     if (this.data.areaid == 0) {
       this.hideFilter();
-      this.getCheckPointPage();
+      this.loadInitData();
       wx.removeStorageSync('streetOrgCode')
     }
     // console.log('所在地区：一级id__' + this.data.areaid + ',二级id__' + this.data.subareaid);
@@ -165,30 +155,20 @@ Page({
     let streetOrgCode = dataset.subareaid
     wx.setStorageSync('streetOrgCode', streetOrgCode)
     const that = this
-    wx.request({
-      url: app.globalData.url + '/api/app-check/queryCheckPointPage',
-      header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token
-      },
-      data: {
-        current: this.data.pageIndex,
-        pageSize: app.globalData.pageSize,
-        streetOrgCode,
-        businessType: wx.getStorageSync('businessType'),
-        categoryCode: wx.getStorageSync('categoryCode')
-      },
-      method: 'GET',
-      success: function (res) {
-        if (res.data.code == 200) {
-          that.setData({
-            list: res.data.data.data,
-            totalCount: res.data.data.totalCount
-          })
-        } else {
-          wx.showToast({
-            title: '系统发生错误',
-          })
-        }
+    that.setData({
+      pageIndex:1
+    })
+    getCheckPointPage(this.data.pageIndex,'',streetOrgCode).then((res) => {
+      console.log('地区查筛选',res);
+      if (res.code == 200) {
+        that.setData({
+          list: res.data.data,
+          totalCount: res.data.totalCount
+        })
+      } else {
+        wx.showToast({
+          title: '系统发生错误',
+        })
       }
     })
     this.hideFilter()
@@ -206,23 +186,26 @@ Page({
     })
     console.log(dataset);
     if (dataset.sortindex == 0) {
-      this.getCheckPointPage();
+      wx.removeStorageSync('userLatitude')
+      wx.removeStorageSync('userLongitude')
+      this.loadInitData();
     }
+    var that = this;
     if (dataset.sortindex == 1) {
-      wx.request({
-        url: app.globalData.url + '/api/app-check/queryCheckPointPage',
-        header: {
-          "Authorization": "Bearer " + app.globalData.userInfo.token
-        },
-        data: {
-          current: this.data.pageIndex,
-          userLatitude: this.data.latitude,
-          userLongitude: this.data.longitude,
-          pageSize: app.globalData.pageSize
-        },
-        method: 'GET',
-        success: function (res) {
-          console.log(res);
+      that.setData({
+        pageIndex: 1
+      })
+      getCheckPointPage(this.data.pageIndex,'','','',this.data.latitude,this.data.longitude).then((res) => {
+        if (res.code == 200) {
+          that.setData({
+            list: res.data.data,
+          })
+          wx.setStorageSync('userLatitude', this.data.latitude)
+          wx.setStorageSync('userLongitude', this.data.longitude)
+        } else {
+          wx.showToast({
+            title: '系统发生错误',
+          })
         }
       })
     }
@@ -232,26 +215,6 @@ Page({
     this.setData({
       showfilter: false,
       showfilterindex: null
-    })
-  },
-  getCheckPointPage() {
-    wx.request({
-      url: app.globalData.url + '/api/app-check/queryCheckPointPage',
-      header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token
-      },
-      method: 'GET',
-      data: {
-        current: this.data.pageIndex,
-        pageSize: app.globalData.pageSize
-      },
-      success: (result) => {
-        this.setData({
-          list: result.data.data.data,
-        })
-      },
-      fail: (err) => {},
-      complete: (res) => {},
     })
   },
   getLocation(e) {
@@ -290,34 +253,24 @@ Page({
     that.setData({
       pageIndex:1
     })
-    wx.request({
-      url: app.globalData.url + '/api/app-check/queryCheckPointPage',
-      header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token
-      },
-      data: {
-        current: this.data.pageIndex,
-        pageSize: app.globalData.pageSize,
-        name: this.data.searchValue
-      },
-      method: 'GET',
-      success: function (res) {
-        if (res.data.code == 200) {
-          console.log(res);
-          that.setData({
-            list: res.data.data.data,
-          })
-        } else {
-          wx.showToast({
-            title: '系统发生错误',
-          })
-        }
+    getCheckPointPage(this.data.pageIndex,this.data.searchValue).then((res) => {
+      if (res.code == 200) {
+        that.setData({
+          list: res.data.data,
+        })
+      } else {
+        wx.showToast({
+          title: '系统发生错误',
+        })
       }
     })
   },
   // 初始加载数据
   loadInitData() {
     var that = this;
+    that.setData({
+      pageIndex: 1
+    })
     getCheckPointPage(this.data.pageIndex).then((res) => {
       if (res.code == 200) {
         that.setData({
@@ -384,12 +337,12 @@ Page({
     let pageCount = that.data.totalCount % app.globalData.pageSize == 0 ? parseInt(that.data.totalCount / app.globalData.pageSize) : parseInt(that.data.totalCount / app.globalData.pageSize) + 1
     if (this.data.pageIndex < pageCount) {
       this.data.pageIndex++;
-      getCheckPointPage(this.data.pageIndex,this.data.searchValue).then((res) => {
+      getCheckPointPage(this.data.pageIndex,this.data.searchValue,wx.getStorageSync('streetOrgCode'),wx.getStorageSync('categoryCode'),wx.getStorageSync('userLatitude'),wx.getStorageSync('userLongitude')).then((res) => {
           if (res.code == 200 & res.data.data.length != 0) {
             that.setData({
               list: that.data.list.concat(res.data.data),
             })
-          } 
+          }
       })
     }
     else {

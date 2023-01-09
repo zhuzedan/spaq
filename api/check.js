@@ -1,14 +1,18 @@
 import { $requst } from '../utils/request'
 var app = getApp();
 // 检查点分页查询
-export const getCheckPointPage = (current,name) => {
+export const getCheckPointPage = (current,name,streetOrgCode,categoryCode,userLatitude,userLongitude) => {
   return $requst({
     url: '/api/app-check/queryCheckPointPage',
     method: 'GET',
     data: {
       current: current,
       pageSize: app.globalData.pageSize,
-      name: name || ''
+      name: name || '',
+      streetOrgCode: streetOrgCode || '',
+      categoryCode: categoryCode || '',
+      userLatitude: userLatitude || '',
+      userLongitude: userLongitude || ''
     }
   })
 }
