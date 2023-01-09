@@ -1,18 +1,21 @@
 var app = getApp();
 var times = require('../../utils/times.js')
+import { getCheckPointExamine } from '../../api/mine'
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    hanlde_content: '',
+    statusid: '',
     filterdata: {}, //筛选条件数据
     showfilter: false, //是否显示下拉筛选
     showfilterindex: null, //显示哪个筛选类目
     cateindex: 0, //一级分类索引
     cateid: null, //一级分类id
     subcateindex: 0, //二级分类索引
-    subcateid: null, //二级分类id
+    subcateid: '', //二级分类id
     areaindex: 0, //一级城市索引
     areaid: null, //一级城市id
     subareaindex: 0, //二级城市索引
@@ -29,19 +32,18 @@ Page({
     value3: 'd',
     value4: 'e'
   },
-  onShow(){
-    
+  onShow() {
+
   },
   fetchFilterData: function () { //获取筛选条件
     this.setData({
-      status: [
-        {
+      status: [{
           "id": 'undefind',
           "name": "全部"
         },
         {
           "id": 0,
-          "name": "未审批"
+          "name": "待审核"
         },
         {
           "id": 1,
@@ -73,12 +75,19 @@ Page({
   setCateIndex: function (e) { //分类一级索引
     const d = this.data;
     const dataset = e.currentTarget.dataset;
-    console.log(e);
+    console.log(dataset);
     this.setData({
       cateindex: dataset.cateindex,
       cateid: dataset.cateid,
       subcateindex: d.cateindex == dataset.cateindex ? d.subcateindex : 0
     })
+    if(this.data.cateid == 'undefind') {
+      {
+        this.hideFilter();
+        this.getAllData();
+        wx.removeStorageSync('subcateid')
+      }
+    }
     // console.log('商家分类：一级id__' + this.data.cateid + ',二级id__' + this.data.subcateid);
   },
   setSubcateIndex: function (e) { //分类二级索引
@@ -91,98 +100,75 @@ Page({
     })
     if (this.data.cateid == 'undefind') {
       this.getAllData()
-    }
-    else {
-      wx.showLoading({
-        success: res => {
-          wx.request({
-            url: app.globalData.url + '/api/app-my/queryCheckPointExaminePage?checkPersonId=' + app.globalData.getUserInfo.userId +
-              '&current=' + this.data.pageIndex + '&pageSize=5' + '&categoryCode=' + this.data.cateid + '&categoryCode=' + this.data.subcateid,
-            header: {
-              "Authorization": "Bearer " + app.globalData.userInfo.token
-            },
-            method: 'POST',
-            success: function (res) {
-              console.log(res);
-              wx.hideLoading()
-              var dataArray = res.data.data.data
-              for (var i = 0; i < dataArray.length; i++) {
-                dataArray[i]["gmtCreate"] = times.toDate(dataArray[i]["gmtCreate"])
-                if (dataArray[i]["examineResult"] == 0) {
-                  dataArray[i]["examineResult"] = '待审核'
-                } else if (dataArray[i]["examineResult"] == 1) {
-                  dataArray[i]["examineResult"] = '通过'
-                } else if (dataArray[i]["examineResult"] == 2) {
-                  dataArray[i]["examineResult"] = '未通过'
-                }
-              }
-              if (res.data.code == 200) {
-                that.setData({
-                  list: res.data.data.data
-                })
-              }
-            },
+      wx.removeStorageSync('subcateid')
+    }else {
+      wx.setStorageSync('subcateid', this.data.subcateid)
+      that.setData({
+        pageIndex: 1
+      })
+      getCheckPointExamine(this.data.pageIndex,this.data.hanlde_content,this.data.subcateid,'').then((res) => {
+        var dataArray = res.data.data
+        for (var i = 0; i < dataArray.length; i++) {
+          dataArray[i]["gmtCreate"] = times.toDate(dataArray[i]["gmtCreate"])
+          if (dataArray[i]["examineResult"] == 0) {
+            dataArray[i]["examineResult"] = '待审核'
+          } else if (dataArray[i]["examineResult"] == 1) {
+            dataArray[i]["examineResult"] = '通过'
+          } else if (dataArray[i]["examineResult"] == 2) {
+            dataArray[i]["examineResult"] = '未通过'
+          }
+        }
+        if (res.code == 200) {
+          that.setData({
+            list: res.data.data,
+            totalCount: res.data.totalCount
           })
         }
-      })
+      })      
     }
-    console.log('商家分类：一级id__' + this.data.cateid + ',二级id__' + this.data.subcateid);
+    // console.log('商家分类：一级id__' + this.data.cateid + ',二级id__' + this.data.subcateid);
   },
-  setStatusIndex: function (e) { //月份索引
+  setStatusIndex: function (e) { 
     // const d = this.data;
     const that = this
-    const { statusindex, statusid } = e.currentTarget.dataset
+    const {
+      statusindex,
+      statusid
+    } = e.currentTarget.dataset
     this.setData({
       statusindex,
       statusid
     })
     if (statusid == 'undefind') {
-      this.getAllData()
-    }
-    else {
-      wx.showLoading({
-        success: res => {
-          wx.request({
-            url: app.globalData.url + '/api/app-my/queryCheckPointExaminePage?checkPersonId=' + app.globalData.getUserInfo.userId +
-              '&current=' + this.data.pageIndex + '&pageSize=5' + '&status=' + statusid,
-            header: {
-              "Authorization": "Bearer " + app.globalData.userInfo.token
-            },
-            method: 'POST',
-            success: function (res) {
-              wx.hideLoading()
-              var dataArray = res.data.data.data
-              for (var i = 0; i < dataArray.length; i++) {
-                dataArray[i]["gmtCreate"] = times.toDate(dataArray[i]["gmtCreate"])
-                if (dataArray[i]["examineResult"] == 0) {
-                  dataArray[i]["examineResult"] = '待审核'
-                } else if (dataArray[i]["examineResult"] == 1) {
-                  dataArray[i]["examineResult"] = '通过'
-                } else if (dataArray[i]["examineResult"] == 2) {
-                  dataArray[i]["examineResult"] = '未通过'
-                }
-              }
-              if (res.data.code == 200) {
-                that.setData({
-                  list: res.data.data.data
-                })
-              }
-            },
+      this.hideFilter();
+      this.getAllData();
+      wx.removeStorageSync('statusid')
+    } else {
+      that.setData({
+        pageIndex: 1
+      })
+      wx.setStorageSync('statusid', this.data.statusid)
+      getCheckPointExamine(this.data.pageIndex,this.data.hanlde_content,this.data.subcateid,this.data.statusid,'').then((res) => {
+        var dataArray = res.data.data
+        for (var i = 0; i < dataArray.length; i++) {
+          dataArray[i]["gmtCreate"] = times.toDate(dataArray[i]["gmtCreate"])
+          if (dataArray[i]["examineResult"] == 0) {
+            dataArray[i]["examineResult"] = '待审核'
+          } else if (dataArray[i]["examineResult"] == 1) {
+            dataArray[i]["examineResult"] = '通过'
+          } else if (dataArray[i]["examineResult"] == 2) {
+            dataArray[i]["examineResult"] = '未通过'
+          }
+        }
+        if (res.code == 200) {
+          that.setData({
+            list: res.data.data,
+            totalCount: res.data.totalCount
           })
         }
       })
     }
     // console.log('所在地区：一级id__' + this.data.statusid);
-    this.hideFilter()
-  },
-  setScoreIndex: function (e) {    //分数索引
-    const dataset = e.currentTarget.dataset;
-    this.setData({
-      scoreindex: dataset.scoreindex,
-      scoreid: dataset.scoreid,
-    })
-    console.log('所在地区：一级id__' + this.data.scoreid);
-    console.log(this.data);
     this.hideFilter()
   },
   hideFilter: function () { //关闭筛选面板
@@ -213,38 +199,26 @@ Page({
   },
   // 搜索查询
   go_search() {
-    wx.showLoading({
-      title: '查询中',
-      success: res => {
-        wx.request({
-          url: app.globalData.url + '/api/app-approval/queryCheckPointExaminePage?leaderUserId=' + app.globalData.getUserInfo.userId +
-            '&current=' + this.data.pageIndex + '&pageSize=5' + '&pointName=' + this.data.hanlde_content,
-          header: {
-            "Authorization": "Bearer " + app.globalData.userInfo.token
-          },
-          method: "POST",
-          success: res => {
-            for (var i = 0; i < dataArray.length; i++) {
-              dataArray[i]["gmtCreate"] = times.toDate(dataArray[i]["gmtCreate"])
-              if (dataArray[i]["examineResult"] == 0) {
-                dataArray[i]["examineResult"] = '待审核'
-              } else if (dataArray[i]["examineResult"] == 1) {
-                dataArray[i]["examineResult"] = '通过'
-              } else if (dataArray[i]["examineResult"] == 2) {
-                dataArray[i]["examineResult"] = '未通过'
-              }
-            }
-            wx.hideLoading()
-            if (res.data.code == 200) {
-              that.setData({
-                list: res.data.data.data
-              })
-              wx.showToast({
-                title: '查询成功',
-                icon: "none"
-              })
-            }
-          }
+    var that = this;
+    that.setData({
+      pageIndex: 1
+    })
+    getCheckPointExamine(this.data.pageIndex,this.data.hanlde_content,'','').then((res) => {
+      var dataArray = res.data.data
+      for (var i = 0; i < dataArray.length; i++) {
+        dataArray[i]["gmtCreate"] = times.toDate(dataArray[i]["gmtCreate"])
+        if (dataArray[i]["examineResult"] == 0) {
+          dataArray[i]["examineResult"] = '待审核'
+        } else if (dataArray[i]["examineResult"] == 1) {
+          dataArray[i]["examineResult"] = '通过'
+        } else if (dataArray[i]["examineResult"] == 2) {
+          dataArray[i]["examineResult"] = '未通过'
+        }
+      }
+      if (res.code == 200) {
+        that.setData({
+          list: res.data.data,
+          totalCount: res.data.totalCount
         })
       }
     })
@@ -257,16 +231,56 @@ Page({
   // 加载数据
   getAllData() {
     var that = this;
-    wx.request({
-      url: app.globalData.url + '/api/app-my/queryCheckPointExaminePage?checkPersonId=' + app.globalData.getUserInfo.userId +
-        '&current=' + this.data.pageIndex + '&pageSize=5',
-      header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token
-      },
-      method: 'POST',
-      success: function (res) {
-        console.log(res.data.data.data);
-        var dataArray = res.data.data.data
+    that.setData({
+      pageIndex: 1
+    })
+    getCheckPointExamine(this.data.pageIndex,'','','').then((res) => {
+      console.log('加载数据', res);
+      var dataArray = res.data.data
+      for (var i = 0; i < dataArray.length; i++) {
+        dataArray[i]["gmtCreate"] = times.toDate(dataArray[i]["gmtCreate"])
+        if (dataArray[i]["examineResult"] == 0) {
+          dataArray[i]["examineResult"] = '待审核'
+        } else if (dataArray[i]["examineResult"] == 1) {
+          dataArray[i]["examineResult"] = '通过'
+        } else if (dataArray[i]["examineResult"] == 2) {
+          dataArray[i]["examineResult"] = '未通过'
+        }
+      }
+      if (res.code == 200) {
+        that.setData({
+          list: res.data.data,
+          totalCount: res.data.totalCount
+        })
+      }
+    })
+  },
+  onPullDownRefresh: function () {
+    // 在当前页面显示导航条加载动画
+    wx.showNavigationBarLoading();
+    wx.removeStorageSync('subcateid')
+    wx.removeStorageSync('statusid')
+    // 下拉刷新后，将页数重置为1,数组清空，是否请求完所有数据设置为fasle
+    this.setData({
+      pageIndex: 1,
+      hanlde_content: ''
+    });
+    // 重新发起请求
+    this.getAllData();
+    wx.hideNavigationBarLoading();//隐藏导航条加载动画。
+    wx.stopPullDownRefresh();//停止当前页面下拉刷新。
+  },
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+    var that = this;
+    let pageCount = that.data.totalCount % app.globalData.pageSize == 0 ? parseInt(that.data.totalCount / app.globalData.pageSize) : parseInt(that.data.totalCount / app.globalData.pageSize) + 1
+    if (this.data.pageIndex < pageCount) {
+      this.data.pageIndex++;
+      getCheckPointExamine(this.data.pageIndex,this.data.hanlde_content,wx.getStorageSync('subcateid'),wx.getStorageSync('statusid')).then((res) => {
+        console.log('加载数据', res);
+        var dataArray = res.data.data
         for (var i = 0; i < dataArray.length; i++) {
           dataArray[i]["gmtCreate"] = times.toDate(dataArray[i]["gmtCreate"])
           if (dataArray[i]["examineResult"] == 0) {
@@ -277,47 +291,22 @@ Page({
             dataArray[i]["examineResult"] = '未通过'
           }
         }
-        if (res.data.code == 200) {
+        if (res.code == 200 & res.data.data.length != 0) {
           that.setData({
-            list: res.data.data.data
+            list: that.data.list.concat(res.data.data),
           })
         }
-      },
-    })
-  },
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-    var that = this;
-    this.data.pageIndex++;
-    console.log('加载更多数据', this.data.pageIndex);
-    wx.request({
-      url: app.globalData.url + '/api/app-my/queryCheckPointExaminePage?checkPersonId=' + app.globalData.getUserInfo.userId +
-        '&current=' + this.data.pageIndex + '&pageSize=5',
-      header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token
-      },
-      method: 'POST',
-      success: function (res) {
-        console.log(res.data.data.data);
-        if (res.data.code == 200 & res.data.data.data.length != 0) {
-          // console.log(res);
-          that.setData({
-            list: that.data.list.concat(res.data.data.data),
-          })
-        } else {
-          wx.showToast({
-            title: '没有更多数据',
-            icon: 'none'
-          })
-        }
-      }
-    })
+      })
+    } else {
+      wx.showToast({
+        title: '没有更多数据',
+        icon: 'none'
+      })
+    }
   },
   // 获取类别
-  get_type(){
-    let category=wx.getStorageSync('category')
+  get_type() {
+    let category = wx.getStorageSync('category')
     this.setData({
       category
     })

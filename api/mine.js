@@ -20,3 +20,10 @@ export const insertCheckPoint = (name,businessType,categoryCode,areaOrgCode,stre
     }
   })
 }
+// 查询检查点审核记录
+export const getCheckPointExamine = (current,pointName,categoryCode,status) => {
+  return $requst({
+    url: '/api/app-my/queryCheckPointExaminePage?checkPersonId='+app.globalData.getUserInfo.userId+'&current='+current+'&pageSize='+app.globalData.pageSize+'&pointName='+pointName+'&categoryCode=' +categoryCode+ '&status=' + status,
+    method: 'POST'
+  })
+}
