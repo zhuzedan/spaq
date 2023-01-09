@@ -1,6 +1,6 @@
 // pages/fillReport/index.js
 var app = getApp();
-import { getCheckPointOne,getCheckPhotoList } from '../../api/check'
+import { getCheckPointOne,getCheckPhotoList,getCheckItem,insertReportForm,insertReportPhoto } from '../../api/check'
 Page({
 
   /**
@@ -97,31 +97,37 @@ Page({
       }
     })
   },
-  // 上传
+  // 新增图片
   pushApi(index, img_url) {
     const that = this
-    wx.request({
-      url: app.globalData.url + '/api/app-check/insertReportPhoto',
-      method: "POST",
-      header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token
-      },
-      data: {
-        "photoId": that.data.photoid,
-        "photoTypeName": that.data.phototypename,
-        "picAdd": img_url,
-        "reportFormId": that.data.checkPointId,
-        "sort": that.data.sort
-      },
-      success: res => {
-        wx.hideLoading()
-        console.log(res);
-        wx.showToast({
-          title: res.data.msg,
-          icon: "none"
-        })
-      }
+    insertReportPhoto(that.data.photoid,that.data.phototypename,img_url,that.data.reportFormId,that.data.sort).then((res) => {
+      wx.showToast({
+        title: res.msg,
+        icon: "none"
+      })
     })
+    // wx.request({
+    //   url: app.globalData.url + '/api/app-check/insertReportPhoto',
+    //   method: "POST",
+    //   header: {
+    //     "Authorization": "Bearer " + app.globalData.userInfo.token
+    //   },
+    //   data: {
+    //     "photoId": that.data.photoid,
+    //     "photoTypeName": that.data.phototypename,
+    //     "picAdd": img_url,
+    //     "reportFormId": that.data.reportFormId,
+    //     "sort": that.data.sort
+    //   },
+    //   success: res => {
+    //     wx.hideLoading()
+    //     console.log(res);
+    //     wx.showToast({
+    //       title: res.data.msg,
+    //       icon: "none"
+    //     })
+    //   }
+    // })
   },
   // 删除图片
   deleteImg: function (e) {
@@ -223,7 +229,11 @@ Page({
     // 查询单个检查点详情
     getCheckPointOne(options.checkPointId).then((res) => {
       that.setData({
-        info: res.data
+        info: res.data,
+        name: res.data.name,
+        address: res.data.address,
+        connectName: res.data.connectName,
+        connectTel: res.data.connectTel
       })
     })
     // 查询检查表图片类型与名称
@@ -238,87 +248,51 @@ Page({
       }
     })
     // 查询检查项
-    wx.request({
-      url: app.globalData.url + '/api/app-check/queryCheckItem',
-      method: "GET",
-      header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token
-      },
-      data: {
-        categoryCode: options.categoryCode,
-        orgCode: options.streetOrgCode
-      },
-      success: res => {
-        let left_list = res.data.data.map(item => {
-          return item.projectName
-        })
-        left_list = [...new Set(left_list)]
-        that.setData({
-          question_list: res.data.data,
-          question_index: 0,
-          left_list
-        })
-      }
+    getCheckItem(options.categoryCode,options.streetOrgCode).then((res) => {
+      console.log('查检查项',res);
+      let left_list = res.data.map(item => {
+        return item.projectName
+      })
+      left_list = [...new Set(left_list)]
+      that.setData({
+        question_list: res.data,
+        question_index: 0,
+        left_list
+      })
     })
   },
   handle_name(e) {
-    this.setData({ handle_name: e.detail.value })
+    this.setData({ name: e.detail.value })
   },
   handle_address(e) {
-    this.setData({ handle_address: e.detail.value })
+    this.setData({ address: e.detail.value })
   },
   handle_user(e) {
-    this.setData({ handle_user: e.detail.value })
+    this.setData({ connectName: e.detail.value })
   },
   handle_phone(e) {
-    this.setData({ handle_phone: e.detail.value })
+    this.setData({ connectTel: e.detail.value })
   },
   submit_basic() {
-    if (this.data.handle_name && this.data.handle_address && this.data.handle_user && this.data.handle_phone) {
-      wx.showLoading({
-        success: res => {
-          wx.request({
-            url: app.globalData.url + '/api/app-check/insertReportForm',
-            method: 'POST',
-            header: {
-              "Authorization": "Bearer " + app.globalData.userInfo.token
-            },
-            data: {
-              "checkPointId": this.data.checkPointId,
-              "checkPointNAddress": this.data.handle_address,
-              "checkPointName": this.data.handle_name,
-              "connectName": this.data.handle_user,
-              "connectTel": this.data.handle_phone,
-              "userId": app.globalData.getUserInfo.userId
-            },
-            success: res => {
-              wx.hideLoading()
-              if (res.data.code == 200) {
-                wx.showToast({
-                  title: '提交成功',
-                  icon: 'none'
-                })
-                this.setData({
-                  currentNum: 1
-                })
-              }
-              else {
-                wx.showToast({
-                  title: res.data.msg,
-                  icon: "none"
-                })
-              }
-            }
-          })
-        }
-      })
-    }
-    else {
-      wx.showToast({
-        title: '请完善信息',
-        icon: "none"
-      })
-    }
+    insertReportForm(this.data.checkPointId,this.data.address,this.data.name,this.data.connectName,this.data.connectTel).then((res) => {
+      console.log('基础信息',res);
+      if (res.code == 200) {
+        wx.showToast({
+          title: '提交成功',
+          icon: 'none'
+        })
+        this.setData({
+          currentNum: 1,
+          reportFormId: res.data.reportFormId
+        })
+      }
+      else {
+        wx.showToast({
+          title: res.data.msg,
+          icon: "none"
+        })
+      }
+    })
   },
   /**
    * 生命周期函数--监听页面初次渲染完成

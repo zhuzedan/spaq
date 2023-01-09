@@ -2,5 +2,6 @@
   "usingComponents": {
     "tabs": "../../components/tabs/index",
     "filterbar": "../../components/filterbar/index"
-  }
+  },
+  "enablePullDownRefresh": true
 }

@@ -367,7 +367,17 @@ Page({
     }
   },
   onPullDownRefresh: function () {
-
+    // 在当前页面显示导航条加载动画
+    wx.showNavigationBarLoading();
+    // 下拉刷新后，将页数重置为1,数组清空，是否请求完所有数据设置为fasle
+    this.setData({
+      pageIndex: 1,
+      searchValue: ''
+    });
+    // 重新发起请求
+    this.loadInitData();
+    wx.hideNavigationBarLoading();//隐藏导航条加载动画。
+    wx.stopPullDownRefresh();//停止当前页面下拉刷新。
   },
   onReachBottom: function () {
     var that = this;
