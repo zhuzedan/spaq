@@ -7,6 +7,9 @@ Page({
    * 页面的初始数据
    */
   data: {
+    currentIndex: 0, //当前选中左侧菜单的索引
+    leftMenuList:[],   //左侧菜单数据
+    rightContext: [],  //右侧题目+选项 
     // 本地图片缓存链接
     imageList: [],
     // oss链接
@@ -22,23 +25,23 @@ Page({
     currentNum: 0,
     checked: true,
     editInformation: 1,
-    stepList: [{
-      name: '1'
-    }, {
-      name: '2'
-    }, {
-      name: '3'
-    }, {
-      name: '4'
-    }, { name: 's' }, { name: 's' }, { name: 's' }, { name: 's' }],
-
     stepNum: 1,//当前的步数
     photo_list: []
 
   },
+  Cates:[],   //检查项所有数据
   forEdit1() {
     this.setData({
       editInformation: 2
+    })
+  },
+  // 检查项左侧栏切换
+  handleMenuItemChange(e) {
+    const index = e.currentTarget.dataset.index;
+    let rightContext = this.Cates[index].checkItemSubjects
+    this.setData({
+      currentIndex: index,
+      rightContext
     })
   },
   // 门头照片选择
@@ -106,28 +109,6 @@ Page({
         icon: "none"
       })
     })
-    // wx.request({
-    //   url: app.globalData.url + '/api/app-check/insertReportPhoto',
-    //   method: "POST",
-    //   header: {
-    //     "Authorization": "Bearer " + app.globalData.userInfo.token
-    //   },
-    //   data: {
-    //     "photoId": that.data.photoid,
-    //     "photoTypeName": that.data.phototypename,
-    //     "picAdd": img_url,
-    //     "reportFormId": that.data.reportFormId,
-    //     "sort": that.data.sort
-    //   },
-    //   success: res => {
-    //     wx.hideLoading()
-    //     console.log(res);
-    //     wx.showToast({
-    //       title: res.data.msg,
-    //       icon: "none"
-    //     })
-    //   }
-    // })
   },
   // 删除图片
   deleteImg: function (e) {
@@ -165,8 +146,9 @@ Page({
     that.setData({
       question_value: e.detail.value
     })
-    // wx.showLoading({
-    //   success: res => {
+    wx.showLoading({
+      title: '加载中',
+    })
     wx.request({
       url: app.globalData.url + '/api/app-check/insertReportItem',
       method: "POST",
@@ -175,23 +157,22 @@ Page({
         'content-type': 'application/x-www-form-urlencoded'
       },
       data: {
-        "itemId": that.data.question_list[that.data.question_index].checkItemList[index].id,
-        "itemName": that.data.question_list[that.data.question_index].checkItemList[index].itemName,
-        "projectCode": that.data.question_list[that.data.question_index].projectCode,
-        "projectName": that.data.question_list[that.data.question_index].projectName,
-        "reportFormId": that.data.question_list[that.data.question_index].id,
-        "score": 0,
-        "sort": 0,
-        "subjectId": that.data.question_list[that.data.question_index].checkItemList[index].subjectId,
-        "subjectScore": 0,
-        "subjectStem": that.data.question_list[that.data.question_index].checkItemList[index].stem
+        itemId: that.data.rightContext[that.data.question_index].checkItemList[index].id,
+        itemName: that.data.rightContext[that.data.question_index].checkItemList[index].itemName,
+        projectCode: that.data.rightContext[that.data.question_index].projectCode,
+        projectName: that.data.rightContext[that.data.question_index].projectName,
+        reportFormId: that.data.reportFormId,
+        score: that.data.rightContext[that.data.question_index].checkItemList[index].score,
+        sort: that.data.rightContext[that.data.question_index].checkItemList[index].sort,
+        subjectId: that.data.rightContext[that.data.question_index].id,
+        subjectScore: that.data.rightContext[that.data.question_index].score,
+        subjectStem: that.data.rightContext[that.data.question_index].stem
       },
       success: res => {
+        wx.hideLoading()
         console.log(res);
       }
     })
-    //   }
-    // })
   },
   onChangeRadio(event) {
     this.setData({
@@ -213,9 +194,6 @@ Page({
         question_index: this.data.question_index
       })
     }
-    // this.setData({
-    //   stepNum: this.data.stepNum == this.data.stepList.length ? 1 : this.data.stepNum + 1
-    // })
   },
   /**
    * 生命周期函数--监听页面加载
@@ -250,13 +228,21 @@ Page({
     // 查询检查项
     getCheckItem(options.categoryCode,options.streetOrgCode).then((res) => {
       console.log('查检查项',res);
+      this.Cates = res.data;  
+      let leftMenuList = this.Cates.map(v=>v.projectName)
+      let rightContext = this.Cates[0].checkItemSubjects
+      this.setData({
+        leftMenuList,
+        rightContext
+      })
+      // left_list 为左侧大类的数据
       let left_list = res.data.map(item => {
         return item.projectName
       })
       left_list = [...new Set(left_list)]
       that.setData({
         question_list: res.data,
-        question_index: 0,
+        question_index: 0,  
         left_list
       })
     })

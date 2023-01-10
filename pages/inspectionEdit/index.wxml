@@ -65,18 +65,5 @@
         <image wx:for-index="index1" bindtap="upLoadImage" data-index="{{index}}" data-index1="{{index1}}" wx:for="{{img_list}}" wx:for-item="item1" wx:key="item" src="{{item1.picAdd}}" mode="" wx:if="{{item1.photoTypeName==item.photoTypeName}}" data-photoId="{{item.photoId}}"/>
       </view>
     </view>
-    <view class="sideways">
-      <view class="description">是否存在问题</view>
-      <view class="content">
-        <icon type="success" size="20" color="#3161FF" />
-        <view style="margin-right: 30rpx;">是</view>
-        <view style="color: #f6f6f6; width: 40rpx; height: 40rpx;  border-radius: 50%; border: 4rpx solid #f6f6f6;" />
-        <view>否</view>
-      </view>
-    </view>
-    <view class="sideways" style="border: 0;">
-      <view class="description">问题图片</view>
-      <view class="content">请选择照片</view>
-    </view>
   </scroll-view>
 </view>

@@ -8,7 +8,8 @@ Page({
     this.setData({
       basic_obj
     })
-    this.initId(basic_obj)
+    console.log('basicobj',this.data.basic_obj);
+    this.initId()
     this.initData(basic_obj.checkPointId)
     this.get_img()
   },
@@ -43,12 +44,9 @@ Page({
       basic_obj: this.data.basic_obj
     })
   },
-  initId(basic_obj) {
-    const {
-      checkPointNAddress,
-      checkPointName,
-      id
-    } = basic_obj
+  initId() {
+    var that = this;
+    console.log('checkPointNAddress',that.data.basic_obj.checkPointAddress);
     wx.request({
       url: app.globalData.url + '/api/app-my/insertReportExamine',
       method: "POST",
@@ -57,10 +55,10 @@ Page({
       },
       data: {
         checkPersonId: app.globalData.getUserInfo.userId,
-        checkPointAddress: checkPointNAddress,
-        checkPointName: checkPointName,
-        examineContent: "随便写",
-        reportFormId: id
+        checkPointAddress: that.data.basic_obj.checkPointAddress,
+        checkPointName: that.data.basic_obj.checkPointName,
+        examineContent: "123",
+        reportFormId: that.data.basic_obj.id
       },
       success: res => {
         let reportExamineId = res.data.data.reportExamineId
@@ -71,6 +69,7 @@ Page({
     })
   },
   go_edit() {
+    var that = this;
     const {
       checkPointNAddress,
       checkPointName,

@@ -4,10 +4,4 @@
     <view class="item-label">{{item}}</view>
     <view wx:if="{{ index === current }}" class="left-line"></view>
   </view>
-  <!-- <view class="sidebar-item">
-    <view class="item-label">人员管理</view>
-  </view>
-  <view class="sidebar-item">
-    <view class="item-label">留有害生物防治</view>
-  </view> -->
 </scroll-view>
