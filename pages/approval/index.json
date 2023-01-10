@@ -3,5 +3,6 @@
     "van-tab": "@vant/weapp/tab/index",
     "van-tabs": "@vant/weapp/tabs/index"
   },
-  "navigationBarTitleText": "审批"
+  "navigationBarTitleText": "审批",
+  "enablePullDownRefresh": true
 }

@@ -58,7 +58,7 @@ Component({
    */
   attached() {
     const roleId = wx.getStorageSync('role')
-    if (roleId == "admin") {
+    if (roleId == 1) {
       this.setData({
         selectList: this.data.allList[1]
       })

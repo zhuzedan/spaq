@@ -7,7 +7,6 @@ Page({
    */
   data: {
     userInfo: null,
-    realName: ''
   },
   // 新增检查点
   newPoint() {
@@ -72,9 +71,9 @@ Page({
    */
   onLoad(options) {
     if (app.globalData.userInfo != null) {
-      console.log(app.globalData.getUserInfo.realName);
+      console.log(app.globalData.getUserInfo);
       this.setData({
-        realName: app.globalData.getUserInfo.realName
+        oneUserInfo: app.globalData.getUserInfo
       })
     }
   },

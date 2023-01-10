@@ -1,6 +1,6 @@
 <!-- 搜索栏 -->
 <view class="search" wx:if="{{active == 0}}">
-  <input placeholder="检查点名称" type='text' confirm-type='search' bindinput="handle_content" bindconfirm="go_search"></input>
+  <input placeholder="检查点名称" type='text' confirm-type='search' bindinput="checkPointHandle" bindconfirm="checkPointSearch"></input>
   <image src="../../assets/check/search.png" />
   <view class="line"></view>
 </view>
@@ -9,26 +9,29 @@
   <image src="../../assets/check/search.png" />
   <view class="line"></view>
 </view>
-<van-tabs active="{{ active }}" class="vantab" color="#3161FF"  bind:change="onChange">
-  <van-tab swipeable title="检查记录">
-    <!-- 检查记录 -->
+<view class="tab">
+  <view class="tab_item" wx:for="{{tab}}" wx:key="id" bindtap="changeTab" data-index="{{index}}" style="color: {{item.isClick == true?'blue': 'black'}};">
+    {{item.name}}
+  </view>
+</view>
+<view class="content">
+  <!-- 检查记录数据渲染 -->
+  <view class="content_item" style="display: {{active == 0?'block':'none'}};">
     <view class="card" wx:for="{{list}}" wx:key="key" wx:if="{{item.examineResult==0}}" style="left: 30rpx;">
       <view class="title">{{item.pointName}}</view>
       <view class="area">{{item.areaOrgName}}-{{item.streetOrgName}}</view>
       <view class="twoLine">
         <view class="currentTime">{{item.gmtCreate}}</view>
-        <view class="modify">第次修改</view>
+        <view class="modify">第{{}}次修改</view>
       </view>
       <view class="buttons">
-        <view class="button" bindtap="examine" data-examineResult="1" data-examineid="{{item.id}}">同意</view>
-        <view class="button" bindtap="examine" data-examineResult="2" data-examineid="{{item.id}}">拒绝</view>
+        <view class="button" bindtap="updateExamineResult" data-examineResult="1" data-examineid="{{item.id}}">同意</view>
+        <view class="button" bindtap="updateExamineResult" data-examineResult="2" data-examineid="{{item.id}}">拒绝</view>
       </view>
       <view class="name">{{item.checkPersonId}}</view>
     </view>
-
-  </van-tab>
-  <van-tab title="检查审核记录">
-    <!-- 检查点审核记录 -->
+  </view>
+  <view class="content_item" style="display: {{active == 1?'block':'none'}};">
     <view class="card" wx:for="{{listB}}" wx:key="key" wx:if="{{item.examineResult==0}}" style="left: 30rpx;">
       <view class="title">{{item.checkPointName}}</view>
       <view class="area">{{item.examineContent}}</view>
@@ -37,14 +40,12 @@
         <view class="modify">第{{item.updateCount}}次修改</view>
       </view>
       <view class="buttons">
-        <view class="button" bindtap="pointExamine" data-examineResult="1" data-examineid="{{item.id}}">同意</view>
-        <view class="button" bindtap="pointExamine" data-examineResult="2" data-examineid="{{item.id}}">拒绝</view>
+        <view class="button" bindtap="updateReportExamine" data-examineResult="1" data-examineid="{{item.id}}">同意</view>
+        <view class="button" bindtap="updateReportExamine" data-examineResult="2" data-examineid="{{item.id}}">拒绝</view>
       </view>
       <view class="name">{{item.checkPersonId}}</view>
     </view>
-  </van-tab>
-</van-tabs>
-
-
+  </view>
+</view>
 
 <view class='placeholder-view' style="height:{{height}}rpx;width: 100%;"></view>

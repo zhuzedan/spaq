@@ -72,7 +72,7 @@ Page({
                 // console.log('当前用户数据',res);
                 app.globalData.getUserInfo = res.data
                 // 角色存入缓存中
-                wx.setStorageSync('role', app.globalData.getUserInfo.userId)
+                wx.setStorageSync('role', app.globalData.getUserInfo.isLeader)
                 // 成功进入检查页
                 wx.switchTab({
                   url: '../index/index',

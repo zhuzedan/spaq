@@ -5,7 +5,9 @@ Page({
   },
   onLoad(options) {
     let basic_obj = JSON.parse(options.item)
-    this.setData({ basic_obj })
+    this.setData({
+      basic_obj
+    })
     this.initId(basic_obj)
     this.initData(basic_obj.checkPointId)
     this.get_img()
@@ -19,22 +21,34 @@ Page({
   },
   handle_name(e) {
     this.data.basic_obj.checkPointName = e.detail.value
-    this.setData({ basic_obj: this.data.basic_obj })
+    this.setData({
+      basic_obj: this.data.basic_obj
+    })
   },
   handle_address(e) {
     this.data.basic_obj.checkPointNAddress = e.detail.value
-    this.setData({ basic_obj: this.data.basic_obj })
+    this.setData({
+      basic_obj: this.data.basic_obj
+    })
   },
   hanlde_username(e) {
     this.data.basic_obj.connectName = e.detail.value
-    this.setData({ basic_obj: this.data.basic_obj })
+    this.setData({
+      basic_obj: this.data.basic_obj
+    })
   },
   hanlde_phone(e) {
     this.data.basic_obj.connectTel = e.detail.value
-    this.setData({ basic_obj: this.data.basic_obj })
+    this.setData({
+      basic_obj: this.data.basic_obj
+    })
   },
   initId(basic_obj) {
-    const { checkPointNAddress, checkPointName, id } = basic_obj
+    const {
+      checkPointNAddress,
+      checkPointName,
+      id
+    } = basic_obj
     wx.request({
       url: app.globalData.url + '/api/app-my/insertReportExamine',
       method: "POST",
@@ -42,11 +56,11 @@ Page({
         "Authorization": "Bearer " + app.globalData.userInfo.token
       },
       data: {
-        "checkPersonId": app.globalData.getUserInfo.userId,
-        "checkPointAddress": checkPointNAddress,
-        "checkPointName": checkPointName,
-        "examineContent": "随便写",
-        "reportFormId": id
+        checkPersonId: app.globalData.getUserInfo.userId,
+        checkPointAddress: checkPointNAddress,
+        checkPointName: checkPointName,
+        examineContent: "随便写",
+        reportFormId: id
       },
       success: res => {
         let reportExamineId = res.data.data.reportExamineId
@@ -57,7 +71,13 @@ Page({
     })
   },
   go_edit() {
-    const { checkPointNAddress, checkPointName, connectName, connectTel, id } = this.data.basic_obj
+    const {
+      checkPointNAddress,
+      checkPointName,
+      connectName,
+      connectTel,
+      id
+    } = this.data.basic_obj
     wx.request({
       url: app.globalData.url + '/api/app-my/insertReportFormExamine',
       method: "POST",
@@ -92,7 +112,10 @@ Page({
       },
       method: 'GET',
       success: function (res) {
-        const { categoryCode, areaOrgCode } = res.data.data
+        const {
+          categoryCode,
+          areaOrgCode
+        } = res.data.data
         that.get_title(categoryCode, areaOrgCode)
       },
       fail: function (error) {
@@ -131,7 +154,9 @@ Page({
         'reportFormId': '1'
       },
       success: res => {
-        this.setData({ img_list: res.data.data })
+        this.setData({
+          img_list: res.data.data
+        })
       }
     })
   },
@@ -188,25 +213,21 @@ Page({
             "reportPhotoId": photoId
           },
           success: res => {
-            that.data.img_list[index1].picAdd=url
+            that.data.img_list[index1].picAdd = url
             that.setData({
-              img_list:that.data.img_list
+              img_list: that.data.img_list
             })
             wx.showToast({
               title: res.data.msg,
-              icon:"none"
+              icon: "none"
             })
           }
         })
       }
     })
   },
-  onShow() {
-  },
-  onPullDownRefresh() {
-  },
-  onReachBottom() {
-  },
-  onShareAppMessage() {
-  }
+  onShow() {},
+  onPullDownRefresh() {},
+  onReachBottom() {},
+  onShareAppMessage() {}
 })

@@ -193,9 +193,10 @@
       font-size: 24rpx;
       color: #a6a6a6;
       display: flex;
-      position: absolute;
-      left: 520rpx;
-      top: 40rpx;
+      flex-direction: row-reverse;
+      position: relative;
+      top: -200rpx;
+      left: -72rpx;
     }
   }
 }
