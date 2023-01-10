@@ -21,6 +21,10 @@
     <view class="content">{{info.streetOrgName}}</view>
   </view>
   <view class="sideways">
+    <view class="description">地址</view>
+    <view class="content">{{info.address}}</view>
+  </view>
+  <view class="sideways">
     <view class="description">联系人</view>
     <view class="content">{{info.connectName}}</view>
   </view>

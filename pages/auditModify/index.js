@@ -1,6 +1,6 @@
 // pages/auditModify/index.js
 const app = getApp();
-
+import { getAreaList,getStreetList } from '../../api/base';
 Page({
 
   /**
@@ -74,37 +74,24 @@ Page({
       index3: e.detail.value,
       areaOrgCode: this.data.area[e.detail.value].id
     });
-    // console.log(this.data.areaOrgCode);
-    wx.request({
-      url: app.globalData.url + '/api/app-base/queryNextLevelCodeAndName',
-      method: "GET",
-      header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token
-      },
-      data: {
-        orgCode
-      },
-      success: res => {
-        if (res.data.code == 200) {
-          let street = [];
-          let length = res.data.data.length
-          for (var i = 0; i < length; i++) {
-            let obj = {
-              id: res.data.data[i].orgCode,
-              name: res.data.data[i].name
-            }
-            street.push(obj)
+    getStreetList(orgCode).then((res) => {
+      if (res.code == 200) {
+        let street = [];
+        let length = res.data.length
+        for (var i = 0; i < length; i++) {
+          let obj = {
+            id: res.data[i].orgCode,
+            name: res.data[i].name
           }
-          let orgArr = res.data.data.map(item => {
-            return item.name
-          })
-          this.setData({
-            street,
-            orgArr
-          })
-          // console.log('street',this.data.street);
-          // console.log(this.data.orgArr);
+          street.push(obj)
         }
+        let orgArr = res.data.map(item => {
+          return item.name
+        })
+        this.setData({
+          street,
+          orgArr
+        })
       }
     })
   },
@@ -116,6 +103,12 @@ Page({
       index4: e.detail.value
     });
     console.log(this.data.streetOrgCode);
+  },
+  // 双向绑定-详细地址
+  getAddress: function (e) {
+    this.setData({
+      address: e.detail.value
+    });
   },
   // 双向绑定-联系人
   getConnectName: function (e) {
@@ -136,6 +129,7 @@ Page({
           name,
           businessType,
           categoryCode,
+          address,
           areaOrgCode,
           streetOrgCode,
           connectName,
@@ -150,8 +144,9 @@ Page({
           data: {
             pointName: name?name:this.data.info.pointName, //检查点
             areaOrgCode: areaOrgCode?areaOrgCode:this.data.info.areaOrgCode, //区域编码
-            businessType: businessType?businessType:this.data.info.businessType,
+            businessType: this.data.businessTypeIndex?this.data.businessTypeIndex:this.data.info.businessType,
             checkPointExamineId: this.data.info.id, //id
+            address: address?address:this.data.info.address,
             connectName: connectName?connectName:this.data.info.connectName,
             connectTel: connectTel?connectTel:this.data.info.connectTel,
             streetOrgCode: streetOrgCode?streetOrgCode:this.data.info.streetOrgCode //街道编码
@@ -194,38 +189,25 @@ Page({
       info: item
     })
     wx.setStorageSync('info', this.data.info)
-    // console.log(this.data.info);
-    wx.request({
-      url: app.globalData.url + '/api/app-base/queryChildOrganization',
-      header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token
-      },
-      method: 'GET',
-      success: (res) => {
-        if (res.data.code == 200) {
-          // console.log(res.data.data);
-          let area = [];
-          let length = res.data.data.length
-          for (var i = 0; i < length; i++) {
-            let obj = {
-              id: res.data.data[i].orgCode,
-              name: res.data.data[i].name,
-            }
-            area.push(obj)
+    getAreaList().then((res) => {
+      if (res.code == 200) {
+        let area = [];
+        let length = res.data.length
+        for (var i = 0; i < length; i++) {
+          let obj = {
+            id: res.data[i].orgCode,
+            name: res.data[i].name,
           }
-          let areaName = area.map(item => {
-            return item.name
-          })
-          this.setData({
-            areaName,
-            area
-          })
-          // console.log('area',this.data.area);
-          // console.log('areaName',this.data.areaName);
+          area.push(obj)
         }
-      },
-      fail: (err) => {},
-      complete: (res) => {},
+        let areaName = area.map(item => {
+          return item.name
+        })
+        this.setData({
+          areaName,
+          area
+        })
+      }
     })
     let category = wx.getStorageSync('category')
     if (category) {

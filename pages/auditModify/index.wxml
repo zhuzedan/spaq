@@ -43,12 +43,16 @@
     </view>
   </view>
   <view class="sideways">
+    <view class="description">地址</view>
+    <view class="input"><input placeholder-style="color:rgba(0, 0, 0, 0.4);" placeholder="{{address?address:info.address}}" bindinput="getAddress"></input></view>
+  </view>
+  <view class="sideways">
     <view class="description">联系人</view>
-    <view class="input"><input placeholder-style="color:rgba(0, 0, 0, 0.4);" value="{{connectName?connectName:info.connectName}}" bindinput="getConnectName"></input></view>
+    <view class="input"><input placeholder-style="color:rgba(0, 0, 0, 0.4);" placeholder="{{connectName?connectName:info.connectName}}" bindinput="getConnectName"></input></view>
   </view>
   <view class="sideways">
     <view class="description">联系人电话</view>
-    <view class="input"><input type='number' placeholder-style="color:rgba(0, 0, 0, 0.4);" value="{{connectTel?connectTel:info.connectTel}}" bindinput="getConnectTel"></input></view>
+    <view class="input"><input type='number' placeholder-style="color:rgba(0, 0, 0, 0.4);" placeholder="{{connectTel?connectTel:info.connectTel}}" bindinput="getConnectTel"></input></view>
   </view>
 </view>
 <view class="button" bindtap="submit">确定</view>
