@@ -1,4 +1,5 @@
 var app = getApp();
+import {getReportPhotoList} from '../../api/mine'
 Page({
 
   /**
@@ -72,40 +73,22 @@ Page({
       }
     })
   },
-  // 查询分类
-  get_title(categoryCode, areaOrgCode) {
-    wx.request({
-      url: app.globalData.url + '/api/app-check/queryCheckPhotoList',
-      header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token
-      },
-      method: "GET",
-      data: {
-        'categoryCode': categoryCode,
-        'orgCode': areaOrgCode
-      },
-      success: res => {
-        this.setData({
-          title_list: res.data.data
-        })
-      }
-    })
-  },
-
   // 查询图片
   get_img() {
-    wx.request({
-      url: app.globalData.url + '/api/app-my/queryReportPhotoList',
-      method: "POST",
-      header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token
-      },
-      data: {
-        'reportFormId': '1'
-      },
-      success: res => {
-        this.setData({ img_list: res.data.data })
-      }
+    getReportPhotoList('1').then((res) => {
+      this.setData({
+        reportPhotolist: res.data
+      })
+    })
+  },
+  // 预览图片
+  previewImg: function (e) {
+    let currentUrl = e.target.dataset.src
+    wx.previewImage({
+      //当前显示图片
+      current: currentUrl,
+      //所有图片
+      urls: [currentUrl]
     })
   },
   // 查询检查项

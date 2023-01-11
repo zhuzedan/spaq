@@ -34,3 +34,13 @@ export const getReportFormPage = (current,pointName,categoryCode,startDate,endDa
     method: 'POST'
   })
 }
+// 查询检查记录--图片
+export const getReportPhotoList = (reportFormId) => {
+  return $requst({
+    url: '/api/app-my/queryReportPhotoList',
+    method: 'POST',
+    data: {
+      reportFormId: reportFormId
+    }
+  })
+}

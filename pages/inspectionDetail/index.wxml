@@ -65,12 +65,15 @@
 </view>
 <view wx:if="{{currentNum==2}}">
   <scroll-view scroll-y="true" class="picManage">
-    <view class="sideways" wx:for="{{title_list}}" wx:key="item">
-      <view class="description">{{item.photoTypeName}}</view>
-      <view class="content">
-        <image wx:for="{{img_list}}" wx:for-item="item1" wx:key="item" src="{{item1.picAdd}}" mode="" wx:if="{{item1.photoTypeName==item.photoTypeName}}" />
-        <!-- <image src="../../assets/pic.png" mode="" /> -->
-      </view>
+    <view class="sideways" wx:for="{{reportPhotolist}}" wx:for-item="reportPhotoList" wx:key="item">
+      <view class="description">{{reportPhotoList.photoTypeName}}</view>
+      <scroll-view scroll-x="true" class="scroll-wrap">
+        <view class="content">
+          <view wx:for="{{reportPhotoList.reportPhotos}}" wx:for-item="item" wx:key="id">
+            <image src="{{item.picAdd}}" data-src="{{item.picAdd}}" bindtap="previewImg" mode="" />
+          </view>
+        </view>
+      </scroll-view>
     </view>
   </scroll-view>
 </view>
