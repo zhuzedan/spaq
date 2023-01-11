@@ -10,9 +10,8 @@
   <view class="line"></view>
 </view>
 <view class="tab">
-  <view class="tab_item" wx:for="{{tab}}" wx:key="id" bindtap="changeTab" data-index="{{index}}" style="color: {{item.isClick == true?'blue': 'black'}};">
-    {{item.name}}
-  </view>
+  <view class="tab_item {{active == 0?'active':''}}" bindtap="changeTab" data-index="0">检查记录</view>
+  <view class="tab_item {{active == 1?'active':''}}" bindtap="changeTab" data-index="1">检查审核记录</view>
 </view>
 <view class="content">
   <!-- 检查记录数据渲染 -->

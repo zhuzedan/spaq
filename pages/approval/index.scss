@@ -38,7 +38,16 @@
   height: 70rpx;
   align-items: center;
   font-size: 28rpx;
-
+  .tab_item{
+    &.active {
+      font-weight: bold;
+      color: black; 
+      border-bottom: 4rpx solid $primary-color;
+      /* 利用层叠性来实现 */
+      border-top: none;
+      border-radius: 4rpx;
+    }
+  }
 }
 
 .content {

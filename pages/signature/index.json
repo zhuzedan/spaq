@@ -1,6 +1,5 @@
 {
-  "usingComponents": {
-    "v-sign":"/components/signature/index"
-  },
-  "navigationBarTitleText": "填报检查表"
+  "usingComponents": {},
+  "navigationBarTitleText": "填报检查表",
+  "deviceOrientation": "landscape"
 }

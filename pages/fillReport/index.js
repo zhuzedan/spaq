@@ -133,9 +133,8 @@ Page({
     })
   },
   goSignature(e) {
-    console.log(e.currentTarget.dataset.reportformid);
     wx.navigateTo({
-      url: '../signature/index?reportFormId=' + e.currentTarget.dataset.reportformid,
+      url: '../signature/index?reportFormId=' + this.data.reportformid,
     })
   },
   radioChange(e) {
@@ -273,7 +272,7 @@ Page({
       }
       else {
         wx.showToast({
-          title: res.data.msg,
+          title: res.msg,
           icon: "none"
         })
       }

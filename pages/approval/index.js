@@ -41,7 +41,7 @@ Page({
   // 切换tab方法
   changeTab(e) {
     console.log(e.currentTarget.dataset.index);
-    console.log(e.target);
+    // console.log(e.target);
     let _this = this;
     _this.setData({
       active: e.currentTarget.dataset.index
@@ -57,27 +57,6 @@ Page({
       tab: oldList
     })
   },
-  // 标签切换
-  onChange(event) {
-    console.log(event);
-    this.setData({
-      active: event.detail.name
-    })
-    console.log(event.detail.name);
-  },
-  // 选择
-  onSort: function (e) {
-    this.closeFilter()
-    this.setData({
-      sortSelected: e.target.dataset.item.value,
-      sortLabel: e.target.dataset.item.label
-    })
-    console.log(e.target.dataset.item);
-    this.addUnique2Array(this.data.selectedArray, e)
-    this.triggerEvent('confirm', {
-      selectedArray: this.data.selectedArray
-    })
-  },
   // 1同意拒绝
   updateExamineResult(e) {
     console.log(e.currentTarget.dataset);
@@ -88,9 +67,6 @@ Page({
       title: '提示',
       content,
       showCancel: true,
-      cancelText: '取消',
-      cancelColor: '#000000',
-      confirmText: '确定',
       success: (result) => {
         if (result.confirm) {
           updateExamineResult(examineid, examineresult).then((res) => {
@@ -121,8 +97,6 @@ Page({
       title: '提示',
       content,
       showCancel: true,
-      cancelText: '取消',
-      confirmText: '确定',
       success: (result) => {
         if (result.confirm) {
           wx.showLoading({
