@@ -27,3 +27,10 @@ export const getCheckPointExamine = (current,pointName,categoryCode,status) => {
     method: 'POST'
   })
 }
+// 查询检查记录
+export const getReportFormPage = (current,pointName,categoryCode,startDate,endDate,lowScore,highScore) => {
+  return $requst({
+    url: '/api/app-my/queryReportFormPage?userId='+app.globalData.getUserInfo.userId+'&current='+current+'&pageSize='+app.globalData.pageSize+'&pointName='+pointName+'&categoryCode=' +categoryCode+ '&startDate=' + startDate+'&endDate='+endDate+'&lowScore='+lowScore+'&highScore='+highScore,
+    method: 'POST'
+  })
+}

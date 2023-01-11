@@ -1,5 +1,5 @@
 // pages/login/index.js
-import { getUserInfo } from '../../api/login'
+import { appLogin,getUserInfo } from '../../api/login'
 // 获取公共app
 var app = getApp();
 Page({
@@ -52,44 +52,25 @@ Page({
       })
       return;
     }
-    wx.showLoading({
-      title: '登录中',
-      success: res => {
-        wx.request({
-          url: app.globalData.url + '/api/app-login/login',
-          data: {
-            userName: this.data.userName,
-            password: this.data.password
-          },
-          method: 'POST',
-          success: function (res) {
-            wx.hideLoading()
-            if (res.data.code == 200) {
-              // 初始化用户信息
-              app.initUserInfo(res.data.data);
-              // 获取当前登录用户
-              getUserInfo().then((res) => {
-                // console.log('当前用户数据',res);
-                app.globalData.getUserInfo = res.data
-                // 角色存入缓存中
-                wx.setStorageSync('role', app.globalData.getUserInfo.isLeader)
-                // 成功进入检查页
-                wx.switchTab({
-                  url: '../index/index',
-                })
-              })
-            } else if (res.data.code == 500) {
-              wx.showToast({
-                title: '用户名或密码不正确',
-                icon: 'none'
-              })
-            } else {
-              wx.showToast({
-                title: '未知错误',
-                icon: 'error'
-              })
-            }
-          }
+    appLogin(this.data.userName,this.data.password).then((res) => {
+      if (res.code == 200) {
+        // 初始化用户信息
+        app.initUserInfo(res.data);
+        // 获取当前登录用户
+        getUserInfo().then((res) => {
+          // console.log('当前用户数据',res);
+          app.globalData.getUserInfo = res.data
+          // 角色存入缓存中
+          wx.setStorageSync('role', app.globalData.getUserInfo.isLeader)
+          // 成功进入检查页
+          wx.switchTab({
+            url: '../index/index',
+          })
+        })
+      } else {
+        wx.showToast({
+          title: res.msg,
+          icon: 'error'
         })
       }
     })
@@ -98,7 +79,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
-
+    
   },
 
   /**

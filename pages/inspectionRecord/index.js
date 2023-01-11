@@ -1,11 +1,15 @@
 var app = getApp();
 var times = require('../../utils/times.js')
+import { getReportFormPage } from '../../api/mine'
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    pageIndex: 1, //列表初始页
+    totalCount: 0,  //总个数
+    handle_content: '',
     filterdata: {}, //筛选条件数据
     showfilter: false, //是否显示下拉筛选
     showfilterindex: null, //显示哪个筛选类目
@@ -90,19 +94,19 @@ Page({
           "name": "全部"
         },
         {
-          "id": '0,60',
+          "id": '0,59',
           "name": "<60"
         },
         {
-          "id": '60,70',
+          "id": '60,69',
           "name": "60~70"
         },
         {
-          "id": '70,80',
+          "id": '70,79',
           "name": "70~80"
         },
         {
-          "id": '80,90',
+          "id": '80,89',
           "name": "80~90"
         },
         {
@@ -137,6 +141,11 @@ Page({
       cateid: dataset.cateid,
       subcateindex: d.cateindex == dataset.cateindex ? d.subcateindex : 0
     })
+    if (this.data.cateid == 'undefind') {
+      this.hideFilter()
+      this.getAllData();
+      wx.removeStorageSync('inspectionategoryCode')
+    }
     // console.log('商家分类：一级id__' + this.data.cateid + ',二级id__' + this.data.subcateid);
   },
   setSubcateIndex: function (e) { //分类二级索引
@@ -147,35 +156,25 @@ Page({
       subcateindex: dataset.subcateindex,
       subcateid: dataset.subcateid,
     })
-    let businessType = this.data.cateid
     let categoryCode = dataset.subcateid
-    wx.showLoading({
-      success:res=>{
-        wx.request({
-          url: app.globalData.url + '/api/app-my/queryReportFormPage?userId=' + app.globalData.getUserInfo.userId +
-            '&current=' + that.data.currentPage + '&pageSize=10' + '&businessType=' + businessType + '&categoryCode=' + categoryCode,
-          header: {
-            "Authorization": "Bearer " + app.globalData.userInfo.token
-          },
-          method: 'POST',
-          success: function (res) {
-            var dataArray = res.data.data.data
-            wx.hideLoading()
-            for (var i = 0; i < dataArray.length; i++) {
-              dataArray[i]["gmtCreate"] = times.toDate(dataArray[i]["gmtCreate"])
-            }
-            if (res.data.code == 200) {
-              if (that.data.currentPage == 1) {
-                that.setData({
-                  dataList: res.data.data.data
-                })
-              } else {
-                that.setData({
-                  dataList: dataList.concat(res.data.data.data)
-                })
-              }
-            }
-          }
+    wx.setStorageSync('inspectionategoryCode', categoryCode);
+    that.setData({
+      pageIndex: 1
+    })
+    getReportFormPage(this.data.pageIndex,'',categoryCode,'','','','').then((res) => {
+      var dataArray = res.data.data
+      for (var i = 0; i < dataArray.length; i++) {
+        dataArray[i]["gmtCreate"] = times.toDate(dataArray[i]["gmtCreate"])
+      }
+      if (res.code == 200) {
+        that.setData({
+          dataList: res.data.data,
+          totalCount: res.data.totalCount
+        })
+      }
+      else {
+        wx.showToast({
+          title: '系统发生错误',
         })
       }
     })
@@ -192,37 +191,41 @@ Page({
       monthindex: dataset.monthindex,
       monthid: dataset.monthid
     })
-    wx.showLoading({
-      success: res => {
-        wx.request({
-          url: app.globalData.url + '/api/app-my/queryReportFormPage?userId=' + app.globalData.getUserInfo.userId +
-            '&current=' + this.data.currentPage + '&pageSize=10' + '&startDate=' + startDate + '&endDate=' + endDate,
-          header: {
-            "Authorization": "Bearer " + app.globalData.userInfo.token
-          },
-          method: 'POST',
-          success: function (res) {
-            wx.hideLoading()
-            var dataArray = res.data.data.data
-            for (var i = 0; i < dataArray.length; i++) {
-              dataArray[i]["gmtCreate"] = times.toDate(dataArray[i]["gmtCreate"])
-            }
-            if (res.data.code == 200) {
-              if (currentPage == 1) {
-                that.setData({
-                  dataList: res.data.data.data
-                })
-              } else {
-                that.setData({
-                  dataList: dataList.concat(res.data.data.data)
-                })
-              }
-            }
-          }
-        })
-      }
-    })
-    console.log('所在地区：一级id__' + this.data.monthid);
+    var that = this;
+    if(this.data.monthid ==0) {
+      that.setData({
+        pageIndex: 1
+      })
+      wx.removeStorageSync('startDate')
+      wx.removeStorageSync('endDate')
+      this.hideFilter()
+      this.getAllData();
+    }
+    else {
+      that.setData({
+        pageIndex: 1
+      })
+      wx.setStorageSync('startDate', startDate)
+      wx.setStorageSync('endDate', endDate)
+      getReportFormPage(this.data.pageIndex,'','',startDate,endDate,'','').then((res) => {
+        var dataArray = res.data.data
+        for (var i = 0; i < dataArray.length; i++) {
+          dataArray[i]["gmtCreate"] = times.toDate(dataArray[i]["gmtCreate"])
+        }
+        if (res.code == 200) {
+          that.setData({
+            dataList: res.data.data,
+            totalCount: res.data.totalCount
+          })
+        }
+        else {
+          wx.showToast({
+            title: '系统发生错误',
+          })
+        }
+      })
+    }
+    console.log('所在月份：一级id__' + this.data.monthid);
     this.hideFilter()
   },
   setScoreIndex: function (e) {    //分数索引
@@ -231,32 +234,42 @@ Page({
       scoreindex: dataset.scoreindex,
       scoreid: dataset.scoreid,
     })
-    let scoreArr = dataset.scoreid.split(',')
-    wx.request({
-      url: app.globalData.url + '/api/app-my/queryReportFormPage?userId=' + app.globalData.getUserInfo.userId +
-        '&current=' + this.data.currentPage + '&pageSize=10' + '&lowScore=' + scoreArr[0] + '&highScore' + scoreArr[1],
-      header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token
-      },
-      method: 'POST',
-      success: function (res) {
-        var dataArray = res.data.data.data
+    console.log('所在月份：一级id__' + this.data.scoreid);
+    var that = this;
+    if(that.data.scoreid ==0) {
+      that.setData({
+        pageIndex: 1
+      })
+      wx.removeStorageSync('scoreLow')
+      wx.removeStorageSync('scoreHigh')
+      this.hideFilter()
+      this.getAllData();
+    }
+    else {
+      let scoreArr = dataset.scoreid.split(',')
+      that.setData({
+        pageIndex: 1
+      })
+      wx.setStorageSync('scoreLow', scoreArr[0])
+      wx.setStorageSync('scoreHigh', scoreArr[1])
+      getReportFormPage(this.data.pageIndex,'','','','',scoreArr[0],scoreArr[1]).then((res) => {
+        var dataArray = res.data.data
         for (var i = 0; i < dataArray.length; i++) {
           dataArray[i]["gmtCreate"] = times.toDate(dataArray[i]["gmtCreate"])
         }
-        if (res.data.code == 200) {
-          if (currentPage == 1) {
-            that.setData({
-              dataList: res.data.data.data
-            })
-          } else {
-            that.setData({
-              dataList: dataList.concat(res.data.data.data)
-            })
-          }
+        if (res.code == 200) {
+          that.setData({
+            dataList: res.data.data,
+            totalCount: res.data.totalCount
+          })
         }
-      }
-    })
+        else {
+          wx.showToast({
+            title: '系统发生错误',
+          })
+        }
+      })
+    }
     this.hideFilter()
   },
   hideFilter: function () { //关闭筛选面板
@@ -284,38 +297,22 @@ Page({
     this.getAllData();
     this.fetchFilterData();
   },
+  // 初始加载数据
   getAllData() {
     var that = this;
-    var page = this.data.page + 1;
-    var currentPage = this.data.currentPage;
-    this.setData({
-      page
+    that.setData({
+      pageIndex: 1
     })
-    wx.request({
-      url: app.globalData.url + '/api/app-my/queryReportFormPage?userId=' + app.globalData.getUserInfo.userId +
-        '&current=' + this.data.currentPage + '&pageSize=10',
-      header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token
-      },
-      method: 'POST',
-      success: function (res) {
-        console.log(res.data.data.data);
-        var dataArray = res.data.data.data
-        for (var i = 0; i < dataArray.length; i++) {
-          dataArray[i]["gmtCreate"] = times.toDate(dataArray[i]["gmtCreate"])
-        }
-        if (res.data.code == 200) {
-          if (currentPage == 1) {
-            that.setData({
-              dataList: res.data.data.data
-            })
-          } else {
-            that.setData({
-              dataList: dataList.concat(res.data.data.data)
-            })
-          }
-
-        }
+    getReportFormPage(this.data.pageIndex,'','','','','','').then((res) => {
+      var dataArray = res.data.data
+      for (var i = 0; i < dataArray.length; i++) {
+        dataArray[i]["gmtCreate"] = times.toDate(dataArray[i]["gmtCreate"])
+      }
+      if (res.code == 200) {
+        that.setData({
+          dataList: res.data.data,
+          totalCount: res.data.totalCount
+        })
       }
     })
   },
@@ -326,39 +323,22 @@ Page({
   },
   to_search() {
     const that = this
-    wx.showLoading({
-      success: res => {
-        wx.request({
-          url: app.globalData.url + '/api/app-my/queryReportFormPage?userId=' + app.globalData.getUserInfo.userId +
-            '&current=' + this.data.currentPage + '&pageSize=10' + '&pointName=' + this.data.handle_content,
-          header: {
-            "Authorization": "Bearer " + app.globalData.userInfo.token
-          },
-          method: 'POST',
-          success: function (res) {
-            console.log(res.data.data.data);
-            var dataArray = res.data.data.data
-            for (var i = 0; i < dataArray.length; i++) {
-              dataArray[i]["gmtCreate"] = times.toDate(dataArray[i]["gmtCreate"])
-            }
-            wx.hideLoading()
-            if (res.data.code == 200) {
-              that.setData({
-                dataList: res.data.data.data
-              })
-            }
-          }
+    that.setData({
+      pageIndex: 1
+    })
+    getReportFormPage(this.data.pageIndex,this.data.handle_content,'','','','','').then((res) => {
+      var dataArray = res.data.data
+      for (var i = 0; i < dataArray.length; i++) {
+        dataArray[i]["gmtCreate"] = times.toDate(dataArray[i]["gmtCreate"])
+      }
+      if (res.code == 200) {
+        that.setData({
+          dataList: res.data.data,
+          totalCount: res.data.totalCount
         })
       }
     })
   },
-  /**,
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
-  },
-
   /**
    * 生命周期函数--监听页面显示
    */
@@ -367,33 +347,53 @@ this.get_type()
   },
 
   /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh() {
-    this.data.currentPage = 1;
-    this.getAllData()
+  onPullDownRefresh: function () {
+    // 在当前页面显示导航条加载动画
+    wx.showNavigationBarLoading();
+    // 下拉刷新后，将页数重置为1,数组清空，是否请求完所有数据设置为fasle
+    this.setData({
+      pageIndex: 1,
+      handle_content: ''
+    });
+    wx.removeStorageSync('inspectionategoryCode')
+    wx.removeStorageSync('startDate')
+    wx.removeStorageSync('endDate')
+    wx.removeStorageSync('scoreLow')
+    wx.removeStorageSync('scoreHigh')
+    // 重新发起请求
+    this.getAllData();
+    wx.hideNavigationBarLoading();//隐藏导航条加载动画。
+    wx.stopPullDownRefresh();//停止当前页面下拉刷新。
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom() {
-    this.data.currentPage++;
-    this.getAllData()
+    var that = this;
+    let pageCount = that.data.totalCount % app.globalData.pageSize == 0 ? parseInt(that.data.totalCount / app.globalData.pageSize) : parseInt(that.data.totalCount / app.globalData.pageSize) + 1
+    if (this.data.pageIndex < pageCount) {
+      this.data.pageIndex++;
+      getReportFormPage(this.data.pageIndex,this.data.handle_content,wx.getStorageSync('inspectionategoryCode'),wx.getStorageSync('startDate'),wx.getStorageSync('endDate'),'','').then((res) => {
+        var dataArray = res.data.data
+        for (var i = 0; i < dataArray.length; i++) {
+          dataArray[i]["gmtCreate"] = times.toDate(dataArray[i]["gmtCreate"])
+        }
+        if (res.code == 200) {
+          that.setData({
+            dataList: that.data.dataList.concat(res.data.data),
+          })
+        }
+      })
+    }
+    else {
+      wx.showToast({
+        title: '没有更多数据',
+        icon: 'none'
+      })
+    }  
   },
 
   /**

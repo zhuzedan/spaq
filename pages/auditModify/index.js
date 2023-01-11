@@ -55,8 +55,8 @@ Page({
         index2: e.detail.value,
         categoryCode: this.data.welfareCategory[e.detail.value].id
       })
-      // console.log(this.data.index2);
-      // console.log(this.data.welfareCategory[this.data.index2]);
+      console.log(this.data.index2);
+      console.log(this.data.welfareCategory[this.data.index2]);
     }
     if (this.data.businessTypeIndex == 1) {
       this.setData({
@@ -123,60 +123,57 @@ Page({
     });
   },
   submit(e) {
-    wx.showLoading({
-      success: res => {
-        const {
-          name,
-          businessType,
-          categoryCode,
-          address,
-          areaOrgCode,
-          streetOrgCode,
-          connectName,
-          connectTel
-        } = this.data
-        wx.request({
-          url: app.globalData.url + '/api/app-my/updateCheckPointExamine',
-          method: 'POST',
-          header: {
-            "Authorization": "Bearer " + app.globalData.userInfo.token
-          },
-          data: {
-            pointName: name?name:this.data.info.pointName, //检查点
-            areaOrgCode: areaOrgCode?areaOrgCode:this.data.info.areaOrgCode, //区域编码
-            businessType: this.data.businessTypeIndex?this.data.businessTypeIndex:this.data.info.businessType,
-            checkPointExamineId: this.data.info.id, //id
-            address: address?address:this.data.info.address,
-            connectName: connectName?connectName:this.data.info.connectName,
-            connectTel: connectTel?connectTel:this.data.info.connectTel,
-            streetOrgCode: streetOrgCode?streetOrgCode:this.data.info.streetOrgCode //街道编码
-          },
-          success: res => {
-            wx.hideLoading()
-            if (res.data.code == 200) {
-              wx.showModal({
-                title: '',
-                content: '确认提交吗？',
-                complete: (res) => {
-                  if (res.confirm) {
-                    wx.showToast({
-                      title: '修改成功',
-                      icon: "none"
-                    })
-                    wx.navigateTo({
-                      url: '../auditRecord/index',
-                    })
-                  }
-                }
-              })
-            } else {
-              wx.showToast({
-                title: res.data.msg,
-                icon: "none"
-              })
+    wx.showModal({
+      title: '',
+      content: '确认修改吗？',
+      complete: (res) => {
+        if (res.confirm) {
+          const {
+            name,
+            businessType,
+            categoryCode,
+            address,
+            areaOrgCode,
+            streetOrgCode,
+            connectName,
+            connectTel
+          } = this.data
+          wx.request({
+            url: app.globalData.url + '/api/app-my/updateCheckPointExamine',
+            method: 'POST',
+            header: {
+              "Authorization": "Bearer " + app.globalData.userInfo.token
+            },
+            data: {
+              pointName: name?name:this.data.info.pointName, //检查点
+              areaOrgCode: areaOrgCode?areaOrgCode:this.data.info.areaOrgCode, //区域编码
+              businessType: this.data.businessTypeIndex?this.data.businessTypeIndex:this.data.info.businessType,
+              categoryCode: categoryCode?categoryCode:this.data.info.categoryCode,
+              checkPointExamineId: this.data.info.id, //id
+              address: address?address:this.data.info.address,
+              connectName: connectName?connectName:this.data.info.connectName,
+              connectTel: connectTel?connectTel:this.data.info.connectTel,
+              streetOrgCode: streetOrgCode?streetOrgCode:this.data.info.streetOrgCode //街道编码
+            },
+            success: res => {
+              wx.hideLoading()
+              if (res.data.code == 200) {     
+                wx.showToast({
+                  title: '修改成功',
+                  icon: "none"
+                })
+                wx.navigateBack({
+                  url: '../auditRecord/index',
+                })
+              } else {
+                wx.showToast({
+                  title: res.data.msg,
+                  icon: "none"
+                })
+              }
             }
-          }
-        })
+          })
+        }
       }
     })
   },

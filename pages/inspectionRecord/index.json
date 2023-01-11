@@ -2,5 +2,6 @@
   "component": true,
   "usingComponents": {
   },
-  "navigationBarTitleText": "检查记录"
+  "navigationBarTitleText": "检查记录",
+  "enablePullDownRefresh": true
 }

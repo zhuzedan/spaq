@@ -1,7 +1,7 @@
 <!--pages/inspectionRecord/index.wxml-->
 <!-- 搜索栏 -->
 <view class="search">
-  <input placeholder="检查点名称/详细地址" type='text' confirm-type='search' bindinput="handle_content" bindconfirm="to_search"></input>
+  <input placeholder="检查点名称" type='text' confirm-type='search' bindinput="handle_content" bindconfirm="to_search"></input>
   <image src="../../assets/check/search.png" />
 </view>
 <view class="function">
@@ -54,7 +54,7 @@
   <view class="inform">
     <image src="../../assets/check/address.png"></image>
     <view class="name">地址 </view>
-    <view class="detail">{{item.checkPointNAddress}}</view>
+    <view class="detail">{{item.checkPointAddress}}</view>
   </view>
   <view class="inform">
     <image src="../../assets/check/phone.png"></image>

@@ -153,8 +153,7 @@ Page({
       url: app.globalData.url + '/api/app-check/insertReportItem',
       method: "POST",
       header: {
-        "Authorization": "Bearer " + app.globalData.userInfo.token,
-        'content-type': 'application/x-www-form-urlencoded'
+        "Authorization": "Bearer " + app.globalData.userInfo.token
       },
       data: {
         itemId: that.data.rightContext[that.data.question_index].checkItemList[index].id,
